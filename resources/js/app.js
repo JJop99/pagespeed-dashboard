@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import Example from "./components/Example";
 
 /**
@@ -15,7 +15,7 @@ import Example from "./components/Example";
 
 //require('./components/Example');
 
-
-if (document.getElementById('app')) {
-    ReactDOM.render(<Example />, document.getElementById('app'));
+if (document.getElementById("app")) {
+    const root = createRoot(document.getElementById("app"));
+    root.render(<Example />);
 }
