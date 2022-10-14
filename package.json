@@ -25,5 +25,13 @@
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.10.4",
+        "@emotion/styled": "^11.10.4",
+        "@fontsource/roboto": "^4.5.8",
+        "@mui/icons-material": "^5.10.9",
+        "@mui/material": "^5.10.9",
+        "react-router-dom": "^6.4.2"
     }
 }

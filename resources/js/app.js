@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
-import Example from "./components/Example";
+import { HashRouter } from "react-router-dom";
+import Application from "./Application";
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -17,5 +18,9 @@ import Example from "./components/Example";
 
 if (document.getElementById("app")) {
     const root = createRoot(document.getElementById("app"));
-    root.render(<Example />);
+    root.render(
+        <HashRouter>
+            <Application />
+        </HashRouter>
+    );
 }

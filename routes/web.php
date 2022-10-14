@@ -19,3 +19,6 @@ Route::get('/', function () {
 Route::get('/welcome', function () {
     return view('welcome');
 });
+
+Route::view('/{path?}', 'app')
+    ->where('path', '.*');
