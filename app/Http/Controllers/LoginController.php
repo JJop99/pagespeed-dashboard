@@ -9,23 +9,30 @@ class LoginController extends Controller
 {
     public function SignIn(Request $request)
     {
+        $attributes = request()->validate([
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|min:7|max:255',
+        ]);
+
         $data = $request->all();
         
         User::create([
             'email' => $data['email'],
             'password' => $data['password'] 
         ]);
-
+        
+        
+        dd($request);
         return response()->json([
-                'email' => $data['email'],
-                'password' => $data['password']
+            'email' => $data['email'],
+            'password' => $data['password']
         ]);
     }
 
     public function store()
     {
         $attributes = request()->validate([
-            'email' => 'required|email|max:255|unique:users,email',
+            'email' => 'required|email|max:255|unique',
             'password' => 'required|min:7|max:255',
         ]);
 
