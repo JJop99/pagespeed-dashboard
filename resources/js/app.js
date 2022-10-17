@@ -1,5 +1,6 @@
-import ReactDOM from "react-dom";
-import Example from "./components/Example";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import Application from "./Application";
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -15,7 +16,11 @@ import Example from "./components/Example";
 
 //require('./components/Example');
 
-
-if (document.getElementById('app')) {
-    ReactDOM.render(<Example />, document.getElementById('app'));
+if (document.getElementById("app")) {
+    const root = createRoot(document.getElementById("app"));
+    root.render(
+        <BrowserRouter>
+            <Application />
+        </BrowserRouter>
+    );
 }
