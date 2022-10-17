@@ -59,7 +59,7 @@ export default  class SignIn extends React.Component {
             password: this.state.password,
         };
 
-        console.log(user);
+        
 
         //email: user.email,password: user.password
        
@@ -69,7 +69,7 @@ export default  class SignIn extends React.Component {
             'Content-Type': 'application/json'
           }} ).then((res) => {
             console.log(res);
-            console.log(res.data);
+            console.log(res.statusText);
         });
         // const data = new FormData(event.currentTarget);
         // console.log({
