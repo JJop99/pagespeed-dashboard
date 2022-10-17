@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import Application from "./Application";
 
 /**
@@ -19,8 +19,8 @@ import Application from "./Application";
 if (document.getElementById("app")) {
     const root = createRoot(document.getElementById("app"));
     root.render(
-        <HashRouter>
+        <BrowserRouter>
             <Application />
-        </HashRouter>
+        </BrowserRouter>
     );
 }
