@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -35,15 +34,19 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default class SignIn extends React.Component{
+export default  class SignIn extends React.Component {
     state = {
         email: "",
         password: "",
     };
 
-     handleChange = (event) => {
+    handleChangeEmail = (event) => {
         this.setState({
             email: event.target.value,
+        });
+    };
+    handleChangePassword = (event) => {
+        this.setState({
             password: event.target.value,
         });
     };
@@ -56,78 +59,90 @@ export default class SignIn extends React.Component{
             password: this.state.password,
         };
 
-        axios.post(`/api/login`, { user }).then((res) => {
+        console.log(user);
+
+        //email: user.email,password: user.password
+        const json = JSON.stringify(user);
+        axios.post(`/api/SignIn`,  {json}, {
+          headers: {
+            // Overwrite Axios's automatically set Content-Type
+            'Content-Type': 'application/json'
+          }} ).then((res) => {
             console.log(res);
             console.log(res.data);
         });
         const data = new FormData(event.currentTarget);
         console.log({
+            text: "ciao",
             email: data.get("email"),
             password: data.get("password"),
         });
     };
-render(){
-  return (
-    <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                }}
-            >
-                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign in
-                </Typography>
-                <Box
-                    component="form"
-                    onSubmit={this.handleSubmit}
-                    noValidate
-                    sx={{ mt: 1 }}
-                >
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
-                        autoComplete="email"
-                        autoFocus
-                        onChange={this.handleChange}
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                        onChange={this.handleChange}
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox value="remember" color="primary" />
-                        }
-                        label="Remember me"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
+    render() {
+        return (
+            <ThemeProvider theme={theme}>
+                <Container component="main" maxWidth="xs">
+                    <CssBaseline />
+                    <Box
+                        sx={{
+                            marginTop: 8,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}
                     >
-                        Sign In
-                    </Button>
-                    {/* <Grid container>
+                        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign in
+                        </Typography>
+                        <Box
+                            component="form"
+                            onSubmit={this.handleSubmit}
+                            noValidate
+                            sx={{ mt: 1 }}
+                        >
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                onChange={this.handleChangeEmail}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                onChange={this.handleChangePassword}
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        value="remember"
+                                        color="primary"
+                                    />
+                                }
+                                label="Remember me"
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Sign In
+                            </Button>
+                            {/* <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">
               Forgot password?
@@ -139,14 +154,11 @@ render(){
             </Link>
           </Grid>
         </Grid> */}
-                </Box>
-            </Box>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
-        </Container>
-    </ThemeProvider>
-);
+                        </Box>
+                    </Box>
+                    <Copyright sx={{ mt: 8, mb: 4 }} />
+                </Container>
+            </ThemeProvider>
+        );
+    }
 }
-    
-}
-
-
