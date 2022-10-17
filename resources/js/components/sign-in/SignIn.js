@@ -62,9 +62,8 @@ export default  class SignIn extends React.Component {
         console.log(user);
 
         //email: user.email,password: user.password
-        const json = JSON.stringify(user);
-        console.log(JSON.parse(json).email);
-        axios.post(`/api/SignIn`,  {json}, {
+       
+        axios.post(`/api/SignIn`,  {...user}, {
           headers: {
             // Overwrite Axios's automatically set Content-Type
             'Content-Type': 'application/json'
