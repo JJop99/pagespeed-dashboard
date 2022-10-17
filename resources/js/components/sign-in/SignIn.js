@@ -63,6 +63,7 @@ export default  class SignIn extends React.Component {
 
         //email: user.email,password: user.password
         const json = JSON.stringify(user);
+        console.log(JSON.parse(json).email);
         axios.post(`/api/SignIn`,  {json}, {
           headers: {
             // Overwrite Axios's automatically set Content-Type
@@ -71,12 +72,12 @@ export default  class SignIn extends React.Component {
             console.log(res);
             console.log(res.data);
         });
-        const data = new FormData(event.currentTarget);
-        console.log({
-            text: "ciao",
-            email: data.get("email"),
-            password: data.get("password"),
-        });
+        // const data = new FormData(event.currentTarget);
+        // console.log({
+        //     text: "ciao",
+        //     email: data.get("email"),
+        //     password: data.get("password"),
+        // });
     };
     render() {
         return (
