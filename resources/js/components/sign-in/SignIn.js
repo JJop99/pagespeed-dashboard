@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -12,6 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 
 function Copyright(props) {
     return (
@@ -33,103 +35,118 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn() {
-   
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-    const user = {
-      email: this.state.email,
-      password: this.state.password
+export default class SignIn extends React.Component{
+    state = {
+        email: "",
+        password: "",
     };
 
-    axios.post(`/api/registration`, { user })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
+     handleChange = (event) => {
+        this.setState({
+            email: event.target.value,
+            password: event.target.value,
+        });
+    };
+
+     handleSubmit = (event) => {
+        event.preventDefault();
+
+        const user = {
+            email: this.state.email,
+            password: this.state.password,
+        };
+
+        axios.post(`/api/login`, { user }).then((res) => {
+            console.log(res);
+            console.log(res.data);
+        });
         const data = new FormData(event.currentTarget);
         console.log({
             email: data.get("email"),
             password: data.get("password"),
         });
     };
-
-    return (
-        <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
-                <CssBaseline />
+render(){
+  return (
+    <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                }}
+            >
+                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
                 <Box
-                    sx={{
-                        marginTop: 8,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                    }}
+                    component="form"
+                    onSubmit={this.handleSubmit}
+                    noValidate
+                    sx={{ mt: 1 }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                    </Typography>
-                    <Box
-                        component="form"
-                        onSubmit={handleSubmit}
-                        noValidate
-                        sx={{ mt: 1 }}
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        autoFocus
+                        onChange={this.handleChange}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        onChange={this.handleChange}
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox value="remember" color="primary" />
+                        }
+                        label="Remember me"
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
                     >
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="remember" color="primary" />
-                            }
-                            label="Remember me"
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            Sign In
-                        </Button>
-                        {/* <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid> */}
-                    </Box>
+                        Sign In
+                    </Button>
+                    {/* <Grid container>
+          <Grid item xs>
+            <Link href="#" variant="body2">
+              Forgot password?
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link href="#" variant="body2">
+              {"Don't have an account? Sign Up"}
+            </Link>
+          </Grid>
+        </Grid> */}
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
-            </Container>
-        </ThemeProvider>
-    );
+            </Box>
+            <Copyright sx={{ mt: 8, mb: 4 }} />
+        </Container>
+    </ThemeProvider>
+);
 }
+    
+}
+
+
