@@ -7,20 +7,18 @@ use App\Models\User;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
+    public function SignIn(Request $request)
     {
         $data = $request->all();
         
         User::create([
             'email' => $data['email'],
-            'password' => $data['password']
+            'password' => $data['password'] 
         ]);
 
         return response()->json([
-            'login' => [
                 'email' => $data['email'],
                 'password' => $data['password']
-            ],
         ]);
     }
 
