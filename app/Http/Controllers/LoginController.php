@@ -22,7 +22,7 @@ class LoginController extends Controller
         ]);
         
         
-        dd($request);
+        
         return response()->json([
             'email' => $data['email'],
             'password' => $data['password']
