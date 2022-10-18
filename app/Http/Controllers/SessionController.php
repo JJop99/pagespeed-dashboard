@@ -7,6 +7,9 @@ use Illuminate\Validation\ValidationException;
 
 class SessionController extends Controller
 {
+    public function create(){
+        //
+    }
     public function store()
     {
         $attributes = request()->validate([
