@@ -22,10 +22,9 @@ Route::get('/{any}', function () {
     return view('home');
 })->where('any', '.*');
 
-//Route::get('register', [RegisterController::class, 'create'])->middleware('guest');
-//Route::post('register', [RegisterController::class, 'store'])->middleware('guest');
+Route::post('sign-in', [LoginController::class, 'SignIn']);
 
-//Route::get('login', [SessionsController::class, 'create'])->middleware('guest');
-Route::post('login', [SessionsController::class, 'store'])->middleware('guest');
+Route::get('login', [SessionsController::class, 'create']);
+Route::post('login', [SessionsController::class, 'store']);
 
 Route::post('logout', [SessionsController::class, 'destroy'])->middleware('auth');
