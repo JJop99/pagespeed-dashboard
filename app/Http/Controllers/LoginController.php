@@ -15,31 +15,16 @@ class LoginController extends Controller
         ]);
 
         $data = $request->all();
-        
-        User::create([
+                        
+        auth()->login(User::create([
             'email' => $data['email'],
             'password' => $data['password'] 
-        ]);
-        
-        
-        
-        return response()->json([
-            'email' => $data['email'],
-            'password' => $data['password']
-        ]);
-    }
-
-    public function store()
-    {
-        $attributes = request()->validate([
-            'email' => 'required|email|max:255|unique',
-            'password' => 'required|min:7|max:255',
-        ]);
-
-        auth()->login(User::create($attributes));
+        ]));
 
         return redirect('/')->with('success', 'Your account has been created.');
+        
     }
+
 }
 
 
