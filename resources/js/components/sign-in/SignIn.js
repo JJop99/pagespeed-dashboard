@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,6 +12,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import AuthContext from "../../store/auth-context";
+import { useContext, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
     return (
@@ -34,115 +36,136 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default  class SignIn extends React.Component {
-    state = {
-        email: "",
-        password: "",
-    };
+const SignIn = () => {
+    
+    const emailInputRef = useRef();
+    const passwordInputRef = useRef();
 
-    handleChangeEmail = (event) => {
-        this.setState({
-            email: event.target.value,
-        });
-    };
-    handleChangePassword = (event) => {
-        this.setState({
-            password: event.target.value,
-        });
-    };
+    const authCtx = useContext(AuthContext);
 
-     handleSubmit = (event) => {
+    // const [isLogin, setIsLogin] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+
+    // const switchAuthModeHandler = () => {
+    //     setIsLogin((prevState) => !prevState);
+    // };
+
+    const handleSubmit = (event) => {
         event.preventDefault();
-
-        const user = {
-            email: this.state.email,
-            password: this.state.password,
+        console.log(emailInputRef.current.value);
+        let user = {
+            email: emailInputRef.current.value,
+            password: passwordInputRef.current.value,
         };
 
-        
+        setIsLoading(true);
+        console.log(user);
+        axios
+            .post(
+                `/api/SignIn`,
+                { ...user },
+                {
+                    headers: {
+                        // Overwrite Axios's automatically set Content-Type
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                console.log(res);
+                setIsLoading(false);
+                if (res.statusText === "OK") {
+                    // ...
 
-        //email: user.email,password: user.password
-       
-        axios.post(`/api/SignIn`,  {...user}, {
-          headers: {
-            // Overwrite Axios's automatically set Content-Type
-            'Content-Type': 'application/json'
-          }} ).then((res) => {
-            console.log(res);
-            console.log(res.statusText);
-        });
-        // const data = new FormData(event.currentTarget);
-        // console.log({
-        //     text: "ciao",
-        //     email: data.get("email"),
-        //     password: data.get("password"),
-        // });
+                    return res;
+                } else {
+                    return res.then((data) => {
+                        //show an error modal
+                        let errorMessage = "Authentication failed!";
+                        if (data && data.error && data.error.message) {
+                            errorMessage = data.error.message;
+                        }
+                        throw new Error(errorMessage);
+                    });
+                }
+            })
+            .then((data) => {
+                console.log(data);
+                // const expiratioTime = new Date(
+                //     new Date().getTime() + +data.expiresIn * 1000
+                // );
+                // authCtx.login(data.idToken, expiratioTime.toISOString());
+                authCtx.login(data.idToken);
+                navigate("/");
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
     };
-    render() {
-        return (
-            <ThemeProvider theme={theme}>
-                <Container component="main" maxWidth="xs">
-                    <CssBaseline />
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                    }}
+                >
+                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign in
+                    </Typography>
                     <Box
-                        sx={{
-                            marginTop: 8,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                        }}
+                        component="form"
+                        onSubmit={handleSubmit}
+                        noValidate
+                        sx={{ mt: 1 }}
                     >
-                        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                            <LockOutlinedIcon />
-                        </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign in
-                        </Typography>
-                        <Box
-                            component="form"
-                            onSubmit={this.handleSubmit}
-                            noValidate
-                            sx={{ mt: 1 }}
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            autoFocus
+                            inputRef={emailInputRef}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            inputRef={passwordInputRef}
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox value="remember" color="primary" />
+                            }
+                            label="Remember me"
+                        />
+                        {isLoading && <p>Sending request ...</p>}
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
                         >
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                                onChange={this.handleChangeEmail}
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                                onChange={this.handleChangePassword}
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        value="remember"
-                                        color="primary"
-                                    />
-                                }
-                                label="Remember me"
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                Sign In
-                            </Button>
-                            {/* <Grid container>
+                            Sign In
+                        </Button>
+                        {/* <Grid container>
           <Grid item xs>
             <Link href="#" variant="body2">
               Forgot password?
@@ -154,11 +177,11 @@ export default  class SignIn extends React.Component {
             </Link>
           </Grid>
         </Grid> */}
-                        </Box>
                     </Box>
-                    <Copyright sx={{ mt: 8, mb: 4 }} />
-                </Container>
-            </ThemeProvider>
-        );
-    }
-}
+                </Box>
+                <Copyright sx={{ mt: 8, mb: 4 }} />
+            </Container>
+        </ThemeProvider>
+    );
+};
+export default SignIn;
