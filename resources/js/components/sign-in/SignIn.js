@@ -36,7 +36,6 @@ function Copyright(props) {
 const theme = createTheme();
 
 const SignIn = () => {
-    
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
 
@@ -60,47 +59,54 @@ const SignIn = () => {
 
         setIsLoading(true);
         console.log(user);
-        axios
-            .post(
-                `/api/SignIn`,
-                { ...user },
-                {
-                    headers: {
-                        // Overwrite Axios's automatically set Content-Type
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
-            .then((res) => {
+        axios.defaults.withCredentials = true;
+        // CSRF COOKIE
+        axios.get("/sanctum/csrf-cookie").then(
+            (res) => {
                 console.log(res);
-                setIsLoading(false);
-                if (res.statusText === "OK") {
-                    // ...
-
-                    return res;
-                } else {
-                    return res.then((data) => {
-                        //show an error modal
-                        let errorMessage = "Authentication failed!";
-                        if (data && data.error && data.error.message) {
-                            errorMessage = data.error.message;
+                // LOGIN
+                axios
+                    .post(
+                        `/api/SignIn`,
+                        { ...user },
+                        {
+                            headers: {
+                                // Overwrite Axios's automatically set Content-Type
+                                "Content-Type": "application/json",
+                            },
                         }
-                        throw new Error(errorMessage);
+                    )
+                    .then((res) => {
+                        console.log(res);
+                        setIsLoading(false);
+                        if (res.statusText === "OK") {
+                            // ...
+                            console.log('ciao');
+                            return res;
+                        } else {
+                            return res.then((data) => {
+                                //show an error modal
+                                let errorMessage = "Authentication failed!";
+                                if (data && data.error && data.error.message) {
+                                    errorMessage = data.error.message;
+                                }
+                                throw new Error(errorMessage);
+                            });
+                        }
+                    })
+                    .then((data) => {
+                        console.log(data);
+                       navigate("/");
+                    })
+                    .catch((err) => {
+                        alert(err.message);
                     });
-                }
-            })
-            .then((data) => {
-                console.log(data);
-                // const expiratioTime = new Date(
-                //     new Date().getTime() + +data.expiresIn * 1000
-                // );
-                // authCtx.login(data.idToken, expiratioTime.toISOString());
-                authCtx.login(data.idToken);
-                navigate("/");
-            })
-            .catch((err) => {
-                alert(err.message);
-            });
+            },
+            // COOKIE ERROR
+            (error) => {
+                setErrorMessage("Could not complete the login");
+            }
+        );
     };
 
     return (
