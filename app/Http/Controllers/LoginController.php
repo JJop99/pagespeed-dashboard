@@ -14,12 +14,12 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $data = $request->all();
-                        
-        auth()->login(User::create([
-            'email' => $data['email'],
-            'password' => $data['password'] 
-        ]));
+        //$data = $request->all();
+        //                
+        //auth()->login(User::create([
+        //    'email' => $data['email'],
+        //    'password' => $data['password'] 
+        //]));
 
         return redirect('/')->with('success', 'success', 'Welcome Back!.');
         
