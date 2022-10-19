@@ -16,7 +16,6 @@ class LoginController extends Controller
             'email' => 'required|email|exists:users',
             'password' => 'required',
         ]);
-
         return redirect('/')->with('success', 'success', 'Welcome Back!.');
         
     }
