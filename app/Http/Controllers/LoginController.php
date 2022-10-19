@@ -10,8 +10,8 @@ class LoginController extends Controller
     public function SignIn(Request $request)
     {
         $attributes = request()->validate([
-            'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|min:7|max:255',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         $data = $request->all();
@@ -21,8 +21,14 @@ class LoginController extends Controller
             'password' => $data['password'] 
         ]));
 
-        return redirect('/')->with('success', 'Your account has been created.');
+        return redirect('/')->with('success', 'success', 'Welcome Back!.');
         
+    }
+    public function destroy()
+    {
+        auth()->logout();
+
+        return redirect('/sign-in')->with('success', 'Goodbye!');
     }
 
 }
