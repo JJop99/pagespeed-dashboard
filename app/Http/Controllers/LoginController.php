@@ -14,7 +14,7 @@ class LoginController extends Controller
     {
         $attributes = request()->validate([
             'email' => 'required|email|exists:users',
-            'password' => 'required',
+            'password' => 'required|exists:users',
         ]);
         return redirect('/')->with('success', 'success', 'Welcome Back!.');
         
