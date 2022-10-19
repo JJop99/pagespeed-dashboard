@@ -81,7 +81,7 @@ const SignIn = () => {
                         setIsLoading(false);
                         if (res.statusText === "OK") {
                             // ...
-                            console.log('ciao');
+                            console.log("ciao");
                             return res;
                         } else {
                             return res.then((data) => {
@@ -95,8 +95,9 @@ const SignIn = () => {
                         }
                     })
                     .then((data) => {
-                        console.log(data);
-                       navigate("/");
+                        authCtx.login(data.config.headers["X-XSRF-TOKEN"]);
+                        console.log("ciao2"+data.config.headers["X-XSRF-TOKEN"]);
+                        navigate("/");
                     })
                     .catch((err) => {
                         alert(err.message);
