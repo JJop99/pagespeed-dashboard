@@ -96,9 +96,9 @@ const SignIn = () => {
                         }
                     })
                     .then((data) => {
-                        console.log(authCtx.login("ciao"));
+                        authCtx.onLogin(user.email);
                         console.log("ciao2"+data.config.headers["X-XSRF-TOKEN"]);
-                        navigate("/sitelist");
+                        navigate("/site-list");
                     })
                     .catch((err) => {
                         alert(err.message);
@@ -157,12 +157,7 @@ const SignIn = () => {
                             autoComplete="current-password"
                             inputRef={passwordInputRef}
                         />
-                        <FormControlLabel
-                            control={
-                                <Checkbox value="remember" color="primary" />
-                            }
-                            label="Remember me"
-                        />
+                       
                         {isLoading && <p>Sending request ...</p>}
                         <Button
                             type="submit"

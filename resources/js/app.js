@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import Application from "./Application";
+import { AuthContextProvider } from "./store/auth-context";
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -20,7 +21,9 @@ if (document.getElementById("app")) {
     const root = createRoot(document.getElementById("app"));
     root.render(
         <BrowserRouter>
-            <Application />
+            <AuthContextProvider>
+                <Application />
+            </AuthContextProvider>
         </BrowserRouter>
     );
 }
