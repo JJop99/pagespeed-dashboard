@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Url;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
+class UrlController extends Controller
+{
+    public function url(Request $request){
+        
+        $data = $request->all();
+        $email = $data['email'];
+        $title = $data['title'];
+        $url = $data['url'];
+        Url::create([
+
+            'email'=> $email,
+            'title' => $title,
+            'url' => $url,
+            
+        ]);
+
+        return response()->json([
+            'email'=> $email,
+            'url' => $url 
+        ]);
+    }
+}
