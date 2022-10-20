@@ -10,32 +10,25 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-    public function login(Request $request)
+    public function SignIn(Request $request)
     {
-        $credentials = request()->validate([
+        $attributes = request()->validate([
             'email' => 'required|email|exists:users',
             'password' => 'required',
         ]);
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($attributes)) {
             $request->session()->regenerate();
-
-            return redirect()->intended('dashboard');
-        }
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+        return redirect('/sitelist')->with('success', 'Welcome Back!.');
         
+        }
     }
-    public function logout(Request $request)
-{
-    Auth::logout();
- 
-    $request->session()->invalidate();
- 
-    $request->session()->regenerateToken();
- 
-    return redirect('/');
-}
+    public function logout()
+    {
+        //auth()->logout();
+        //return redirect('/sign-in')->with('success', 'Goodbye!');
+        Auth::logout();
+        return response()->json(['message' => 'Logged Out'], 200);
+    }
 
 }
 
