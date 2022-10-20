@@ -8,10 +8,10 @@ use App\Models\User;
 
 class RegisterController extends Controller
 {
-    public function register(Request $request)
+    public function SignUp(Request $request)
     {
         $attributes = request()->validate([
-            'email' => 'required|email|max:255|unique:users,email',
+            'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:7|max:255',
         ]);
         $data = $request->all();

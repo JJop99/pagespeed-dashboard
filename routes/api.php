@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\LoginController;
-
+use App\Http\Controllers\RegisterController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,6 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::post('SignIn', [LoginController::class, 'SignIn']);
+
+Route::post('SignUp', [RegisterController::class, 'SignUp']);
 
 Route::post('logout', [LoginController::class, 'logout']);
 
