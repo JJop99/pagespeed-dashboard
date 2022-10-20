@@ -14,12 +14,16 @@ class RegisterController extends Controller
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|min:7|max:255',
         ]);
-
         $data = $request->all();
-        auth()->login(User::create([
+        User::create([
             'email' => $data['email'],
             'password' => $data['password'] 
-        ]));
+        ]);
+        //$data = $request->all();
+        //auth()->login(User::create([
+        //    'email' => $data['email'],
+        //    'password' => $data['password'] 
+        //]));
         
         return response()->json([
             'ok'

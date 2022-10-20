@@ -17,7 +17,7 @@ class CreateUrlsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('url');
-            $table->string('mail');
+            $table->string('email');
             $table->string('title');
         });
     }
