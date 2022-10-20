@@ -10,7 +10,7 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-    public function SignIn(Request $request)
+    public function signIn(Request $request)
     {
         $attributes = request()->validate([
             'email' => 'required|email|exists:users',

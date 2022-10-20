@@ -22,11 +22,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-Route::post('SignIn', [LoginController::class, 'SignIn']);
+Route::post('signIn', [LoginController::class, 'signIn']);
 
-Route::post('SignUp', [RegisterController::class, 'SignUp']);
+Route::post('signUp', [RegisterController::class, 'signUp']);
 
 Route::post('logout', [LoginController::class, 'logout']);
+
+Route::get('newUrl', [UrlController::class, 'newUrl']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 
 class UrlController extends Controller
 {
-    public function url(Request $request){
+    public function newUrl(Request $request){
         
         $data = $request->all();
         $email = $data['email'];
