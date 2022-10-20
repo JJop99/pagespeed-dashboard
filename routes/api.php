@@ -28,11 +28,12 @@ Route::post('signUp', [RegisterController::class, 'signUp']);
 
 Route::post('logout', [LoginController::class, 'logout']);
 
-Route::get('newUrl', [UrlController::class, 'newUrl']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('test', [ApiController::class, 'test']);
+    Route::post('newUrl', [UrlController::class, 'newUrl']);
+
 });

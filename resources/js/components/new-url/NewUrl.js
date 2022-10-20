@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import LanguageIcon from '@mui/icons-material/Language';
+import LanguageIcon from "@mui/icons-material/Language";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -19,29 +19,28 @@ const NewUrl = () => {
     const urlInputRef = useRef();
 
     const authCtx = useContext(AuthContext);
-
-    // const [isLogin, setIsLogin] = useState(true);
+    console.log(authCtx);
     const navigate = useNavigate();
 
-    // const switchAuthModeHandler = () => {
-    //     setIsLogin((prevState) => !prevState);
-    // };
-
+    
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(titleInputRef.current.value);
+        const email = authCtx.user;
         let site = {
+            email: email,
             title: titleInputRef.current.value,
             url: urlInputRef.current.value,
-            email: authCtx.user,
         };
 
         console.log(site);
+
+
         axios.defaults.withCredentials = true;
 
         axios
             .post(
-                `/api/NewUrl`,
+                `/api/newUrl`,
                 { ...site },
                 {
                     headers: {
@@ -52,20 +51,14 @@ const NewUrl = () => {
             )
             .then((res) => {
                 console.log(res);
-                setIsLoading(false);
                 if (res.statusText === "OK") {
                     // ...
                     console.log("ciao");
                     return res;
-                } else {
-                    return res.then((data) => {
-                        //show an error modal
-                        
-                    });
-                }
+                } 
             })
             .then((data) => {
-                navigate("/sitelist");
+                navigate("/site-list");
             })
             .catch((err) => {
                 alert(err.message);
@@ -118,7 +111,7 @@ const NewUrl = () => {
                             autoComplete="current-url"
                             inputRef={urlInputRef}
                         />
-                        
+
                         <Button
                             type="submit"
                             fullWidth

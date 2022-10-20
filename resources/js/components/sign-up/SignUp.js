@@ -9,10 +9,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import { useContext, useRef, useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../store/auth-context";
-
 
 function Copyright(props) {
     return (
@@ -34,19 +32,13 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-const SignIn = () => {
+const SignUp = () => {
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
 
-    const authCtx = useContext(AuthContext);
-
-    // const [isLogin, setIsLogin] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    // const switchAuthModeHandler = () => {
-    //     setIsLogin((prevState) => !prevState);
-    // };
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -56,57 +48,35 @@ const SignIn = () => {
             password: passwordInputRef.current.value,
         };
 
-        setIsLoading(true);
         console.log(user);
         axios.defaults.withCredentials = true;
-        // CSRF COOKIE
-        axios.get("/sanctum/csrf-cookie").then(
-            (res) => {
+
+        // REGISTER
+        axios
+            .post(
+                `/api/signUp`,
+                { ...user },
+                {
+                    headers: {
+                        // Overwrite Axios's automatically set Content-Type
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
                 console.log(res);
-                // LOGIN
-                axios
-                    .post(
-                        `/api/signIn`,
-                        { ...user },
-                        {
-                            headers: {
-                                // Overwrite Axios's automatically set Content-Type
-                                "Content-Type": "application/json",
-                            },
-                        }
-                    )
-                    .then((res) => {
-                        console.log(res);
-                        setIsLoading(false);
-                        if (res.statusText === "OK") {
-                            // ...
-                            console.log("ciao");
-                            return res;
-                        } else {
-                            return res.then((data) => {
-                                //show an error modal
-                                let errorMessage = "Authentication failed!";
-                                if (data && data.error && data.error.message) {
-                                    errorMessage = data.error.message;
-                                }
-                                throw new Error(errorMessage);
-                            });
-                        }
-                    })
-                    .then((data) => {
-                        authCtx.onLogin(user.email);
-                        console.log("ciao2"+data.config.headers["X-XSRF-TOKEN"]);
-                        navigate("/site-list");
-                    })
-                    .catch((err) => {
-                        alert(err.message);
-                    });
-            },
-            // COOKIE ERROR
-            (error) => {
-                setErrorMessage("Could not complete the login");
-            }
-        );
+                if (res.statusText === "OK") {
+                    // ...
+                    console.log("ciao");
+                    return res;
+                } 
+            })
+            .then((data) => {
+                navigate("/site-list");
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
     };
 
     return (
@@ -125,7 +95,7 @@ const SignIn = () => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign In
+                        Sign Up
                     </Typography>
                     <Box
                         component="form"
@@ -155,28 +125,15 @@ const SignIn = () => {
                             autoComplete="current-password"
                             inputRef={passwordInputRef}
                         />
-                       
-                        {isLoading && <p>Sending request ...</p>}
+
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            Sign Up
                         </Button>
-                        {/* <Grid container>
-          <Grid item xs>
-            <Link href="#" variant="body2">
-              Forgot password?
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link href="#" variant="body2">
-              {"Don't have an account? Sign Up"}
-            </Link>
-          </Grid>
-        </Grid> */}
                     </Box>
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
@@ -184,4 +141,4 @@ const SignIn = () => {
         </ThemeProvider>
     );
 };
-export default SignIn;
+export default SignUp;

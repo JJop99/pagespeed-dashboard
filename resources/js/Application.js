@@ -5,6 +5,7 @@ import SiteList from "./components/site-list/SiteList";
 import SignIn from "./components/sign-in/SignIn";
 import Layout from "./components/Layout/Layout";
 import NewUrl from "./components/new-url/NewUrl";
+import SignUp from "./components/sign-up/SignUp";
 
 const Application = () => {
     return (
@@ -15,6 +16,8 @@ const Application = () => {
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/new-url" element={<NewUrl />} />
                 <Route path="/site-list" element={<SiteList />} />
+                <Route path="/sign-up" element={<SignUp />} />
+
 
                 <Route path="/audit" element={<Audit />} />
                 <Route path="/dashboard" element={<Dashboard />} />
