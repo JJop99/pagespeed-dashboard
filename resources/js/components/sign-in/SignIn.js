@@ -11,9 +11,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import AuthContext from "../../store/auth-context";
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
+
 
 function Copyright(props) {
     return (
@@ -95,9 +96,9 @@ const SignIn = () => {
                         }
                     })
                     .then((data) => {
-                        authCtx.login(data.config.headers["X-XSRF-TOKEN"]);
+                        console.log(authCtx.login("ciao"));
                         console.log("ciao2"+data.config.headers["X-XSRF-TOKEN"]);
-                        navigate("/");
+                        navigate("/sitelist");
                     })
                     .catch((err) => {
                         alert(err.message);

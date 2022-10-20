@@ -9,29 +9,34 @@ const AuthContext = React.createContext({
 });
 
 
-// const retrieveStoredToken = () => {
-//   const storedToken = localStorage.getItem("token");
-
-//   return { token: storedToken };
-// };
+const retrieveStoredToken = () => {
+    const storedToken = localStorage.getItem("token");
+  
+    return { token: storedToken };
+  };
 
 export const AuthContextProvider = (props) => {
-  
+  const tokenData = retrieveStoredToken();
+  console.log(props);
+  let initialToken;
+  if (tokenData) {
+    initialToken = tokenData.token;
+  }
 
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(initialToken);
 
   const userIsLoggedIn = !!token;
 
   const logoutHandler = useCallback(() => {
     setToken(null);
     localStorage.removeItem("token");
-    
   },[]);
 
-  const loginHandler = (tokenCookie) => {
-    console.log(tokenCookie);
-    setToken(tokenCookie);
-    localStorage.setItem("token", tokenCookie);
+  const loginHandler = (token) => {
+    console.log(token);
+    setToken(token);
+    
+    localStorage.setItem("token", token);
   };
 
  

@@ -11,9 +11,10 @@ const Application = () => {
     return (
         <Layout>
             <Routes>
-                <Route path="/" element={<SiteList />} />
+                <Route path="/" element={<SignIn />} />
+                <Route path="/sitelist" element={<SiteList />} />
 
-                <Route path="/sign-in" element={<SignIn />} />
+                
                 <Route path="/audit" element={<Audit />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/list" element={<List />} />

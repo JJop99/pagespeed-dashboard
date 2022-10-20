@@ -5,10 +5,10 @@ import AuthContext from "../../store/auth-context";
 import classes from "./MainNavigation.module.scss";
 import axios from "axios";
 const MainNavigation = () => {
-    //const authCtx = useContext(AuthContext);
+    const authCtx = useContext(AuthContext);
 
-    // const isLoggedIn = authCtx.isLoggedIn;
-    const isLoggedIn = true;
+    const isLoggedIn = authCtx.isLoggedIn;
+    //const isLoggedIn = true;
 
      const logoutHandler = () => {
     //     authCtx.logout();
