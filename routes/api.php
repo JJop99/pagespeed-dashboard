@@ -29,6 +29,7 @@ Route::post('signUp', [RegisterController::class, 'signUp']);
 
 Route::post('logout', [LoginController::class, 'logout']);
 
+Route::get('research', [UrlController::class, 'research']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
