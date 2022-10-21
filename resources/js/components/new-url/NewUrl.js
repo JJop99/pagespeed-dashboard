@@ -41,7 +41,7 @@ const NewUrl = () => {
         axios
             .post(
                 `/api/newUrl`,
-                { ...site },
+                site,
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type

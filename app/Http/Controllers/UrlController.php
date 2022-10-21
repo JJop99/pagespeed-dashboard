@@ -10,21 +10,21 @@ class UrlController extends Controller
 {
     public function newUrl(Request $request){
         
-        $attributes = request()->validate([
-            'email' => 'required|email',
-            'url' => 'required',
-            'title' => 'required'
-        ]);
+        //$attributes = $request->validate([
+        //    'email' => 'required|email',
+        //    'url' => 'required',
+        //    'title' => 'required'
+        //]);
         $data = $request->all();
+        info($data);
         $email = $data['email'];
         $title = $data['title'];
         $url = $data['url'];
-        Url::create([
 
+        Url::create([
             'email'=> $email,
             'title' => $title,
-            'url' => $url,
-            
+            'url' => $url, 
         ]);
 
         return response()->json([
