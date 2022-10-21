@@ -5,30 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Url;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class UrlController extends Controller
 {
     public function newUrl(Request $request){
         
-        //$attributes = $request->validate([
-        //    'email' => 'required|email',
-        //    'url' => 'required',
-        //    'title' => 'required'
-        //]);
         $data = $request->all();
-        info($data);
         $email = $data['email'];
         $title = $data['title'];
         $url = $data['url'];
 
+
+        if(!Str::startsWith($url, ['http://', 'https://'])){
+            $url = 'https://' . $url;
+        }
+        
         Url::create([
             'email'=> $email,
             'title' => $title,
             'url' => $url, 
         ]);
+        
         $response = Http::get('https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=' . $url);
+       
 
         if($response->failed()){
+            info($response->body());
             abort($response->status());
         }
 
@@ -44,11 +47,9 @@ class UrlController extends Controller
             'email' => 'required'
         ]);
 
-        $email = $validated['email'];
-
         $research = URL::select('url')
-        ->where('email', $email);
-        //->get();
+        ->where('email', $validated['email'])
+        ->get();
 
         return response()->json([
             'urls' => $research
