@@ -20,7 +20,7 @@ class UrlController extends Controller
         if(!Str::startsWith($url, ['http://', 'https://'])){
             $url = 'https://' . $url;
         }
-        
+
         Url::create([
             'email'=> $email,
             'title' => $title,
@@ -35,7 +35,8 @@ class UrlController extends Controller
             abort($response->status());
         }
 
-
+        info($response->json());
+        
         return response()->json([
             'email'=> $email,
             'url' => $url 
