@@ -6,6 +6,7 @@ use App\Models\Url;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class UrlController extends Controller
 {
@@ -36,7 +37,7 @@ class UrlController extends Controller
         }
 
         info($response->json());
-        
+
         return response()->json([
             'email'=> $email,
             'url' => $url 
@@ -51,6 +52,16 @@ class UrlController extends Controller
         $research = URL::select('url')
         ->where('email', $validated['email'])
         ->get();
+
+        //$take = 100;
+        //$skip = 9;
+
+        //$currentPage = Request::get('page', 1);
+        //$research = URL::select('url')
+        //->where('email', $validated['email'])        
+        //->take(100)
+        //->skip($skip + (($currentPage - 1) * $take))        
+        //->orderBy('url','desc'); 
 
         return response()->json([
             'urls' => $research
