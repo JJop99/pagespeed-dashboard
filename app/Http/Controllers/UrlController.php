@@ -30,9 +30,17 @@ class UrlController extends Controller
     }
 
     public function dashboard(Request $request){
-        
+
+        //$validated = $request->validate([
+        //    'email' => 'required',
+        //    'title' => 'required'
+        //]);
         $data = $request->all();
         $url = $data['url'];
+        //$url = URL::select('url')
+        //->where('email', $validated['email'])
+        //->and('title', $data['title'])
+        //->get();
 
         if(!Str::startsWith($url, ['http://', 'https://'])){
             $url = 'https://' . $url;
