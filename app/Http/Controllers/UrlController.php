@@ -55,7 +55,6 @@ class UrlController extends Controller
 
         //$take = 100;
         //$skip = 9;
-
         //$currentPage = Request::get('page', 1);
         //$research = URL::select('url')
         //->where('email', $validated['email'])        
