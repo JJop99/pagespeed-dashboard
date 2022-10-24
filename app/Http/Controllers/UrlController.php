@@ -49,7 +49,7 @@ class UrlController extends Controller
             'email' => 'required'
         ]);
 
-        $research = URL::select('url')
+        $research = URL::select('url', 'title')
         ->where('email', $validated['email'])
         ->get();
 
@@ -63,7 +63,7 @@ class UrlController extends Controller
         //->orderBy('url','desc'); 
 
         return response()->json([
-            'urls' => $research
+            'urls' => $research,
         ]);
     }
 }
