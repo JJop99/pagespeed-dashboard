@@ -52,14 +52,16 @@ class UrlController extends Controller
             info($response->body());
             abort($response->status());
         }
-        $body=$response->json();
+        $body = $response->json();
         info($response->json());
-        $firstContentfulPaint = $body['response']['data']['lighthouseResult']['audits']['first-contentful-paint'];
-        $speedIndex = $body['response']['data']['lighthouseResult']['audits']['speed-index'];
-        $largestContentfulPaint = $body['response']['data']['lighthouseResult']['audits']['largest-contentful-paint'];
-        $totalBlockingTime = $body['response']['data']['lighthouseResult']['audits']['total-blocking-time'];
-        $cumulativeLayoutShift = $body['response']['data']['lighthouseResult']['audits']['cumulative-layout-shift'];
-        $interactive = $body['response']['data']['lighthouseResult']['audits']['interactive'];
+        //$firstContentfulPaint = $body['lighthouseResult'];
+        
+        $firstContentfulPaint = $body['lighthouseResult']['audits']['first-contentful-paint'];
+        $speedIndex = $body['lighthouseResult']['audits']['speed-index'];
+        $largestContentfulPaint = $body['lighthouseResult']['audits']['largest-contentful-paint'];
+        $totalBlockingTime = $body['lighthouseResult']['audits']['total-blocking-time'];
+        $cumulativeLayoutShift = $body['lighthouseResult']['audits']['cumulative-layout-shift'];
+        $interactive = $body['lighthouseResult']['audits']['interactive'];
 
         return [
             $firstContentfulPaint,
