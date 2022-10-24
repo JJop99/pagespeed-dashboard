@@ -52,10 +52,23 @@ class UrlController extends Controller
             info($response->body());
             abort($response->status());
         }
-
+        $body=$response->json();
         info($response->json());
+        $firstContentfulPaint = $body['data']['data']['lighthouseResult']['audits']['first-contentful-paint'];
+        $speedIndex = $body['data']['data']['lighthouseResult']['audits']['speed-index'];
+        $largestContentfulPaint = $body['data']['data']['lighthouseResult']['audits']['largest-contentful-paint'];
+        $totalBlockingTime = $body['data']['data']['lighthouseResult']['audits']['total-blocking-time'];
+        $cumulativeLayoutShift = $body['data']['data']['lighthouseResult']['audits']['cumulative-layout-shift'];
+        $interactive = $body['data']['data']['lighthouseResult']['audits']['interactive'];
 
-        return $response;
+        return response()->json([
+            $firstContentfulPaint,
+            $speedIndex,
+            $largestContentfulPaint,
+            $totalBlockingTime,
+            $cumulativeLayoutShift,
+            $interactive
+        ]);
     }
 
     public function research(Request $request){
