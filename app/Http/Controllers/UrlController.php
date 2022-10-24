@@ -30,6 +30,7 @@ class UrlController extends Controller
     }
 
     public function dashboard(Request $request){
+        
         $data = $request->all();
         $url = $data['url'];
 
@@ -46,7 +47,7 @@ class UrlController extends Controller
 
         info($response->json());
 
-        return response()->json($response);
+        return $response;
     }
 
     public function research(Request $request){
