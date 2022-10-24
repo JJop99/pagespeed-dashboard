@@ -17,19 +17,27 @@ class UrlController extends Controller
         $title = $data['title'];
         $url = $data['url'];
 
-
-        if(!Str::startsWith($url, ['http://', 'https://'])){
-            $url = 'https://' . $url;
-        }
-
         Url::create([
             'email'=> $email,
             'title' => $title,
             'url' => $url, 
         ]);
         
+        return response()->json([
+            'email'=> $email,
+            'url' => $url 
+        ]);
+    }
+
+    public function dashboard(Request $request){
+        $data = $request->all();
+        $url = $data['url'];
+
+        if(!Str::startsWith($url, ['http://', 'https://'])){
+            $url = 'https://' . $url;
+        }
+
         $response = Http::get('https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=' . $url);
-       
 
         if($response->failed()){
             info($response->body());
@@ -38,10 +46,7 @@ class UrlController extends Controller
 
         info($response->json());
 
-        return response()->json([
-            'email'=> $email,
-            'url' => $url 
-        ]);
+        return response()->json($response);
     }
 
     public function research(Request $request){
