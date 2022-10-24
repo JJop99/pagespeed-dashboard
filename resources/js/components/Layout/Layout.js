@@ -24,6 +24,8 @@ const Layout = (props) => {
             return error;
         }
     );
+
+    
     return (
         <Fragment>
             <div className={classes.layout}>

@@ -18,9 +18,8 @@ const Application = () => {
                 <Route path="/site-list" element={<SiteList />} />
                 <Route path="/sign-up" element={<SignUp />} />
 
-
                 <Route path="/audit" element={<Audit />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dashboard/:dashboardId" element={<Dashboard />} />
             </Routes>
         </Layout>
     );
