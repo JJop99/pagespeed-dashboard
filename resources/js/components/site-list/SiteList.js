@@ -28,9 +28,7 @@ const SiteList = () => {
     const authCtx = useContext(AuthContext);
 
     const navigate = useNavigate();
-    // const handleRowClick = (title) => {
-    //     navigate(`/dashboard/${title}`);
-    // };
+    
 
     useEffect(() => {
         const email = authCtx.user;
@@ -71,6 +69,8 @@ const SiteList = () => {
         axios.get("/api/test").then();
     }, []);
 
+    
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -83,7 +83,7 @@ const SiteList = () => {
                 <TableBody>
                     {urls.map((url) => (
                         <TableRow
-                           onClick={() => navigate(`/dashboard/${url.title}`)}
+                           onClick={() => navigate(`/dashboard/${url.title}`,{state:{url: url.url}})}
                             key={url.title}
                             sx={{
                                 "&:last-child td, &:last-child th": {

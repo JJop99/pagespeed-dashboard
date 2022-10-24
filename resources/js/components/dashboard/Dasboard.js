@@ -1,17 +1,17 @@
 import axios from "axios";
 import { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 
 const Dashboard = () => {
-    const params = useParams();
-    const { dashboardId } = params;
-
+    const location = useLocation();
+    console.log(location);
+    
     axios.defaults.withCredentials = true;
     const authCtx = useContext(AuthContext);
     let search = {
         email: authCtx.user,
-        title: dashboardId,
+        url: location.state.url,
     };
 
     useEffect(() => {
@@ -45,6 +45,6 @@ const Dashboard = () => {
             });
     }, []);
 
-    return <div>{dashboardId}</div>;
+    return <div>{search.url}</div>;
 };
 export default Dashboard;
