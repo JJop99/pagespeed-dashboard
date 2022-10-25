@@ -50,7 +50,6 @@ class UrlController extends Controller
             'interactive' => json_encode($interactive)
         ]);
 
-        
         return response()->json([
             $email,
             $url, 
@@ -63,7 +62,17 @@ class UrlController extends Controller
         //    $interactive
         ]);
     }
+    public function dashboard(Request $request){
+        $validated = $request->validate([
+            'id' => 'required'
+        ]);
+        $statistics = URL::select('firstContentfulPaint','speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
+        ->where('id', $validated['id'])
+        ->get();
 
+        return response()->json($statistics);
+    }
+    
     public function research(Request $request){
         $validated = $request->validate([
             'email' => 'required'
