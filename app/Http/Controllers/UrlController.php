@@ -37,7 +37,17 @@ class UrlController extends Controller
         $cumulativeLayoutShift = $body['lighthouseResult']['audits']['cumulative-layout-shift'];
         $interactive = $body['lighthouseResult']['audits']['interactive'];
 
-        
+
+        //calculate performance
+        $fCPaint = $body['lighthouseResult']['audits']['first-contentful-paint']['score'];
+        $sIndex = $body['lighthouseResult']['audits']['speed-index']['score'];;
+        $lCPaint = $body['lighthouseResult']['audits']['largest-contentful-paint']['score'];
+        $tBTime = $body['lighthouseResult']['audits']['total-blocking-time']['score'];
+        $cLShift = $body['lighthouseResult']['audits']['cumulative-layout-shift']['score'];
+        $int = $body['lighthouseResult']['audits']['interactive']['score'];
+
+        $performance = (int)(($fCPaint * 10) + ($sIndex * 10) +  ($lCPaint * 25) + ($tBTime * 30) + ($cLShift * 15) + ($int * 10)) / 100; 
+
         Url::create([
             'email'=> $email,
             'title' => $title,
@@ -47,17 +57,11 @@ class UrlController extends Controller
             'largestContentfulPaint' => json_encode($largestContentfulPaint),
             'totalBlockingTime' => json_encode($totalBlockingTime),
             'cumulativeLayoutShift' => json_encode($cumulativeLayoutShift),
-            'interactive' => json_encode($interactive)
+            'interactive' => json_encode($interactive),
+            'performance' => $performance
         ]);
 
-        $firstContentfulPaint = $body['lighthouseResult']['audits']['first-contentful-paint']['score'];
-        $speedIndex = $body['lighthouseResult']['audits']['speed-index']['score'];;
-        $largestContentfulPaint = $body['lighthouseResult']['audits']['largest-contentful-paint']['score'];
-        $totalBlockingTime = $body['lighthouseResult']['audits']['total-blocking-time']['score'];
-        $cumulativeLayoutShift = $body['lighthouseResult']['audits']['cumulative-layout-shift']['score'];
-        $interactive = $body['lighthouseResult']['audits']['interactive']['score'];
-
-        $performance = (($firstContentfulPaint * 10) + ($speedIndex * 10) +  ($largestContentfulPaint * 25) + ($totalBlockingTime * 30) + ($cumulativeLayoutShift * 15) + ($interactive * 10)) / 100; 
+        
         return response()->json([
             $performance,
             $email,
