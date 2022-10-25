@@ -37,8 +37,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('newUrl', [UrlController::class, 'newUrl']);
 
-Route::post('dashboard', [UrlController::class, 'dashboard']);
-
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('test', [ApiController::class, 'test']);
 });

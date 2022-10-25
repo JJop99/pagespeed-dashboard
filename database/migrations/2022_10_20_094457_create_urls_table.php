@@ -19,6 +19,12 @@ class CreateUrlsTable extends Migration
             $table->string('url');
             $table->string('email');
             $table->string('title');
+            $table->text('firstContentfulPaint');
+            $table->text('speedIndex');
+            $table->text('largestContentfulPaint');
+            $table->text('totalBlockingTime');
+            $table->text('cumulativeLayoutShift');
+            $table->text('interactive');
         });
     }
 

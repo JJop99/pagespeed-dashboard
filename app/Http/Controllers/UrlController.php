@@ -11,37 +11,14 @@ use Illuminate\Support\Facades\DB;
 class UrlController extends Controller
 {
     public function newUrl(Request $request){
-        
+
         $data = $request->all();
         $email = $data['email'];
         $title = $data['title'];
         $url = $data['url'];
-
-        Url::create([
-            'email'=> $email,
-            'title' => $title,
-            'url' => $url, 
-        ]);
+        $time = $data['timestamps'];
+        $id = $data['id'];
         
-        return response()->json([
-            'email'=> $email,
-            'url' => $url 
-        ]);
-    }
-
-    public function dashboard(Request $request){
-
-        //$validated = $request->validate([
-        //    'email' => 'required',
-        //    'title' => 'required'
-        //]);
-        $data = $request->all();
-        $url = $data['url'];
-        //$url = URL::select('url')
-        //->where('email', $validated['email'])
-        //->and('title', $data['title'])
-        //->get();
-
         if(!Str::startsWith($url, ['http://', 'https://'])){
             $url = 'https://' . $url;
         }
@@ -54,7 +31,6 @@ class UrlController extends Controller
         }
         $body = $response->json();
         info($response->json());
-        //$firstContentfulPaint = $body['lighthouseResult'];
         
         $firstContentfulPaint = $body['lighthouseResult']['audits']['first-contentful-paint'];
         $speedIndex = $body['lighthouseResult']['audits']['speed-index'];
@@ -63,14 +39,32 @@ class UrlController extends Controller
         $cumulativeLayoutShift = $body['lighthouseResult']['audits']['cumulative-layout-shift'];
         $interactive = $body['lighthouseResult']['audits']['interactive'];
 
-        return [
-            $firstContentfulPaint,
-            $speedIndex,
-            $largestContentfulPaint,
-            $totalBlockingTime,
-            $cumulativeLayoutShift,
-            $interactive
-        ];
+        
+        Url::create([
+            'email'=> $email,
+            'title' => $title,
+            'url' => $url, 
+            'firstContentfulPaint' => json_encode($firstContentfulPaint),
+            'speedIndex' => json_encode($speedIndex),
+            'largestContentfulPaint' => json_encode($largestContentfulPaint),
+            'totalBlockingTime' => json_encode($totalBlockingTime),
+            'cumulativeLayoutShift' => json_encode($cumulativeLayoutShift),
+            'interactive' => json_encode($interactive)
+        ]);
+        
+        return response()->json([
+            $email,
+            $url, 
+            $time,
+            $id,
+            $title
+        //    $firstContentfulPaint,
+        //    $speedIndex,
+        //    $largestContentfulPaint,
+        //    $totalBlockingTime,
+        //    $cumulativeLayoutShift,
+        //    $interactive
+        ]);
     }
 
     public function research(Request $request){
