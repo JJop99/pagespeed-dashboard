@@ -42,6 +42,6 @@ Route::middleware('auth:sanctum')->group(function(){
     
     Route::post('newUrl', [UrlController::class, 'newUrl']);
 
-Route::post('dashboard', [UrlController::class, 'dashboard']);
+    Route::post('dashboard', [UrlController::class, 'dashboard']);
     Route::post('research', [UrlController::class, 'research']);
 });

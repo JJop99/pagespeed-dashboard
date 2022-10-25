@@ -67,12 +67,6 @@ class UrlController extends Controller
             $email,
             $url, 
             $title
-        //    $firstContentfulPaint,
-        //    $speedIndex,
-        //    $largestContentfulPaint,
-        //    $totalBlockingTime,
-        //    $cumulativeLayoutShift,
-        //    $interactive
         ]);
     }
     public function dashboard(Request $request){
@@ -87,15 +81,6 @@ class UrlController extends Controller
         $performance = URL::select('performance')
         ->where('id', $validated['id'])
         ->get();
-        
-        //$statistics = [
-        //    $firstContentfulPaint[0],
-        //    $speedIndex[0],
-        //    $largestContentfulPaint[0],
-        //    $totalBlockingTime[0],
-        //    $cumulativeLayoutShift[0],
-        //    $interactive[0]
-        //];
 
         return [
             $statistics,
@@ -112,6 +97,7 @@ class UrlController extends Controller
         ->where('email', $validated['email'])
         ->get();
 
+        //pagination
         //$take = 100;
         //$skip = 9;
         //$currentPage = Request::get('page', 1);

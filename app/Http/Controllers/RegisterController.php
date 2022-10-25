@@ -19,11 +19,6 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => $data['password'] 
         ]);
-        //$data = $request->all();
-        //auth()->login(User::create([
-        //    'email' => $data['email'],
-        //    'password' => $data['password'] 
-        //]));
         
         return response()->json([
             'ok'

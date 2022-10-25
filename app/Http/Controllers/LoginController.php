@@ -24,8 +24,6 @@ class LoginController extends Controller
     }
     public function logout()
     {
-        //auth()->logout();
-        //return redirect('/sign-in')->with('success', 'Goodbye!');
         Auth::logout();
         return response()->json(['message' => 'Logged Out'], 200);
     }
