@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AuthContext from "../../store/auth-context";
 import { useNavigate } from "react-router-dom";
+import classes from "./SiteList.module.scss";
 
 const SiteList = () => {
     const [urls, setUrls] = useState([]);
@@ -69,7 +70,10 @@ const SiteList = () => {
                             <TableCell component="th" scope="row">
                                 {url.title}
                             </TableCell>
-                            <TableCell align="right"> {url.url}</TableCell>
+                            <TableCell align="right" >
+                                <div className={classes.url}>{url.url}</div>
+                                
+                            </TableCell>
                             <TableCell align="right">
                                 {url.created_at}
                             </TableCell>

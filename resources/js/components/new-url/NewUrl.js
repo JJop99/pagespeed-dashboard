@@ -11,19 +11,21 @@ import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
+import { CircularProgress } from "@mui/material";
 
 const theme = createTheme();
 
 const NewUrl = () => {
     const titleInputRef = useRef();
     const urlInputRef = useRef();
+    const [isLoading, setIsLoading] = useState(false);
 
     const authCtx = useContext(AuthContext);
     console.log(authCtx);
     const navigate = useNavigate();
 
-    
     const handleSubmit = (event) => {
+        setIsLoading(true);
         event.preventDefault();
         console.log(titleInputRef.current.value);
         const email = authCtx.user;
@@ -31,31 +33,29 @@ const NewUrl = () => {
             email: email,
             title: titleInputRef.current.value,
             url: urlInputRef.current.value,
-            
         };
 
         axios.defaults.withCredentials = true;
 
         axios
-            .post(
-                `/api/newUrl`,
-                site,
-                {
-                    headers: {
-                        // Overwrite Axios's automatically set Content-Type
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
+            .post(`/api/newUrl`, site, {
+                headers: {
+                    // Overwrite Axios's automatically set Content-Type
+                    "Content-Type": "application/json",
+                },
+            })
             .then((res) => {
                 console.log(res);
                 if (res.statusText === "OK") {
                     navigate("/site-list");
                     return res;
-                } 
+                }
             })
             .catch((err) => {
                 alert(err.message);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -63,59 +63,73 @@ const NewUrl = () => {
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                    }}
-                >
-                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                        <LanguageIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        New Url
-                    </Typography>
+                {!isLoading && (
                     <Box
-                        component="form"
-                        onSubmit={handleSubmit}
-                        noValidate
-                        sx={{ mt: 1 }}
+                        sx={{
+                            marginTop: 8,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}
                     >
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="title"
-                            label="Title"
-                            name="title"
-                            autoComplete="title"
-                            autoFocus
-                            inputRef={titleInputRef}
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="url"
-                            label="Url"
-                            type="url"
-                            id="url"
-                            autoComplete="current-url"
-                            inputRef={urlInputRef}
-                        />
-
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                            <LanguageIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            New Url
+                        </Typography>
+                        <Box
+                            component="form"
+                            onSubmit={handleSubmit}
+                            noValidate
+                            sx={{ mt: 1 }}
                         >
-                            Submit
-                        </Button>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="title"
+                                label="Title"
+                                name="title"
+                                autoComplete="title"
+                                autoFocus
+                                inputRef={titleInputRef}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="url"
+                                label="Url"
+                                type="url"
+                                id="url"
+                                autoComplete="current-url"
+                                inputRef={urlInputRef}
+                            />
+
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Submit
+                            </Button>
+                        </Box>
                     </Box>
-                </Box>
+                )}
+                {isLoading && (
+                    <Box
+                        sx={{
+                            marginTop: 8,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}
+                    >
+                        <CircularProgress />
+                    </Box>
+                )}
             </Container>
         </ThemeProvider>
     );

@@ -16,7 +16,7 @@ const Layout = (props) => {
             return response;
         },
         (error) => {
-            if (error.response.status === 401) {
+            if (error.response.status === 401 || error.response.status === 419) {
                 //place your reentry code
                 authCtx.onLogout();
                 navigate("/");
