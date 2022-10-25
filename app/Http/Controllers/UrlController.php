@@ -50,7 +50,16 @@ class UrlController extends Controller
             'interactive' => json_encode($interactive)
         ]);
 
+        $firstContentfulPaint = $body['lighthouseResult']['audits']['first-contentful-paint']['score'];
+        $speedIndex = $body['lighthouseResult']['audits']['speed-index']['score'];;
+        $largestContentfulPaint = $body['lighthouseResult']['audits']['largest-contentful-paint']['score'];
+        $totalBlockingTime = $body['lighthouseResult']['audits']['total-blocking-time']['score'];
+        $cumulativeLayoutShift = $body['lighthouseResult']['audits']['cumulative-layout-shift']['score'];
+        $interactive = $body['lighthouseResult']['audits']['interactive']['score'];
+
+        $performance = (($firstContentfulPaint * 10) + ($speedIndex * 10) +  ($largestContentfulPaint * 25) + ($totalBlockingTime * 30) + ($cumulativeLayoutShift * 15) + ($interactive * 10)) / 100; 
         return response()->json([
+            $performance,
             $email,
             $url, 
             $title

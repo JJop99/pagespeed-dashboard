@@ -25,6 +25,7 @@ class CreateUrlsTable extends Migration
             $table->text('totalBlockingTime');
             $table->text('cumulativeLayoutShift');
             $table->text('interactive');
+            $table->string('performance');
         });
     }
 
