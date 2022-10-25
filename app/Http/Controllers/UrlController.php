@@ -16,8 +16,6 @@ class UrlController extends Controller
         $email = $data['email'];
         $title = $data['title'];
         $url = $data['url'];
-        $time = $data['timestamps'];
-        $id = $data['id'];
         
         if(!Str::startsWith($url, ['http://', 'https://'])){
             $url = 'https://' . $url;
@@ -40,7 +38,7 @@ class UrlController extends Controller
         $interactive = $body['lighthouseResult']['audits']['interactive'];
 
         
-        Url::create([
+        $urls = Url::create([
             'email'=> $email,
             'title' => $title,
             'url' => $url, 
@@ -51,7 +49,10 @@ class UrlController extends Controller
             'cumulativeLayoutShift' => json_encode($cumulativeLayoutShift),
             'interactive' => json_encode($interactive)
         ]);
-        
+
+        $id = $urls->id;
+        $time = $urls->created_at;
+
         return response()->json([
             $email,
             $url, 
