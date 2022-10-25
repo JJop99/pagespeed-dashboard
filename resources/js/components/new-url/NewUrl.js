@@ -31,10 +31,8 @@ const NewUrl = () => {
             email: email,
             title: titleInputRef.current.value,
             url: urlInputRef.current.value,
+            
         };
-
-        console.log(site);
-
 
         axios.defaults.withCredentials = true;
 
@@ -52,13 +50,9 @@ const NewUrl = () => {
             .then((res) => {
                 console.log(res);
                 if (res.statusText === "OK") {
-                    // ...
-                    console.log("ciao");
+                    navigate("/site-list");
                     return res;
                 } 
-            })
-            .then((data) => {
-                navigate("/site-list");
             })
             .catch((err) => {
                 alert(err.message);

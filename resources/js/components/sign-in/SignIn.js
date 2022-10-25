@@ -13,7 +13,6 @@ import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 
-
 function Copyright(props) {
     return (
         <Typography
@@ -23,7 +22,7 @@ function Copyright(props) {
             {...props}
         >
             {"Copyright © "}
-            <Link color="inherit" href="https://mui.com/">
+            <Link color="inherit" href="https://mumbleideas.it/it/">
                 mumble
             </Link>{" "}
             {new Date().getFullYear()}
@@ -40,13 +39,8 @@ const SignIn = () => {
 
     const authCtx = useContext(AuthContext);
 
-    // const [isLogin, setIsLogin] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
-
-    // const switchAuthModeHandler = () => {
-    //     setIsLogin((prevState) => !prevState);
-    // };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -81,6 +75,8 @@ const SignIn = () => {
                         if (res.statusText === "OK") {
                             // ...
                             console.log("ciao");
+                            authCtx.onLogin(user.email);
+                            navigate("/site-list");
                             return res;
                         } else {
                             return res.then((data) => {
@@ -92,11 +88,6 @@ const SignIn = () => {
                                 throw new Error(errorMessage);
                             });
                         }
-                    })
-                    .then((data) => {
-                        authCtx.onLogin(user.email);
-                        console.log("ciao2"+data.config.headers["X-XSRF-TOKEN"]);
-                        navigate("/site-list");
                     })
                     .catch((err) => {
                         alert(err.message);
@@ -155,7 +146,7 @@ const SignIn = () => {
                             autoComplete="current-password"
                             inputRef={passwordInputRef}
                         />
-                       
+
                         {isLoading && <p>Sending request ...</p>}
                         <Button
                             type="submit"
@@ -165,18 +156,7 @@ const SignIn = () => {
                         >
                             Sign In
                         </Button>
-                        {/* <Grid container>
-          <Grid item xs>
-            <Link href="#" variant="body2">
-              Forgot password?
-            </Link>
-          </Grid>
-          <Grid item>
-            <Link href="#" variant="body2">
-              {"Don't have an account? Sign Up"}
-            </Link>
-          </Grid>
-        </Grid> */}
+                        
                     </Box>
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />

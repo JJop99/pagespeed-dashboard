@@ -10,7 +10,6 @@ import {
 import InsertChartIcon from "@mui/icons-material/InsertChartOutlined";
 
 export const TasksProgress = (props) => {
-    console.log("props " + props);
     return (
         <Card sx={{ height: "100%" }} {...props}>
             <CardContent>
@@ -28,7 +27,7 @@ export const TasksProgress = (props) => {
                             {props.title}
                         </Typography>
                         <Typography color="textPrimary" variant="h4">
-                            {props.numericValue}
+                            {props.value}
                         </Typography>
                     </Grid>
                     <Grid item>
@@ -44,7 +43,7 @@ export const TasksProgress = (props) => {
                     </Grid>
                 </Grid>
                 <Box sx={{ pt: 3 }}>
-                    <LinearProgress value={75.5} variant="determinate" />
+                    <LinearProgress value={props.score*100} variant="determinate" />
                 </Box>
             </CardContent>
         </Card>

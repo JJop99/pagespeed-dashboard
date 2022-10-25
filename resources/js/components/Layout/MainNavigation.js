@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 
 import classes from "./MainNavigation.module.scss";
@@ -7,8 +7,9 @@ import axios from "axios";
 const MainNavigation = () => {
     const authCtx = useContext(AuthContext);
     const navigate = useNavigate();
+    const location = useLocation();
+    const path = location.pathname;
 
-   
     const isLoggedIn = authCtx.isLoggedIn;
     //const isLoggedIn = true;
 
@@ -25,14 +26,24 @@ const MainNavigation = () => {
                 <img src="/logo-mumble-white.svg" alt="SVG as an image" />
             </div>
             <div>
-                <Link to="/">
-                    <div className={classes.title}>PageSpeed_Dashboard</div>
-                </Link>
+                {isLoggedIn ? (
+                    <Link to="/site-list">
+                        <div className={classes.title}>PageSpeed Dashboard</div>
+                    </Link>
+                ) : (
+                    <div className={classes.title}>PageSpeed Dashboard</div>
+                )}
+
                 <nav>
                     <ul>
-                        {!isLoggedIn && (
+                        {!isLoggedIn && path === "/sign-up" && (
                             <li>
-                                <Link to="/sign-in">Login</Link>
+                                <Link to="/sign-in">Sign In</Link>
+                            </li>
+                        )}
+                        {!isLoggedIn && path !== "/sign-up" && (
+                            <li>
+                                <Link to="/sign-up">Sign Up</Link>
                             </li>
                         )}
                         {isLoggedIn && (

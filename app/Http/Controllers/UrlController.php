@@ -24,11 +24,9 @@ class UrlController extends Controller
         $response = Http::get('https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=' . $url);
 
         if($response->failed()){
-            info($response->body());
             abort($response->status());
         }
         $body = $response->json();
-        info($response->json());
         
         $firstContentfulPaint = $body['lighthouseResult']['audits']['first-contentful-paint'];
         $speedIndex = $body['lighthouseResult']['audits']['speed-index'];

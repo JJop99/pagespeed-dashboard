@@ -21,7 +21,7 @@ function Copyright(props) {
             {...props}
         >
             {"Copyright © "}
-            <Link color="inherit" href="https://mui.com/">
+            <Link color="inherit" href="https://mumbleideas.it/it/">
                 mumble
             </Link>{" "}
             {new Date().getFullYear()}
@@ -38,8 +38,6 @@ const SignUp = () => {
 
     const navigate = useNavigate();
 
-    
-
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(emailInputRef.current.value);
@@ -48,7 +46,6 @@ const SignUp = () => {
             password: passwordInputRef.current.value,
         };
 
-        console.log(user);
         axios.defaults.withCredentials = true;
 
         // REGISTER
@@ -66,13 +63,9 @@ const SignUp = () => {
             .then((res) => {
                 console.log(res);
                 if (res.statusText === "OK") {
-                    // ...
-                    console.log("ciao");
+                    navigate("/site-list");
                     return res;
-                } 
-            })
-            .then((data) => {
-                navigate("/site-list");
+                }
             })
             .catch((err) => {
                 alert(err.message);
