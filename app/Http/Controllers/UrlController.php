@@ -85,16 +85,17 @@ class UrlController extends Controller
         $interactive = URL::select('interactive')
         ->where('id', $validated['id'])
         ->get();
-        $statistics = [
-            $firstContentfulPaint,
-            $speedIndex,
-            $largestContentfulPaint,
-            $totalBlockingTime,
-            $cumulativeLayoutShift,
-            $interactive
-        ];
         
-        return $statistics;
+            
+
+        return [
+        $firstContentfulPaint,
+        $speedIndex,
+        $largestContentfulPaint,
+        $totalBlockingTime,
+        $cumulativeLayoutShift,
+        $interactive
+        ];
     }
     
     public function research(Request $request){
