@@ -70,7 +70,7 @@ class UrlController extends Controller
         ->where('id', $validated['id'])
         ->get();
 
-        return response()->json($statistics);
+        return $statistics;
     }
     
     public function research(Request $request){
