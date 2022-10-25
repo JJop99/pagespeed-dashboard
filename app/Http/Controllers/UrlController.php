@@ -79,8 +79,8 @@ class UrlController extends Controller
         //    $cumulativeLayoutShift[0],
         //    $interactive[0]
         //];
-
-        return $statistics;
+ 
+        return response()->json($statistics);
     }
     
     public function research(Request $request){
