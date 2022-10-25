@@ -80,7 +80,11 @@ class UrlController extends Controller
         $validated = $request->validate([
             'id' => 'required'
         ]);
-        $statistics = URL::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint','totalBlockingTime', 'cumulativeLayoutShift', 'interactive', 'performance')
+        $statistics = URL::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint','totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
+        ->where('id', $validated['id'])
+        ->get();
+
+        $performance = URL::select('performance')
         ->where('id', $validated['id'])
         ->get();
         
@@ -93,7 +97,10 @@ class UrlController extends Controller
         //    $interactive[0]
         //];
 
-        return $statistics;
+        return [
+            $statistics,
+            $performance
+        ];
     }
     
     public function research(Request $request){
