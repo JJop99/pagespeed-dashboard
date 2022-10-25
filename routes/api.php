@@ -29,8 +29,6 @@ Route::post('signUp', [RegisterController::class, 'signUp']);
 
 Route::post('logout', [LoginController::class, 'logout']);
 
-Route::post('research', [UrlController::class, 'research']);
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -41,4 +39,9 @@ Route::post('dashboard', [UrlController::class, 'dashboard']);
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('test', [ApiController::class, 'test']);
+    
+    Route::post('newUrl', [UrlController::class, 'newUrl']);
+
+Route::post('dashboard', [UrlController::class, 'dashboard']);
+    Route::post('research', [UrlController::class, 'research']);
 });
