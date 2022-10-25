@@ -80,7 +80,7 @@ class UrlController extends Controller
         $validated = $request->validate([
             'id' => 'required'
         ]);
-        $statistics = URL::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint','totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
+        $statistics = URL::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint','totalBlockingTime', 'cumulativeLayoutShift', 'interactive', 'performance')
         ->where('id', $validated['id'])
         ->get();
         
