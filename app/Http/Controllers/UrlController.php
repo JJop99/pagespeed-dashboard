@@ -38,7 +38,7 @@ class UrlController extends Controller
         $interactive = $body['lighthouseResult']['audits']['interactive'];
 
         
-        $urls = Url::create([
+        Url::create([
             'email'=> $email,
             'title' => $title,
             'url' => $url, 
@@ -50,14 +50,10 @@ class UrlController extends Controller
             'interactive' => json_encode($interactive)
         ]);
 
-        $id = $urls->id;
-        $time = $urls->created_at;
-
+        
         return response()->json([
             $email,
             $url, 
-            $time,
-            $id,
             $title
         //    $firstContentfulPaint,
         //    $speedIndex,
@@ -73,7 +69,7 @@ class UrlController extends Controller
             'email' => 'required'
         ]);
 
-        $research = URL::select('url', 'title')
+        $research = URL::select('url', 'title', 'id', 'created_at')
         ->where('email', $validated['email'])
         ->get();
 
