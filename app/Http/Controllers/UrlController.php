@@ -63,13 +63,37 @@ class UrlController extends Controller
         ]);
     }
     public function dashboard(Request $request){
+        $statistics =[];
         $validated = $request->validate([
             'id' => 'required'
         ]);
-        $statistics = URL::select('firstContentfulPaint','speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
+        $firstContentfulPaint = URL::select('firstContentfulPaint')
         ->where('id', $validated['id'])
         ->get();
-
+        $speedIndex = URL::select('speedIndex')
+        ->where('id', $validated['id'])
+        ->get();
+        $largestContentfulPaint = URL::select('largestContentfulPaint')
+        ->where('id', $validated['id'])
+        ->get();
+        $totalBlockingTime = URL::select('totalBlockingTime')
+        ->where('id', $validated['id'])
+        ->get();
+        $cumulativeLayoutShift = URL::select('cumulativeLayoutShift')
+        ->where('id', $validated['id'])
+        ->get();
+        $interactive = URL::select('interactive')
+        ->where('id', $validated['id'])
+        ->get();
+        $statistics = [
+            $firstContentfulPaint,
+            $speedIndex,
+            $largestContentfulPaint,
+            $totalBlockingTime,
+            $cumulativeLayoutShift,
+            $interactive
+        ];
+        
         return $statistics;
     }
     
