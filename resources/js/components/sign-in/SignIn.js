@@ -76,7 +76,7 @@ const SignIn = () => {
                             // ...
                             console.log("ciao");
                             authCtx.onLogin(user.email);
-                            navigate("/site-list");
+                            navigate("/home");
                             return res;
                         } else {
                             return res.then((data) => {

@@ -27,7 +27,7 @@ const MainNavigation = () => {
             </div>
             <div>
                 {isLoggedIn ? (
-                    <Link to="/site-list">
+                    <Link to="/home">
                         <div className={classes.title}>PageSpeed Dashboard</div>
                     </Link>
                 ) : (

@@ -29,7 +29,7 @@ const Dashboard = () => {
                 }
             )
             .then((res) => {
-                    if (res.statusText === "OK") {
+                if (res.statusText === "OK") {
                     setAudits(res.data[0]);
                     setPerformance(res.data[1][0].performance * 100);
                     return res;
@@ -55,7 +55,7 @@ const Dashboard = () => {
                 >
                     <Container maxWidth={false}>
                         <Grid container spacing={3}>
-                            <Grid item lg={6} md={6} xl={6} xs={6}>
+                            <Grid item lg={4} md={4} xl={4} xs={12}>
                                 <AnimatedProgressProvider
                                     valueStart={0}
                                     valueEnd={performance}
@@ -72,14 +72,28 @@ const Dashboard = () => {
         animation yourself, you'll want to disable the CSS animation. */
                                                 styles={buildStyles({
                                                     pathTransition: "none",
+                                                    pathColor:
+                                                        value > 50
+                                                            ? value > 90
+                                                                ? "green"
+                                                                : "orange"
+                                                            : "red",
+                                                    textColor:
+                                                        value > 50
+                                                            ? value > 90
+                                                                ? "green"
+                                                                : "orange"
+                                                            : "red",
                                                 })}
                                             />
                                         );
                                     }}
                                 </AnimatedProgressProvider>
                             </Grid>
-                            <Grid>performance</Grid>
-
+                            <Grid item lg={8} md={8} xl={8} xs={12}>performance</Grid>
+                        </Grid>
+                        <br></br>
+                        <Grid container spacing={3}>
                             {Object.entries(...audits).map((audit) => (
                                 <Grid
                                     key={JSON.parse(audit[1]).id}

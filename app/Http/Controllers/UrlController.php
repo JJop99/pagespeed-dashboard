@@ -112,14 +112,13 @@ class UrlController extends Controller
         ->where('email', $validated['email'])
         ->get();
 
-        $time = $results = URL::select('created_at')
-        ->where('email', $validated['email'])
-        ->where('url', $validated['url'])
-        ->get();
+        // $time = URL::select('created_at')
+        // ->where('email', $validated['email'])
+        // ->where('url', $validated['url'])
+        // ->get();
 
         return response()->json([
-            $results,
-            $time
+            $results
         ]);
 
     }
