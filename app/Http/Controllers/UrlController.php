@@ -6,28 +6,28 @@ use App\Models\Url;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 
 class UrlController extends Controller
 {
-    public function newUrl(Request $request){
+    public function newUrl(Request $request)
+    {
 
         $data = $request->all();
         $email = $data['email'];
         $title = $data['title'];
         $url = $data['url'];
-        
-        if(!Str::startsWith($url, ['http://', 'https://'])){
+
+        if (!Str::startsWith($url, ['http://', 'https://'])) {
             $url = 'https://' . $url;
         }
 
         $response = Http::get('https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=' . $url);
 
-        if($response->failed()){
+        if ($response->failed()) {
             abort($response->status());
         }
         $body = $response->json();
-        
+
         $firstContentfulPaint = $body['lighthouseResult']['audits']['first-contentful-paint'];
         $speedIndex = $body['lighthouseResult']['audits']['speed-index'];
         $largestContentfulPaint = $body['lighthouseResult']['audits']['largest-contentful-paint'];
@@ -44,12 +44,12 @@ class UrlController extends Controller
         $cLShift = $body['lighthouseResult']['audits']['cumulative-layout-shift']['score'];
         $int = $body['lighthouseResult']['audits']['interactive']['score'];
 
-        $performance = (int)(($fCPaint * 10) + ($sIndex * 10) +  ($lCPaint * 25) + ($tBTime * 30) + ($cLShift * 15) + ($int * 10)) / 100; 
+        $performance = (int)(($fCPaint * 10) + ($sIndex * 10) +  ($lCPaint * 25) + ($tBTime * 30) + ($cLShift * 15) + ($int * 10)) / 100;
 
         Url::create([
-            'email'=> $email,
+            'email' => $email,
             'title' => $title,
-            'url' => $url, 
+            'url' => $url,
             'firstContentfulPaint' => json_encode($firstContentfulPaint),
             'speedIndex' => json_encode($speedIndex),
             'largestContentfulPaint' => json_encode($largestContentfulPaint),
@@ -59,48 +59,51 @@ class UrlController extends Controller
             'performance' => $performance
         ]);
 
-        
+
         return response()->json([
             $performance,
             $email,
-            $url, 
+            $url,
             $title
         ]);
     }
-    public function dashboard(Request $request){
-        
+    public function dashboard(Request $request)
+    {
+
         $validated = $request->validate([
             'id' => 'required'
         ]);
-        $statistics = URL::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint','totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
-        ->where('id', $validated['id'])
-        ->get();
+        $statistics = URL::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
+            ->where('id', $validated['id'])
+            ->get();
 
         $performance = URL::select('performance')
-        ->where('id', $validated['id'])
-        ->get();
+            ->where('id', $validated['id'])
+            ->get();
 
         return [
             $statistics,
             $performance
         ];
     }
-    
-    public function research(Request $request){
+
+    public function research(Request $request)
+    {
         $validated = $request->validate([
             'email' => 'required'
         ]);
 
         $research = URL::select('url', 'title', 'id', 'created_at')
-        ->where('email', $validated['email'])
-        ->get();
+            ->where('email', $validated['email'])
+            ->get();
 
         return response()->json([
             'urls' => $research,
         ]);
     }
 
-    public function results(Request $request){
+    public function results(Request $request)
+    {
         $validated = $request->validate([
             'email' => 'required',
             'url' => 'required'
@@ -108,9 +111,9 @@ class UrlController extends Controller
 
         $results = URL::select('performance', 'created_at')
 
-        ->where('url', $validated['url'])
-        ->where('email', $validated['email'])
-        ->get();
+            ->where('url', $validated['url'])
+            ->where('email', $validated['email'])
+            ->get();
 
         // $time = URL::select('created_at')
         // ->where('email', $validated['email'])
@@ -120,20 +123,19 @@ class UrlController extends Controller
         return response()->json([
             $results
         ]);
-
     }
-    public function sites(Request $request){
+    public function sites(Request $request)
+    {
         $validated = $request->validate([
             'email' => 'required',
         ]);
 
         $results = URL::select('url')
-        ->where('email', $validated['email'])
-        ->groupBy('url')
-        ->get();
-        
+            ->where('email', $validated['email'])
+            ->groupBy('url')
+            ->get();
+
 
         return response()->json($results);
-
     }
 }

@@ -18,8 +18,7 @@ class LoginController extends Controller
         ]);
         if (Auth::attempt($attributes)) {
             $request->session()->regenerate();
-        return redirect('/sitelist')->with('success', 'Welcome Back!.');
-        
+            return redirect('/sitelist')->with('success', 'Welcome Back!.');
         }
     }
     public function logout()
@@ -27,5 +26,4 @@ class LoginController extends Controller
         Auth::logout();
         return response()->json(['message' => 'Logged Out'], 200);
     }
-
 }
