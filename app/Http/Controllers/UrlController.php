@@ -109,4 +109,32 @@ class UrlController extends Controller
             'urls' => $research,
         ]);
     }
+
+    public function results(Request $request){
+        $validated = $request->validate([
+            'email' => 'required',
+            'url' => 'required'
+        ]);
+
+        $results = URL::select('performance')
+        ->where('url', $validated['url'])
+        ->where('email', $validated['email'])
+        ->get();
+
+        return response()->json($results);
+
+    }
+    public function sites(Request $request){
+        $validated = $request->validate([
+            'email' => 'required',
+        ]);
+
+        $results = URL::select('url')
+        ->where('email', $validated['email'])
+        ->groupBy('url')
+        ->get();
+
+        return response()->json($results);
+
+    }
 }

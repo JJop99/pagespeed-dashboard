@@ -37,6 +37,10 @@ Route::post('newUrl', [UrlController::class, 'newUrl']);
 
 Route::post('dashboard', [UrlController::class, 'dashboard']);
 
+Route::post('results', [UrlController::class, 'results']);
+
+Route::post('sites', [UrlController::class, 'sites']);
+
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('test', [ApiController::class, 'test']);
     
