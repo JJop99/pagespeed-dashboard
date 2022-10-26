@@ -119,12 +119,19 @@ class UrlController extends Controller
             'email' => 'required',
         ]);
 
-        $results = URL::select('url', 'id')
+        $results = URL::select('url')
         ->where('email', $validated['email'])
         ->groupBy('url')
         ->get();
+        $time = $results = URL::select('created_at')
+        ->where('email', $validated['email'])
+        ->where('url', $validated['url'])
+        ->get();
 
-        return response()->json($results);
+        return response()->json([
+            $results,
+            $time
+        ]);
 
     }
 }
