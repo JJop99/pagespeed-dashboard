@@ -95,16 +95,6 @@ class UrlController extends Controller
         ->where('email', $validated['email'])
         ->get();
 
-        //pagination
-        //$take = 100;
-        //$skip = 9;
-        //$currentPage = Request::get('page', 1);
-        //$research = URL::select('url')
-        //->where('email', $validated['email'])        
-        //->take(100)
-        //->skip($skip + (($currentPage - 1) * $take))        
-        //->orderBy('url','desc'); 
-
         return response()->json([
             'urls' => $research,
         ]);
@@ -116,7 +106,7 @@ class UrlController extends Controller
             'url' => 'required'
         ]);
 
-        $results = URL::select('performance')
+        $results = URL::select('performance', 'id')
         ->where('url', $validated['url'])
         ->where('email', $validated['email'])
         ->get();
