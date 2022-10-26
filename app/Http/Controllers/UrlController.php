@@ -106,12 +106,21 @@ class UrlController extends Controller
             'url' => 'required'
         ]);
 
-        $results = URL::select('performance', 'id')
+        $results = URL::select('performance', 'created_at')
+
         ->where('url', $validated['url'])
         ->where('email', $validated['email'])
         ->get();
 
-        return response()->json($results);
+        $time = $results = URL::select('created_at')
+        ->where('email', $validated['email'])
+        ->where('url', $validated['url'])
+        ->get();
+
+        return response()->json([
+            $results,
+            $time
+        ]);
 
     }
     public function sites(Request $request){
@@ -123,15 +132,9 @@ class UrlController extends Controller
         ->where('email', $validated['email'])
         ->groupBy('url')
         ->get();
-        $time = $results = URL::select('created_at')
-        ->where('email', $validated['email'])
-        ->where('url', $validated['url'])
-        ->get();
+        
 
-        return response()->json([
-            $results,
-            $time
-        ]);
+        return response()->json($results);
 
     }
 }
