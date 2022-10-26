@@ -119,7 +119,7 @@ class UrlController extends Controller
             'email' => 'required',
         ]);
 
-        $results = URL::select('url')
+        $results = URL::select('url', 'id')
         ->where('email', $validated['email'])
         ->groupBy('url')
         ->get();
