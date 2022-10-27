@@ -8,6 +8,7 @@ import { TasksProgress } from "./tasks-progress";
 import { easeQuadInOut } from "d3-ease";
 import "react-circular-progressbar/dist/styles.css";
 import classes from "./Dashboard.module.scss";
+import Card from "../UI/Card.js";
 const Dashboard = () => {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
@@ -50,12 +51,11 @@ const Dashboard = () => {
                     component="main"
                     sx={{
                         flexGrow: 1,
-                        py: 8,
                     }}
                 >
-                    <Container maxWidth={false}>
-                        <div class="flex sm:flex-wrap -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
-                            <div class="my-3 px-3  overflow-hidden sm:my-3 sm:px-3 sm:w-1/4 md:my-3 md:px-3 md:w-1/4 lg:my-3 lg:px-3 lg:w-1/4 xl:my-3 xl:px-3 xl:w-1/4">
+                   
+                        <div className="flex sm:flex-wrap -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
+                            <div className="my-3 px-3  overflow-hidden sm:my-3 sm:px-3 sm:w-1/4 md:my-3 md:px-3 md:w-1/4 lg:my-3 lg:px-3 lg:w-1/4 xl:my-3 xl:px-3 xl:w-1/4">
                                 <div className={classes.performance}>
                                     <AnimatedProgressProvider
                                         valueStart={0}
@@ -94,7 +94,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
 
-                            <div class="my-3 px-3 w-full overflow-hidden sm:my-3 sm:px-3 sm:w-3/4 md:my-3 md:px-3 md:w-3/4 lg:my-3 lg:px-3 lg:w-3/4 xl:my-3 xl:px-3 xl:w-3/4">
+                            <div className="my-3 px-3 w-full overflow-hidden sm:my-3 sm:px-3 sm:w-3/4 md:my-3 md:px-3 md:w-3/4 lg:my-3 lg:px-3 lg:w-3/4 xl:my-3 xl:px-3 xl:w-3/4">
                                 <div className={classes.description}>
                                     The Performance score is a weighted average
                                     of the metric scores.
@@ -113,11 +113,11 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <br></br>
-                        <div class="flex flex-wrap -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
+                        <div className="flex flex-wrap -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
                             {Object.entries(...audits).map((audit) => (
                                 <div
                                     key={JSON.parse(audit[1]).id}
-                                    class="my-3 px-3 w-full overflow-hidden sm:my-3 sm:px-3 sm:w-1/2 md:my-3 md:px-3 md:w-1/2 lg:my-3 lg:px-3 lg:w-1/2 xl:my-3 xl:px-3 xl:w-1/2"
+                                    className="my-3 px-3 w-full overflow-hidden sm:my-3 sm:px-3 sm:w-1/2 md:my-3 md:px-3 md:w-1/2 lg:my-3 lg:px-3 lg:w-1/2 xl:my-3 xl:px-3 xl:w-1/2"
                                 >
                                     <TasksProgress
                                         id={JSON.parse(audit[1]).id}
@@ -133,7 +133,6 @@ const Dashboard = () => {
                                 </div>
                             ))}
                         </div>
-                    </Container>
                 </Box>
             )}
         </div>

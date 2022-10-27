@@ -21,6 +21,7 @@ const SiteList = () => {
     //pagination
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
+    // const [totalUrls, setTotalUrl] = useState();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -90,7 +91,7 @@ const SiteList = () => {
     return (
         <Fragment>
             {" "}
-            <div>Tested Sites</div>
+            <div className={classes.title}>Tested Sites</div>
             <TableContainer component={Paper}>
                 <Table
                     stickyHeader
