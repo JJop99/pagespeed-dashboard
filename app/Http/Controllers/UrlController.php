@@ -94,9 +94,7 @@ class UrlController extends Controller
         ]);
 
         //$page = $request->page;
-
-        $take = 3;
-        //$take = $request['take'];
+        $take = $request['take'];
         $skip = 0;
         //$currentPage = Request::get('page', 1); 
         $currentPage = request()->get('page', 1);
@@ -108,9 +106,9 @@ class UrlController extends Controller
             ->get();
 
         $total = URL::select('url')
-        ->where('email', $validated['email'])
-        ->count();
-    
+            ->where('email', $validated['email'])
+            ->count();
+
 
         return response()->json([
             'urls' => $research,
