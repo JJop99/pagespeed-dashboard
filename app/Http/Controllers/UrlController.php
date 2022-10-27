@@ -97,7 +97,7 @@ class UrlController extends Controller
         $take = $request['take'];
         $skip = 0;
         //$currentPage = Request::get('page', 1); 
-        $currentPage = request()->get('page', 1);
+        $currentPage = request()->get('page', 0);
         $research = URL::select('url', 'title', 'id', 'created_at')
             ->where('email', $validated['email'])
             ->take(($take * ($currentPage + 1)))
@@ -138,27 +138,25 @@ class UrlController extends Controller
         $validated = $request->validate([
             'email' => 'required',
         ]);
-
         //$page = $request->page;
         $take = $request['take'];
         $skip = 0;
-
-        //$currentPage = Request::get('page', 1); 
+        //$currentPage = Request::get('page', 1);
         $currentPage = request()->get('page', 1);
-
         $results = URL::select('url')
             ->where('email', $validated['email'])
             ->take(($take * ($currentPage)))
             ->skip($skip + (($currentPage - 1) * $take))
             ->groupBy('url')
             ->get();
-
         $total = URL::select('url')
             ->where('email', $validated['email'])
             ->groupBy('url')
             ->count();
-
-        return response()->json($results);
+        return response()->json([
+            $results,
+            $total
+        ]);
     }
 
     public function singleDelete(Request $request)
