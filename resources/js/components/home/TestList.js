@@ -71,9 +71,9 @@ const TestList = () => {
                             <TableCell align="right">Date</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody >
                         {tests.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((url) => (
-                            <TableRow
+                            <TableRow 
                                 onClick={() =>
                                     navigate(`/dashboard/${url.title}`, {
                                         state: { id: url.id },
@@ -86,8 +86,8 @@ const TestList = () => {
                                     },
                                 }}
                             >
-                                <TableCell component="th" scope="row">
-                                    {url.title}
+                                <TableCell component="th" scope="row" >
+                                    <div>{url.title}</div>
                                 </TableCell>
                                 <TableCell align="right">
                                     <div className={classes.url}>{url.url}</div>

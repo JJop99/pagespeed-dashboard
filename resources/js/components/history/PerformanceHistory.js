@@ -6,6 +6,7 @@ import "react-circular-progressbar/dist/styles.css";
 import AuthContext from "../../store/auth-context.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Chart } from "react-chartjs-2";
+import classes from "./PerformanceHistory.module.scss";
 const PerformanceHistory = () => {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
@@ -73,18 +74,50 @@ const PerformanceHistory = () => {
                 >
                     <Container maxWidth={false}>
                         <Grid container spacing={3}>
-                            <Chart
-                                type="line"
-                                data={data}
-                                options={{
-                                    scales: {
-                                        yAxis: {
-                                            min: 0,
-                                            max: 1,
+                            <Grid item lg={8} md={8} xl={8} xs={12}>
+                                <Chart
+                                    type="line"
+                                    data={data}
+                                    options={{
+                                        scales: {
+                                            yAxis: {
+                                                min: 0,
+                                                max: 1,
+                                            },
                                         },
-                                    },
-                                }}
-                            />
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item lg={4} md={4} xl={4} xs={12}>
+                                <div className={classes.description}>
+                                    When your Performance score fluctuates it's
+                                    usually because of changes in underlying
+                                    conditions.
+                                    <br />
+                                    <br />
+                                    Common problems include:
+                                    <ul>
+                                        <li>
+                                            A/B tests or changes in ads being
+                                            served
+                                        </li>
+                                        <li>
+                                            Internet traffic routing changes
+                                        </li>
+                                        <li>
+                                            Testing on different devices, such
+                                            as a high-performance desktop and a
+                                            low-performance laptop
+                                        </li>
+                                        <li>
+                                            Browser extensions that inject
+                                            JavaScript and add/modify network
+                                            requests 
+                                        </li>
+                                        <li>Antivirus software</li>
+                                    </ul>
+                                </div>
+                            </Grid>
                         </Grid>
                     </Container>
                 </Box>
