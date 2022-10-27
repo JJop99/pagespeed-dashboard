@@ -33,15 +33,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::delete('singleDelete', [UrlController::class, 'singleDelete']);
-
-Route::delete('deleteTests', [UrlController::class, 'deleteTests']);
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('test', [ApiController::class, 'test']);
-    Route::post('newUrl', [UrlController::class, 'newUrl']);
     Route::post('results', [UrlController::class, 'results']);
+    Route::post('research', [UrlController::class, 'research']);
+    Route::post('newUrl', [UrlController::class, 'newUrl']);
     Route::post('sites', [UrlController::class, 'sites']);
     Route::post('dashboard', [UrlController::class, 'dashboard']);
-    Route::post('research', [UrlController::class, 'research']);
+    Route::delete('deleteTests', [UrlController::class, 'deleteTests']);    
+    Route::delete('singleDelete', [UrlController::class, 'singleDelete']);
 });

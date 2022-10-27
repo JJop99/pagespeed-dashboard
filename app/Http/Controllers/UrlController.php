@@ -93,17 +93,18 @@ class UrlController extends Controller
             'email' => 'required'
         ]);
 
-        //$take = 100;
-        //$skip = 9;
-        //$currentPage = Request::get('page', 1);
-        //$research = URL::select('url', 'title', 'id', 'created_at')
-        //->where('email', $validated['email'])        
-        //->take(100)
-        //->skip($skip + (($currentPage - 1) * $take))        
-        //->orderBy('url','desc'); 
-
+        //$page = $request->page;
+        $take = 3;
+        $skip = 0;
+        //$currentPage = Request::get('page', 1); 
+        $currentPage = request()->get('page', 1);
         $research = URL::select('url', 'title', 'id', 'created_at')
             ->where('email', $validated['email'])
+            ->take(($take * ($currentPage)))
+            //->take($take)
+            ->skip($skip + (($currentPage - 1) * $take))
+            //->skip($skip)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json([
