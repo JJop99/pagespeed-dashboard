@@ -97,11 +97,11 @@ class UrlController extends Controller
         $take = $request['take'];
         $skip = 0;
         //$currentPage = Request::get('page', 1); 
-        $currentPage = request()->get('page', 1);
+        $currentPage = request()->get('page', 0);
         $research = URL::select('url', 'title', 'id', 'created_at')
             ->where('email', $validated['email'])
-            ->take(($take * ($currentPage)))
-            ->skip($skip + (($currentPage - 1) * $take))
+            ->take(($take * ($currentPage + 1)))
+            ->skip($skip + (($currentPage) * $take))
             ->orderBy('created_at', 'desc')
             ->get();
 
