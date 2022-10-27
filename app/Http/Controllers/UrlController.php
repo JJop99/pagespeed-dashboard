@@ -93,6 +93,15 @@ class UrlController extends Controller
             'email' => 'required'
         ]);
 
+        //$take = 100;
+        //$skip = 9;
+        //$currentPage = Request::get('page', 1);
+        //$research = URL::select('url', 'title', 'id', 'created_at')
+        //->where('email', $validated['email'])        
+        //->take(100)
+        //->skip($skip + (($currentPage - 1) * $take))        
+        //->orderBy('url','desc'); 
+
         $research = URL::select('url', 'title', 'id', 'created_at')
             ->where('email', $validated['email'])
             ->get();
@@ -115,11 +124,6 @@ class UrlController extends Controller
             ->where('email', $validated['email'])
             ->get();
 
-        // $time = URL::select('created_at')
-        // ->where('email', $validated['email'])
-        // ->where('url', $validated['url'])
-        // ->get();
-
         return response()->json([
             $results
         ]);
@@ -137,5 +141,45 @@ class UrlController extends Controller
 
 
         return response()->json($results);
+    }
+
+    public function singleDelete(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required',
+            'url' => 'required',
+            'created_at' => 'required'
+        ]);
+        $result = URL::select('url')
+            ->where('email', $validated['email'])
+            ->where('url', $validated['url'])
+            ->where('created_at', $validated['created_at'])
+            ->delete();
+
+        if ($result) {
+
+            return response()->json(['message' => 'Successfully Deleted']);
+        } else {
+            return response()->json(['message' => 'Delete Failed']);
+        }
+    }
+
+    public function deleteTests(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required',
+            'url' => 'required',
+        ]);
+        $results = URL::select('url')
+            ->where('email', $validated['email'])
+            ->where('url', $validated['url'])
+            ->delete();
+
+        if ($results) {
+
+            return response()->json(['message' => 'Successfully Deleted']);
+        } else {
+            return response()->json(['message' => 'Delete Failed']);
+        }
     }
 }
