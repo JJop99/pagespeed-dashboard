@@ -10,7 +10,7 @@ import Paper from "@mui/material/Paper";
 import AuthContext from "../../store/auth-context";
 import { useNavigate } from "react-router-dom";
 import classes from "./TestList.module.scss";
-import { TablePagination } from "@mui/material";
+import { Button, TablePagination } from "@mui/material";
 
 const SiteList = () => {
     const [urls, setUrls] = useState([]);
@@ -56,9 +56,41 @@ const SiteList = () => {
             });
     }, []);
 
+
+    const handleDelete = (url) => {
+        
+        axios
+            .delete(
+                `/api/deleteTests`,
+                {
+                    params: {
+                        email: authCtx.user,
+                        url: url.url,
+                        
+                    },
+                },
+                {
+                    headers: {
+                        // Overwrite Axios's automatically set Content-Type
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                if (res.statusText === "OK") {
+                    navigate("/home");
+                    return res;
+                }
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
+    };
+
     return (
         <Fragment>
             {" "}
+            <div>Tested Sites</div>
             <TableContainer component={Paper}>
                 <Table
                     stickyHeader
@@ -68,6 +100,7 @@ const SiteList = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Sito</TableCell>
+                            <TableCell align="right">Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -94,6 +127,15 @@ const SiteList = () => {
                                         <div className={classes.url}>
                                             {url.url}
                                         </div>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Button 
+                                            variant="outlined"
+                                            color="error"
+                                            onClick={() => handleDelete(url)}
+                                        >
+                                            Delete
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
