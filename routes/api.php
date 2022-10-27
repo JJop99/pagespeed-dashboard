@@ -41,6 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('research', [UrlController::class, 'research']);
     Route::post('sites', [UrlController::class, 'sites']);
     Route::post('dashboard', [UrlController::class, 'dashboard']);
-    Route::delete('deleteTests', [UrlController::class, 'deleteTests']);
+    Route::delete('deleteTests', [UrlController::class, 'deleteTests']);    
     Route::delete('singleDelete', [UrlController::class, 'singleDelete']);
 });
