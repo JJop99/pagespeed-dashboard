@@ -155,7 +155,6 @@ class UrlController extends Controller
             ->groupBy('url')
             ->get()
             ->count();
-            //->count();
 
         return response()->json([
             'urls' => $results,

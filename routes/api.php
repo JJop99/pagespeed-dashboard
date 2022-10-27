@@ -34,11 +34,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('sites', [UrlController::class, 'sites']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('test', [ApiController::class, 'test']);
     Route::post('results', [UrlController::class, 'results']);
     Route::post('newUrl', [UrlController::class, 'newUrl']);
+    Route::post('sites', [UrlController::class, 'sites']);
     Route::post('research', [UrlController::class, 'research']);
     Route::post('dashboard', [UrlController::class, 'dashboard']);
     Route::delete('deleteTests', [UrlController::class, 'deleteTests']);    
