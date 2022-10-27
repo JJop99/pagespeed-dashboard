@@ -21,10 +21,11 @@ const SiteList = () => {
     //pagination
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
-    // const [totalUrls, setTotalUrl] = useState();
+    const [totalUrls, setTotalUrls] = useState();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        getSites(newPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
@@ -32,12 +33,12 @@ const SiteList = () => {
         setPage(0);
     };
 
-    useEffect(() => {
+    const getSites = (page) => {
         const email = authCtx.user;
         axios
             .post(
                 `/api/sites`,
-                { email: email },
+                { email: email, page: page, take: rowsPerPage },
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type
@@ -47,7 +48,8 @@ const SiteList = () => {
             )
             .then((res) => {
                 if (res.statusText === "OK") {
-                    setUrls(res.data);
+                    setUrls(res.data.urls);
+                    setTotalUrls(res.data.total_urls)
                     console.log(res);
                     return res;
                 }
@@ -55,11 +57,13 @@ const SiteList = () => {
             .catch((err) => {
                 alert(err.message);
             });
+    };
+
+    useEffect(() => {
+        getSites(page);
     }, []);
 
-
     const handleDelete = (url) => {
-        
         axios
             .delete(
                 `/api/deleteTests`,
@@ -67,7 +71,6 @@ const SiteList = () => {
                     params: {
                         email: authCtx.user,
                         url: url.url,
-                        
                     },
                 },
                 {
@@ -105,48 +108,41 @@ const SiteList = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {urls
-                            .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                            )
-                            .map((url,id) => (
-                                <TableRow
-                                    onClick={() =>
-                                        navigate(`/history/${id}`, {
-                                            state: { url: url.url },
-                                        })
-                                    }
-                                    key={id}
-                                    sx={{
-                                        "&:last-child td, &:last-child th": {
-                                            border: 0,
-                                        },
-                                    }}
-                                >
-                                    <TableCell component="th" scope="row">
-                                        <div className={classes.url}>
-                                            {url.url}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Button 
-                                            variant="outlined"
-                                            color="error"
-                                            onClick={() => handleDelete(url)}
-                                        >
-                                            Delete
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
+                        {urls.map((url, id) => (
+                            <TableRow
+                                onClick={() =>
+                                    navigate(`/history/${id}`, {
+                                        state: { url: url.url },
+                                    })
+                                }
+                                key={id}
+                                sx={{
+                                    "&:last-child td, &:last-child th": {
+                                        border: 0,
+                                    },
+                                }}
+                            >
+                                <TableCell component="th" scope="row">
+                                    <div className={classes.url}>{url.url}</div>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <Button
+                                        variant="outlined"
+                                        color="error"
+                                        onClick={() => handleDelete(url)}
+                                    >
+                                        Delete
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
                     </TableBody>
                 </Table>
             </TableContainer>
             <TablePagination
                 rowsPerPageOptions={[8, 15, 25]}
                 component="div"
-                count={urls.length}
+                count={totalUrls}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

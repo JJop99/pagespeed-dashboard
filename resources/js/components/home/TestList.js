@@ -112,12 +112,7 @@ const TestList = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {tests
-                            .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                            )
-                            .map((url) => (
+                        {tests.map((url) => (
                                 <TableRow
                                     onClick={() =>
                                         navigate(`/dashboard/${url.title}`, {

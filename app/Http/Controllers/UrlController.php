@@ -142,13 +142,14 @@ class UrlController extends Controller
         $take = $request['take'];
         $skip = 0;
         //$currentPage = Request::get('page', 1);
-        $currentPage = request()->get('page', 1);
+        $currentPage = request()->get('page', 0);
         $results = URL::select('url')
             ->where('email', $validated['email'])
-            ->take(($take * ($currentPage)))
-            ->skip($skip + (($currentPage - 1) * $take))
             ->groupBy('url')
+            ->take(($take * ($currentPage)))
+            ->skip($skip + (($currentPage + 1) * $take))
             ->get();
+
         $total = URL::select('url')
             ->where('email', $validated['email'])
             ->groupBy('url')
