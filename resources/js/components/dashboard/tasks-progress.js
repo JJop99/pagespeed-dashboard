@@ -33,7 +33,8 @@ export const TasksProgress = (props) => {
                     <Grid item>
                         <Avatar
                             sx={{
-                                backgroundColor: "warning.main",
+                                backgroundColor:
+                                    props.score > 0.5 ? props.score > 0.9 ? "green" : "warning.main" : "red",
                                 height: 56,
                                 width: 56,
                             }}
@@ -43,7 +44,10 @@ export const TasksProgress = (props) => {
                     </Grid>
                 </Grid>
                 <Box sx={{ pt: 3 }}>
-                    <LinearProgress value={props.score*100} variant="determinate" />
+                    <LinearProgress
+                        value={props.score * 100}
+                        variant="determinate"
+                    />
                 </Box>
             </CardContent>
         </Card>

@@ -3,6 +3,7 @@ import { Fragment, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import Container from "./Container";
+import Footer from "./Footer";
 import classes from "./Layout.module.scss";
 
 import MainNavigation from "./MainNavigation";
@@ -16,7 +17,10 @@ const Layout = (props) => {
             return response;
         },
         (error) => {
-            if (error.response.status === 401 || error.response.status === 419) {
+            if (
+                error.response.status === 401 ||
+                error.response.status === 419
+            ) {
                 //place your reentry code
                 authCtx.onLogout();
                 navigate("/");
@@ -25,12 +29,12 @@ const Layout = (props) => {
         }
     );
 
-    
     return (
         <Fragment>
             <div className={classes.layout}>
                 <MainNavigation />
                 <Container>{props.children}</Container>
+                <Footer />
             </div>
         </Fragment>
     );
