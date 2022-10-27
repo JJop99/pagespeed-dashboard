@@ -25,8 +25,9 @@ const NewUrl = () => {
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
-        setIsLoading(true);
         event.preventDefault();
+        setIsLoading(true);
+        
         console.log(titleInputRef.current.value);
         const email = authCtx.user;
         let site = {
@@ -47,7 +48,7 @@ const NewUrl = () => {
             .then((res) => {
                 console.log(res);
                 if (res.statusText === "OK") {
-                    navigate("/site-list");
+                    navigate("/home");
                     return res;
                 }
             })

@@ -13,23 +13,7 @@ import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 
-function Copyright(props) {
-    return (
-        <Typography
-            variant="body2"
-            color="text.secondary"
-            align="center"
-            {...props}
-        >
-            {"Copyright © "}
-            <Link color="inherit" href="https://mumbleideas.it/it/">
-                mumble
-            </Link>{" "}
-            {new Date().getFullYear()}
-            {"."}
-        </Typography>
-    );
-}
+
 
 const theme = createTheme();
 
@@ -159,7 +143,7 @@ const SignIn = () => {
                         
                     </Box>
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
+               
             </Container>
         </ThemeProvider>
     );
