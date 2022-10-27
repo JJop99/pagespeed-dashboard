@@ -21,9 +21,12 @@ const TestList = () => {
     //pagination
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
+    const [totalUrls, setTotalUrls] = useState();
+
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        research(newPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
@@ -31,12 +34,12 @@ const TestList = () => {
         setPage(0);
     };
 
-    useEffect(() => {
+    const research = (page) =>{
         const email = authCtx.user;
         axios
             .post(
                 `/api/research`,
-                { email: email },
+                { email: email, page: page, take: rowsPerPage},
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type
@@ -46,13 +49,19 @@ const TestList = () => {
             )
             .then((res) => {
                 if (res.statusText === "OK") {
+                    console.log(res);
                     setTests(res.data.urls); //combiare urls con tests nell api
+                    setTotalUrls(res.data.total_urls)
                     return res;
                 }
             })
             .catch((err) => {
                 alert(err.message);
             });
+    }
+
+    useEffect(() => {
+        research(page);
     }, []);
 
     const handleDelete = (url) => {
@@ -87,7 +96,7 @@ const TestList = () => {
 
     return (
         <Fragment>
-            <div>Tests</div>
+            <div className={classes.title}>Tests</div>
             <TableContainer component={Paper}>
                 <Table
                     stickyHeader
@@ -150,7 +159,7 @@ const TestList = () => {
             <TablePagination
                 rowsPerPageOptions={[8, 15, 25]}
                 component="div"
-                count={tests.length}
+                count={totalUrls}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

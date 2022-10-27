@@ -1,18 +1,17 @@
 import {
     Avatar,
     Box,
-    Card,
-    CardContent,
     Grid,
     LinearProgress,
     Typography,
 } from "@mui/material";
 import InsertChartIcon from "@mui/icons-material/InsertChartOutlined";
+import Card from "../UI/Card";
 
 export const TasksProgress = (props) => {
     return (
-        <Card sx={{ height: "100%" }} {...props}>
-            <CardContent>
+        <Card >
+           
                 <Grid
                     container
                     spacing={3}
@@ -49,7 +48,6 @@ export const TasksProgress = (props) => {
                         variant="determinate"
                     />
                 </Box>
-            </CardContent>
         </Card>
     );
 };

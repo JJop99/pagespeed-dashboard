@@ -12,9 +12,9 @@ const Footer = (props) => {
                 {...props}
             >
                 
-                <Link color="inherit" href="https://mumbleideas.it/it/">
+                <a color="inherit" href="https://mumbleideas.it/it/" get="_blank">
                    Powered by <img src="/logo-mumble-black.svg" alt="SVG as an image" />
-                </Link>
+                </a>
             </Typography>
         </div>
     );
