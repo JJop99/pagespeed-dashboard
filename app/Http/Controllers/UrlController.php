@@ -215,7 +215,7 @@ class UrlController extends Controller
         $research = URL::select('performance', 'created_at')
             ->where('email', $validated['email'])
             ->where('url', $validated['url'])
-            ->whereDate('created_at', '>', $startDate)->whereDate('created_at', '<', $endDate)
+            ->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)
             ->orderBy('created_at', 'desc')
             ->get();
 
