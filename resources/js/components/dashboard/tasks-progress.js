@@ -5,8 +5,10 @@ import {
     LinearProgress,
     Typography,
 } from "@mui/material";
-import InsertChartIcon from "@mui/icons-material/InsertChartOutlined";
+import SpeedIcon from "@mui/icons-material/Speed";
 import Card from "../UI/Card";
+import { grey } from "@mui/material/colors";
+import { buildStyles } from "react-circular-progressbar";
 
 export const TasksProgress = (props) => {
     return (
@@ -33,12 +35,12 @@ export const TasksProgress = (props) => {
                         <Avatar
                             sx={{
                                 backgroundColor:
-                                    props.score > 0.5 ? props.score > 0.9 ? "green" : "warning.main" : "red",
+                                    props.score > 0.5 ? props.score > 0.9 ? "success.light" : "warning.light" : "error.light",
                                 height: 56,
                                 width: 56,
                             }}
                         >
-                            <InsertChartIcon />
+                            <SpeedIcon />
                         </Avatar>
                     </Grid>
                 </Grid>
@@ -46,6 +48,12 @@ export const TasksProgress = (props) => {
                     <LinearProgress
                         value={props.score * 100}
                         variant="determinate"
+                        sx={{
+                            backgroundColor: grey[200],
+                            "& .MuiLinearProgress-bar": {
+                              backgroundColor: grey[600]
+                            }
+                          }}
                     />
                 </Box>
         </Card>

@@ -77,7 +77,7 @@ const Dashboard = () => {
                                                         pathColor:
                                                             value > 50
                                                                 ? value > 90
-                                                                    ? "green"
+                                                                    ? "success.light"
                                                                     : "orange"
                                                                 : "red",
                                                         textColor:

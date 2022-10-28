@@ -139,7 +139,7 @@ const SiteList = () => {
                                 }}
                             >
                                 <TableCell component="th" scope="row">
-                                    <div className={classes.url}>{url.url}</div>
+                                    <div className={classes.titleUrl}>{url.url}</div>
                                 </TableCell>
                                 <TableCell align="right">
                                     <DeleteOutlineIcon

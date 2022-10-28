@@ -1,12 +1,20 @@
 .url {
     display: block;
-    width: 200px;
+    float: right;
+    max-width: 300px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.title{
-    @apply my-4 font-medium text-xl;
+.titleUrl {
+    display: block;
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+.title {
+    @apply my-4 font-medium text-xl flex justify-between;
+}
