@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -11,6 +11,21 @@ import AuthContext from "../../store/auth-context";
 import { useNavigate } from "react-router-dom";
 import classes from "./TestList.module.scss";
 import { Button, TablePagination } from "@mui/material";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { grey } from "@mui/material/colors";
+import styled from "@emotion/styled";
+
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: grey[100],
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+
+    },
+  }));
 
 const SiteList = () => {
     const [urls, setUrls] = useState([]);
@@ -25,20 +40,21 @@ const SiteList = () => {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-        getSites(newPage);
+        research(newPage,rowsPerPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
+        research(0,+event.target.value);
     };
 
-    const getSites = (page) => {
+    const getSites = (page, rows) => {
         const email = authCtx.user;
         axios
             .post(
                 `/api/sites`,
-                { email: email, page: page, take: rowsPerPage },
+                { email: email, page: page, take: rows },
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type
@@ -60,7 +76,7 @@ const SiteList = () => {
     };
 
     useEffect(() => {
-        getSites(page);
+        getSites(page, rowsPerPage);
     }, []);
 
     const handleDelete = (url) => {
@@ -103,8 +119,8 @@ const SiteList = () => {
                 >
                     <TableHead>
                         <TableRow>
-                            <TableCell>Sito</TableCell>
-                            <TableCell align="right">Delete</TableCell>
+                            <StyledTableCell>Sito</StyledTableCell>
+                            <StyledTableCell align="right">Delete</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -125,14 +141,14 @@ const SiteList = () => {
                                 <TableCell component="th" scope="row">
                                     <div className={classes.url}>{url.url}</div>
                                 </TableCell>
-                                <TableCell align="center">
-                                    <Button
+                                <TableCell align="right">
+                                    <DeleteOutlineIcon
                                         variant="outlined"
                                         color="error"
                                         onClick={() => handleDelete(url)}
                                     >
                                         Delete
-                                    </Button>
+                                    </DeleteOutlineIcon>
                                 </TableCell>
                             </TableRow>
                         ))}

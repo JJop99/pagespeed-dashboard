@@ -917,12 +917,19 @@ video {
 .MuiTableRow-root {
   cursor: pointer;
 }
+
+.MuiTableHead-root{
+  --tw-bg-opacity: 1;
+  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
+}
+
 @media (prefers-color-scheme: dark){
   .dark\:bg-gray-900{
     --tw-bg-opacity: 1;
     background-color: rgb(17 24 39 / var(--tw-bg-opacity));
   }
 }
+
 @media (min-width: 640px){
   .sm\:-mx-3{
     margin-left: -0.75rem;
@@ -962,6 +969,7 @@ video {
     padding-top: 0px;
   }
 }
+
 @media (min-width: 768px){
   .md\:-mx-3{
     margin-left: -0.75rem;
@@ -985,6 +993,7 @@ video {
     padding-right: 0.75rem;
   }
 }
+
 @media (min-width: 1024px){
   .lg\:-mx-3{
     margin-left: -0.75rem;
@@ -1012,6 +1021,7 @@ video {
     padding-right: 0.75rem;
   }
 }
+
 @media (min-width: 1280px){
   .xl\:-mx-3{
     margin-left: -0.75rem;

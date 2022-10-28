@@ -7,6 +7,8 @@ import AuthContext from "../../store/auth-context.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Chart } from "react-chartjs-2";
 import classes from "./PerformanceHistory.module.scss";
+import moment from 'moment'
+
 const PerformanceHistory = () => {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +36,7 @@ const PerformanceHistory = () => {
                     setPerformance(
                         res.data[0].map(({ performance }) => performance)
                     );
-                    setDates(res.data[0].map(({ created_at }) => created_at));
+                    setDates(res.data[0].map(({ created_at }) => moment(created_at).format('DD-MM')));
                     // setPerformance(res.data[1][0].performance * 100);
                     return res;
                 }

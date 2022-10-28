@@ -14,3 +14,7 @@
 .MuiTableRow-root{
     cursor: pointer;
 }
+
+.MuiTableHead-root{
+    @apply bg-slate-300
+}

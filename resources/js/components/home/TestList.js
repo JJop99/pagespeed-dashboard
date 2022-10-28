@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -10,13 +10,29 @@ import Paper from "@mui/material/Paper";
 import AuthContext from "../../store/auth-context";
 import { useNavigate } from "react-router-dom";
 import classes from "./TestList.module.scss";
-import { Button, TablePagination } from "@mui/material";
+import { Button, styled, TablePagination } from "@mui/material";
+import Moment from 'react-moment';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { grey } from "@mui/material/colors";
+
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: grey[100],
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+
+    },
+  }));
 
 const TestList = () => {
     const [tests, setTests] = useState([]);
     axios.defaults.withCredentials = true;
     const authCtx = useContext(AuthContext);
     const navigate = useNavigate();
+    const formatDate = Moment
 
     //pagination
     const [page, setPage] = useState(0);
@@ -26,20 +42,23 @@ const TestList = () => {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-        research(newPage);
+        research(newPage,rowsPerPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
+        research(0,+event.target.value);
     };
 
-    const research = (page) =>{
+
+
+    const research = (page,rows) =>{
         const email = authCtx.user;
         axios
             .post(
                 `/api/research`,
-                { email: email, page: page, take: rowsPerPage},
+                { email: email, page: page, take: rows},
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type
@@ -61,7 +80,7 @@ const TestList = () => {
     }
 
     useEffect(() => {
-        research(page);
+        research(page,rowsPerPage);
     }, []);
 
     const handleDelete = (url) => {
@@ -105,10 +124,10 @@ const TestList = () => {
                 >
                     <TableHead>
                         <TableRow>
-                            <TableCell>Pagina</TableCell>
-                            <TableCell align="right">Url</TableCell>
-                            <TableCell align="right">Date</TableCell>
-                            <TableCell align="right">Delete</TableCell>
+                            <StyledTableCell>Pagina</StyledTableCell>
+                            <StyledTableCell align="right">Url</StyledTableCell>
+                            <StyledTableCell align="right">Date</StyledTableCell>
+                            <StyledTableCell align="right">Delete</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -135,16 +154,16 @@ const TestList = () => {
                                         </div>
                                     </TableCell>
                                     <TableCell align="right">
-                                        {url.created_at}
+                                        <Moment  format="HH:mm DD-MM-YYYY">{url.created_at}</Moment>
                                     </TableCell>
-                                    <TableCell align="center">
-                                        <Button
+                                    <TableCell align="right">
+                                        <DeleteOutlineIcon
                                             variant="outlined"
                                             color="error"
                                             onClick={() => handleDelete(url)}
                                         >
                                             Delete
-                                        </Button>
+                                        </DeleteOutlineIcon>
                                     </TableCell>
                                 </TableRow>
                             ))}
