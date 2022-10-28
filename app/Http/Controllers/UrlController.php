@@ -201,4 +201,26 @@ class UrlController extends Controller
             return response()->json(['message' => 'Delete Failed']);
         }
     }
+
+    public function researchForWeek(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required',
+            'url' => 'required'
+        ]);
+
+        $startDate = date('Y-m-d', strtotime($request->start_date));
+        $endDate = date('Y-m-d', strtotime($request->end_date));
+
+        $research = URL::select('performance', 'created_at')
+            ->where('email', $validated['email'])
+            ->where('url', $validated['url'])
+            ->whereDate('created_at', '>', $startDate)->whereDate('created_at', '<', $endDate)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json([
+            'urls' => $research,
+        ]);
+    }
 }
