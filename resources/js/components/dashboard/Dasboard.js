@@ -18,6 +18,7 @@ const Dashboard = () => {
     axios.defaults.withCredentials = true;
 
     useEffect(() => {
+        console.log(location.state);
         axios
             .post(
                 `/api/dashboard`,
@@ -47,93 +48,89 @@ const Dashboard = () => {
     return (
         <div>
             {!isLoading && (
-                <Box
-                    component="main"
-                    sx={{
-                        flexGrow: 1,
-                    }}
+                <div
+                    className={classes.box}
                 >
-                   
-                        <div className="flex sm:flex-wrap -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
-                            <div className="my-3 px-3  overflow-hidden sm:my-3 sm:px-3 sm:w-1/4 md:my-3 md:px-3 md:w-1/4 lg:my-3 lg:px-3 lg:w-1/4 xl:my-3 xl:px-3 xl:w-1/4">
-                                <div className={classes.performance}>
-                                    <AnimatedProgressProvider
-                                        valueStart={0}
-                                        valueEnd={performance}
-                                        duration={1.4}
-                                        easingFunction={easeQuadInOut}
-                                    >
-                                        {(value) => {
-                                            const roundedValue =
-                                                Math.round(value);
-                                            return (
-                                                <CircularProgressbar
-                                                    value={value}
-                                                    text={`${roundedValue}%`}
-                                                    /* This is important to include, because if you're fully managing the
-        animation yourself, you'll want to disable the CSS animation. */
-                                                    styles={buildStyles({
-                                                        pathTransition: "none",
-                                                        pathColor:
-                                                            value > 50
-                                                                ? value > 90
-                                                                    ? "success.light"
-                                                                    : "orange"
-                                                                : "red",
-                                                        textColor:
-                                                            value > 50
-                                                                ? value > 90
-                                                                    ? "green"
-                                                                    : "orange"
-                                                                : "red",
-                                                    })}
-                                                />
-                                            );
-                                        }}
-                                    </AnimatedProgressProvider>
-                                </div>
-                            </div>
-
-                            <div className="my-3 px-3 w-full overflow-hidden sm:my-3 sm:px-3 sm:w-3/4 md:my-3 md:px-3 md:w-3/4 lg:my-3 lg:px-3 lg:w-3/4 xl:my-3 xl:px-3 xl:w-3/4">
-                                <div className={classes.description}>
-                                    The Performance score is a weighted average
-                                    of the metric scores.
-                                    <br />
-                                    <br />
-                                    Naturally, more heavily weighted metrics
-                                    have a bigger effect on your overall
-                                    Performance score.
-                                    <br />
-                                    <br />
-                                    The weightings are chosen to provide a
-                                    balanced representation of the user's
-                                    perception of performance. The weightings
-                                    have changed over time
-                                </div>
-                            </div>
-                        </div>
-                        <br></br>
-                        <div className="flex flex-wrap -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
-                            {Object.entries(...audits).map((audit) => (
-                                <div
-                                    key={JSON.parse(audit[1]).id}
-                                    className="my-3 px-3 w-full overflow-hidden sm:my-3 sm:px-3 sm:w-1/2 md:my-3 md:px-3 md:w-1/2 lg:my-3 lg:px-3 lg:w-1/2 xl:my-3 xl:px-3 xl:w-1/2"
+                    <div className={classes.title}>{location.state.title}</div>
+                    <div className={classes.subtitle}>{location.state.url}</div>
+                    <div className={classes.performance}>Performance Score</div>
+                    <div className=" flex  w-full  -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
+                        <div className="  my-3 px-3  overflow-hidden  sm:px-3   md:px-3   lg:px-3 lg:w-1/3  xl:px-3 xl:w-1/3">
+                            <div>
+                                <AnimatedProgressProvider
+                                    valueStart={0}
+                                    valueEnd={performance}
+                                    duration={1.4}
+                                    easingFunction={easeQuadInOut}
                                 >
-                                    <TasksProgress
-                                        id={JSON.parse(audit[1]).id}
-                                        title={JSON.parse(audit[1]).title}
-                                        description={
-                                            JSON.parse(audit[1]).description
-                                        }
-                                        value={
-                                            JSON.parse(audit[1]).displayValue
-                                        }
-                                        score={JSON.parse(audit[1]).score}
-                                    />
-                                </div>
-                            ))}
+                                    {(value) => {
+                                        const roundedValue = Math.round(value);
+                                        return (
+                                            <CircularProgressbar
+                                                value={value}
+                                                text={`${roundedValue}%`}
+                                                /* This is important to include, because if you're fully managing the
+        animation yourself, you'll want to disable the CSS animation. */
+                                                styles={buildStyles({
+                                                    pathTransition: "none",
+                                                    pathColor:
+                                                        value > 50
+                                                            ? value > 90
+                                                                ? "#4caf50"
+                                                                : "#ff9800"
+                                                            : "#ef5350",
+                                                    textColor:
+                                                        value > 50
+                                                            ? value > 90
+                                                                ? "#4caf50"
+                                                                : "#ff9800"
+                                                            : "#ef5350",
+                                                })}
+                                            />
+                                        );
+                                    }}
+                                </AnimatedProgressProvider>
+                            </div>
                         </div>
-                </Box>
+
+                        <div className=" my-3 px-3 w-full overflow-hidden  sm:px-3   md:px-3   lg:px-3 lg:w-2/3  xl:px-3 xl:w-2/3">
+                            <div className={classes.description}>
+                                The Performance score is a weighted average of
+                                the metric scores.
+                                <br />
+                                <br />
+                                Naturally, more heavily weighted metrics have a
+                                bigger effect on your overall Performance score.
+                                <br />
+                                <br />
+                                The weightings are chosen to provide a balanced
+                                representation of the user's perception of
+                                performance. The weightings have changed over
+                                time
+                            </div>
+                        </div>
+                    </div>
+                    <br></br>
+                    <div className={classes.performance}>Metrics</div>
+                    <div className="flex flex-wrap -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
+                        {Object.entries(...audits).map((audit) => (
+                            <div
+                                key={JSON.parse(audit[1]).id}
+                                className=" w-full  overflow-hidden  sm:w-1/2  md:w-1/2  lg:w-1/2  xl:w-1/2"
+                            >
+                                <TasksProgress
+                                    id={JSON.parse(audit[1]).id}
+                                    title={JSON.parse(audit[1]).title}
+                                    description={
+                                        JSON.parse(audit[1]).description
+                                    }
+                                    value={JSON.parse(audit[1]).displayValue}
+                                    score={JSON.parse(audit[1]).score}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
             )}
         </div>
     );

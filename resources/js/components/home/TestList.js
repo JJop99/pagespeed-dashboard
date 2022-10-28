@@ -119,7 +119,7 @@ const TestList = () => {
             <TableContainer component={Paper}>
                 <Table
                     stickyHeader
-                    sx={{ minWidth: 650, maxHeight: 220 }}
+                    sx={{ maxHeight: 220 }}
                     aria-label="simple table"
                 >
                     <TableHead>
@@ -139,7 +139,7 @@ const TestList = () => {
                             <TableRow
                                 onClick={() =>
                                     navigate(`/dashboard/${url.title}`, {
-                                        state: { id: url.id },
+                                        state: { id: url.id, url: url.url, title: url.title },
                                     })
                                 }
                                 key={url.title}
@@ -153,10 +153,10 @@ const TestList = () => {
                                     <div>{url.title}</div>
                                 </TableCell>
                                 <TableCell align="right">
-                                    <div className={classes.url}>{url.url}</div>
+                                    <div className={classes.url }>{url.url}</div>
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Moment format="HH:mm DD-MM-YYYY">
+                                    <Moment className={classes.date } format="HH:mm DD-MM-YYYY">
                                         {url.created_at}
                                     </Moment>
                                 </TableCell>

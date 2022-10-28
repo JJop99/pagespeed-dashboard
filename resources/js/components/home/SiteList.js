@@ -114,7 +114,7 @@ const SiteList = () => {
             <TableContainer component={Paper}>
                 <Table
                     stickyHeader
-                    sx={{ minWidth: 650, maxHeight: 220 }}
+                    sx={{ maxHeight: 220 }}
                     aria-label="simple table"
                 >
                     <TableHead>

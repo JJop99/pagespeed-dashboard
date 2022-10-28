@@ -1,15 +1,26 @@
 .url {
     display: block;
     float: right;
-    max-width: 300px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    @apply w-32 md:w-64;
+    
+}
+.date {
+    display: block;
+    float: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+      
+    
 }
 
 .titleUrl {
     display: block;
-    max-width: 300px;
+    @apply w-32 md:w-64;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

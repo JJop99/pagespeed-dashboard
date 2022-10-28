@@ -7,6 +7,7 @@ import AuthContext from "../../store/auth-context.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Chart } from "react-chartjs-2";
 import classes from "./PerformanceHistory.module.scss";
+import InfoIcon from '@mui/icons-material/Info';
 import moment from 'moment'
 
 const PerformanceHistory = () => {
@@ -67,16 +68,14 @@ const PerformanceHistory = () => {
     return (
         <div>
             {!isLoading && (
-                <Box
-                    component="main"
-                    sx={{
-                        flexGrow: 1,
-                        py: 8,
-                    }}
+                <div
+                    className={classes.box}
                 >
-                    <Container maxWidth={false}>
-                        <Grid container spacing={3}>
-                            <Grid item lg={8} md={8} xl={8} xs={12}>
+                    <div className={classes.title}>Performance Scores</div>
+                    <div className={classes.subtitle}>{location.state.url}</div>
+                   
+                        <div >
+                            <div >
                                 <Chart
                                     type="line"
                                     data={data}
@@ -89,16 +88,19 @@ const PerformanceHistory = () => {
                                         },
                                     }}
                                 />
-                            </Grid>
-                            <Grid item lg={4} md={4} xl={4} xs={12}>
+                            </div>
+                            <div >
                                 <div className={classes.description}>
+                                    <InfoIcon/>
+                                    <br />
+                                    <br />
                                     When your Performance score fluctuates it's
                                     usually because of changes in underlying
                                     conditions.
                                     <br />
                                     <br />
                                     Common problems include:
-                                    <ul>
+                                    <ul className={classes.list}>
                                         <li>
                                             A/B tests or changes in ads being
                                             served
@@ -119,10 +121,9 @@ const PerformanceHistory = () => {
                                         <li>Antivirus software</li>
                                     </ul>
                                 </div>
-                            </Grid>
-                        </Grid>
-                    </Container>
-                </Box>
+                            </div>
+                        </div>
+                </div>
             )}
         </div>
     );
