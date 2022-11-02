@@ -124,15 +124,16 @@ class AuditController extends Controller
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
 
+        //info(Carbon::now()->format('Y-m-d'));
+        //info(Carbon::now()->subDays(31)->format('Y-m-d'));
         //dare valori di default ultimo mese
-        $startDate = Carbon::parse(date('Y-m-d', strtotime($request->start_date))) ?? Carbon::now()->subMonth(1);
-        $endDate = Carbon::parse(date('Y-m-d', strtotime($request->end_date))) ?? Carbon::now();
-        info($startDate);
-        info($endDate);
+        $startDate = date('Y-m-d', strtotime($request->start_date)) ?? Carbon::now()->subDays(31)->format('Y-m-d');
+        $endDate =   date('Y-m-d', strtotime($request->end_date)) ?? Carbon::now()->format('Y-m-d');
+
         $research = Audit::select('performance', 'created_at')
             ->where('email', Auth::user()->email)
             ->where('url', $validated['url'])
-            //->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)
+            ->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)
             ->take($take)
             ->skip($skip)
             ->orderBy('created_at', 'desc')
