@@ -17,7 +17,6 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
         if (Auth::attempt($attributes)) {
-            $request->session()->regenerate();
             return redirect('/sitelist')->with('success', 'Welcome Back!.');
         }
     }

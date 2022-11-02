@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Audit;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
-class UrlController extends Controller
+class AuditController extends Controller
 {
+
     public function audit(Request $request)
     {
 
@@ -16,7 +20,7 @@ class UrlController extends Controller
         $email = $data['email'];
         $title = $data['title'];
         $url = $data['url'];
-
+        
         if (!Str::startsWith($url, ['http://', 'https://'])) {
             $url = 'https://' . $url;
         }
@@ -89,22 +93,19 @@ class UrlController extends Controller
 
     public function getAudits(Request $request)
     {
-        $validated = $request->validate([
-            'email' => 'required'
-        ]);
-
+        
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
 
         $research = Audit::select('url', 'title', 'id', 'created_at')
-            ->where('email', $validated['email'])
+            ->where('email', Auth::user()->email)
             ->take($take)
             ->skip($skip)
             ->orderBy('created_at', 'desc')
             ->get();
 
         $total = Audit::select('url')
-            ->where('email', $validated['email'])
+            ->where('email', Auth::user()->email)
             ->count();
 
 
@@ -117,17 +118,23 @@ class UrlController extends Controller
     public function getSitePerformances(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required',
             'url' => 'required'
         ]);
-        //dare valori di default ultimo mese
-        $startDate = date('Y-m-d', strtotime($request->start_date));
-        $endDate = date('Y-m-d', strtotime($request->end_date));
 
+        $take = $request['take'] ?? '5';
+        $skip = $request['skip'] ?? '0';
+
+        //dare valori di default ultimo mese
+        $startDate = Carbon::parse(date('Y-m-d', strtotime($request->start_date))) ?? Carbon::now()->subMonth(1);
+        $endDate = Carbon::parse(date('Y-m-d', strtotime($request->end_date))) ?? Carbon::now();
+        info($startDate);
+        info($endDate);
         $research = Audit::select('performance', 'created_at')
-            ->where('email', $validated['email'])
+            ->where('email', Auth::user()->email)
             ->where('url', $validated['url'])
-            ->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)
+            //->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)
+            ->take($take)
+            ->skip($skip)
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -137,16 +144,11 @@ class UrlController extends Controller
     }
     public function getSites(Request $request)
     {
-        $validated = $request->validate([
-            'email' => 'required',
-        ]);
-
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
 
-
         $results = Audit::select('url')
-            ->where('email', $validated['email'])
+            ->where('email', Auth::user()->email)
             ->groupBy('url')
             ->take($take)
             ->skip($skip)
@@ -154,7 +156,7 @@ class UrlController extends Controller
             ->get();
 
         $total = Audit::select('url')
-            ->where('email', $validated['email'])
+            ->where('email', Auth::user()->email)
             ->groupBy('url')
             ->get()
             ->count();
@@ -168,12 +170,11 @@ class UrlController extends Controller
     public function singleDelete(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required',
             'url' => 'required',
             'created_at' => 'required'
         ]);
         $result = Audit::select('url')
-            ->where('email', $validated['email'])
+            ->where('email', Auth::user()->email)
             ->where('url', $validated['url'])
             ->where('created_at', $validated['created_at'])
             ->delete();
@@ -189,11 +190,10 @@ class UrlController extends Controller
     public function deleteTests(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required',
             'url' => 'required',
         ]);
         $results = Audit::select('url')
-            ->where('email', $validated['email'])
+            ->where('email', Auth::user()->email)
             ->where('url', $validated['url'])
             ->delete();
 
