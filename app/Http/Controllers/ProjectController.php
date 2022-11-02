@@ -3,22 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Audit;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    public function store(Audit $audit)
+    public function create(Request $request)
     {
-        request()->validate([
-            'url' => 'required'
-        ]);
+      $project =  Project::create([
+            'name'=>'ciao',
 
-        $audit->audits()->create([
-            'user_id' => request()->user()->id,
-            'url' => request('url'),
-            'audit_id' =>request()->audit()->id
         ]);
-
-        return back();
+        
+        return response()->json($project);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Audit;
+use App\Models\Project;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -50,7 +51,8 @@ class AuditController extends Controller
 
         $performance = (int)(($fCPaint * 10) + ($sIndex * 10) +  ($lCPaint * 25) + ($tBTime * 30) + ($cLShift * 15) + ($int * 10)) / 100;
 
-        Audit::create([
+        $projectAudit = Project::find('project_id');
+        $project = $projectAudit->audit()->create([
             'email' => $email,
             'title' => $title,
             'url' => $url,
@@ -62,6 +64,19 @@ class AuditController extends Controller
             'interactive' => json_encode($interactive),
             'performance' => $performance
         ]);
+        
+        //Audit::create([
+        //    'email' => $email,
+        //    'title' => $title,
+        //    'url' => $url,
+        //    'firstContentfulPaint' => json_encode($firstContentfulPaint),
+        //    'speedIndex' => json_encode($speedIndex),
+        //    'largestContentfulPaint' => json_encode($largestContentfulPaint),
+        //    'totalBlockingTime' => json_encode($totalBlockingTime),
+        //    'cumulativeLayoutShift' => json_encode($cumulativeLayoutShift),
+        //    'interactive' => json_encode($interactive),
+        //    'performance' => $performance
+        //]);
 
 
         return response()->json([
@@ -124,9 +139,6 @@ class AuditController extends Controller
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
 
-        //info(Carbon::now()->format('Y-m-d'));
-        //info(Carbon::now()->subDays(31)->format('Y-m-d'));
-        //dare valori di default ultimo mese
         $startDate = date('Y-m-d', strtotime($request->start_date)) ?? Carbon::now()->subDays(31)->format('Y-m-d');
         $endDate =   date('Y-m-d', strtotime($request->end_date)) ?? Carbon::now()->format('Y-m-d');
 

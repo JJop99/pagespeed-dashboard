@@ -12,5 +12,5 @@ class Audit extends Model
 
     protected $guarded =[];
 
-    protected $table = 'urls';
+    protected $table = 'audits';
 }

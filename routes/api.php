@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\ProjectController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,7 +35,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('newUrl', [AuditController::class, 'audit']); //create new url api
 Route::delete('deleteTests', [AuditController::class, 'deleteTests']);  //delete every tests with url's name api
 Route::delete('singleDelete', [AuditController::class, 'singleDelete']); //delete single test api
-
+Route::post('create', [ProjectController::class, 'create']);
 
 Route::middleware('auth:sanctum')->group(function () {
 Route::get('sites', [AuditController::class, 'getSites']); //list of sites api
