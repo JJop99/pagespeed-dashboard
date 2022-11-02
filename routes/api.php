@@ -2,10 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\UrlController;
+use App\Http\Controllers\AuditController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,13 +33,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('test', [ApiController::class, 'test']); //test api
-    Route::post('newUrl', [UrlController::class, 'newUrl']); //create new url api
-    Route::post('sites', [UrlController::class, 'sites']); //list of sites api
-    Route::post('research', [UrlController::class, 'research']); //research tests api
-    Route::post('dashboard', [UrlController::class, 'dashboard']); //return pagespeed's calculate values api
-    Route::post('researchForWeek', [UrlController::class, 'researchForWeek']); //performance for tot days api
-    Route::post('results', [UrlController::class, 'results']); //every performance tests api
-    Route::delete('deleteTests', [UrlController::class, 'deleteTests']);  //delete every tests with url's name api
-    Route::delete('singleDelete', [UrlController::class, 'singleDelete']); //delete single test api
+    Route::post('newUrl', [AuditController::class, 'audit']); //create new url api
+    Route::get('sites', [AuditController::class, 'getSites']); //list of sites api
+    Route::get('research', [AuditController::class, 'getAudits']); //research tests api
+    Route::post('dashboard', [AuditController::class, 'getAudit']); //return pagespeed's calculate values api
+    Route::post('researchForWeek', [AuditController::class, 'researchForWeek']); //performance for tot days api
+    Route::get('results', [AuditController::class, 'getSitePerformances']); //every performance tests api
+    Route::delete('deleteTests', [AuditController::class, 'deleteTests']);  //delete every tests with url's name api
+    Route::delete('singleDelete', [AuditController::class, 'singleDelete']); //delete single test api
 });

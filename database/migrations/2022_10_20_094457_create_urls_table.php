@@ -26,6 +26,7 @@ class CreateUrlsTable extends Migration
             $table->text('cumulativeLayoutShift');
             $table->text('interactive');
             $table->string('performance');
+            
         });
     }
 

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Url;
+use App\Models\Audit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class UrlController extends Controller
 {
-    public function newUrl(Request $request)
+    public function audit(Request $request)
     {
 
         $data = $request->all();
@@ -46,7 +46,7 @@ class UrlController extends Controller
 
         $performance = (int)(($fCPaint * 10) + ($sIndex * 10) +  ($lCPaint * 25) + ($tBTime * 30) + ($cLShift * 15) + ($int * 10)) / 100;
 
-        Url::create([
+        Audit::create([
             'email' => $email,
             'title' => $title,
             'url' => $url,
@@ -67,17 +67,17 @@ class UrlController extends Controller
             $title
         ]);
     }
-    public function dashboard(Request $request)
+    public function getAudit(Request $request)
     {
 
         $validated = $request->validate([
             'id' => 'required'
         ]);
-        $statistics = URL::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
+        $statistics = Audit::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
             ->where('id', $validated['id'])
             ->get();
 
-        $performance = URL::select('performance')
+        $performance = Audit::select('performance')
             ->where('id', $validated['id'])
             ->get();
 
@@ -87,24 +87,23 @@ class UrlController extends Controller
         ];
     }
 
-    public function research(Request $request)
+    public function getAudits(Request $request)
     {
         $validated = $request->validate([
             'email' => 'required'
         ]);
 
-        $take = $request['take'];
-        $skip = 0;
-        $currentPage = request()->get('page', 0);
+        $take = $request['take'] ?? '5';
+        $skip = $request['skip'] ?? '0';
 
-        $research = URL::select('url', 'title', 'id', 'created_at')
+        $research = Audit::select('url', 'title', 'id', 'created_at')
             ->where('email', $validated['email'])
-            ->take(($take * ($currentPage + 1)))
-            ->skip($skip + (($currentPage) * $take))
+            ->take($take)
+            ->skip($skip)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $total = URL::select('url')
+        $total = Audit::select('url')
             ->where('email', $validated['email'])
             ->count();
 
@@ -115,42 +114,46 @@ class UrlController extends Controller
         ]);
     }
 
-    public function results(Request $request)
+    public function getSitePerformances(Request $request)
     {
         $validated = $request->validate([
             'email' => 'required',
             'url' => 'required'
         ]);
+        //dare valori di default ultimo mese
+        $startDate = date('Y-m-d', strtotime($request->start_date));
+        $endDate = date('Y-m-d', strtotime($request->end_date));
 
-        $results = URL::select('performance', 'created_at')
-
-            ->where('url', $validated['url'])
+        $research = Audit::select('performance', 'created_at')
             ->where('email', $validated['email'])
+            ->where('url', $validated['url'])
+            ->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json([
-            $results
+            'urls' => $research,
         ]);
     }
-    public function sites(Request $request)
+    public function getSites(Request $request)
     {
         $validated = $request->validate([
             'email' => 'required',
         ]);
 
-        $take = $request['take'];
-        $skip = 0;
-        $currentPage = request()->get('page', 0);
+        $take = $request['take'] ?? '5';
+        $skip = $request['skip'] ?? '0';
 
-        $results = URL::select('url')
+
+        $results = Audit::select('url')
             ->where('email', $validated['email'])
             ->groupBy('url')
-            ->take(($take * ($currentPage + 1)))
-            ->skip($skip + (($currentPage) * $take))
+            ->take($take)
+            ->skip($skip)
             ->orderBy('url', 'desc')
             ->get();
 
-        $total = URL::select('url')
+        $total = Audit::select('url')
             ->where('email', $validated['email'])
             ->groupBy('url')
             ->get()
@@ -169,7 +172,7 @@ class UrlController extends Controller
             'url' => 'required',
             'created_at' => 'required'
         ]);
-        $result = URL::select('url')
+        $result = Audit::select('url')
             ->where('email', $validated['email'])
             ->where('url', $validated['url'])
             ->where('created_at', $validated['created_at'])
@@ -189,7 +192,7 @@ class UrlController extends Controller
             'email' => 'required',
             'url' => 'required',
         ]);
-        $results = URL::select('url')
+        $results = Audit::select('url')
             ->where('email', $validated['email'])
             ->where('url', $validated['url'])
             ->delete();
@@ -200,27 +203,5 @@ class UrlController extends Controller
         } else {
             return response()->json(['message' => 'Delete Failed']);
         }
-    }
-
-    public function researchForWeek(Request $request)
-    {
-        $validated = $request->validate([
-            'email' => 'required',
-            'url' => 'required'
-        ]);
-
-        $startDate = date('Y-m-d', strtotime($request->start_date));
-        $endDate = date('Y-m-d', strtotime($request->end_date));
-
-        $research = URL::select('performance', 'created_at')
-            ->where('email', $validated['email'])
-            ->where('url', $validated['url'])
-            ->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return response()->json([
-            'urls' => $research,
-        ]);
     }
 }
