@@ -18,8 +18,8 @@ class AuditController extends Controller
     {
 
         $data = $request->all();
-        //$email = $data['email'];
-        $email = Auth::user()->email;
+        $email = $data['email'];
+        //$email = Auth::user()->email;
         $title = $data['title'];
         $url = $data['url'];
 

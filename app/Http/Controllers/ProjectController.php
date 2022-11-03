@@ -39,7 +39,7 @@ class ProjectController extends Controller
             'id' => 'required',
         ]);
         $audits = Audit::select('url')
-            ->where('id', $validated['id'])
+            ->where('project_id', $validated['id'])
             ->delete();
 
         $result = Project::select('id')
