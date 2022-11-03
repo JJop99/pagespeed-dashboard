@@ -38,6 +38,17 @@ class ProjectController extends Controller
             'total_projects' => $total
         ]);
     }
+    public function getProject(Request $request){
+
+        $research = Project::select('name')
+            ->where('id', $request['id'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        return response()->json([
+            'project' => $research,
+        ]);
+    }
     public function deleteProject(Request $request)
     {
         $validated = $request->validate([
