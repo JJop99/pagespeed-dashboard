@@ -1,11 +1,10 @@
 import { Fragment } from "react";
-import SiteList from "./SiteList";
-import TestList from "./TestList";
+import Projects from "./projects/Projects";
+
 
 const Home = () => {
     return <Fragment>
-        <TestList />
-        <SiteList/>
+        <Projects />
     </Fragment>;
 };
 

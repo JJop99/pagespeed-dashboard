@@ -9,23 +9,20 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AuthContext from "../../store/auth-context";
 import { useNavigate } from "react-router-dom";
-import classes from "./TestList.module.scss";
+import classes from "./Table.module.scss";
 import { Button, TablePagination } from "@mui/material";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { grey } from "@mui/material/colors";
 import styled from "@emotion/styled";
 
-
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: grey[100],
+        backgroundColor: grey[100],
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-
+        fontSize: 14,
     },
-  }));
+}));
 
 const SiteList = () => {
     const [urls, setUrls] = useState([]);
@@ -40,21 +37,21 @@ const SiteList = () => {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-        research(newPage,rowsPerPage);
+        research(newPage, rowsPerPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
-        research(0,+event.target.value);
+        research(0, +event.target.value);
     };
 
     const getSites = (page, rows) => {
         const email = authCtx.user;
         axios
-            .post(
-                `/api/sites`,
-                { email: email, page: page, take: rows },
+            .get(
+                `/api${location.pathname.slice(0,location.pathname.lastIndexOf("/"))}/sites`,
+                { params: { skip: page * rows, take: rows } },
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type
@@ -65,7 +62,7 @@ const SiteList = () => {
             .then((res) => {
                 if (res.statusText === "OK") {
                     setUrls(res.data.urls);
-                    setTotalUrls(res.data.total_urls)
+                    setTotalUrls(res.data.total_urls);
                     console.log(res);
                     return res;
                 }
@@ -120,14 +117,16 @@ const SiteList = () => {
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>Sito</StyledTableCell>
-                            <StyledTableCell align="right">Delete</StyledTableCell>
+                            <StyledTableCell align="right">
+                                Delete
+                            </StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {urls.map((url, id) => (
                             <TableRow
                                 onClick={() =>
-                                    navigate(`/history/${id}`, {
+                                    navigate(`${location.pathname.slice(0,location.pathname.lastIndexOf("/"))}/sitePerformances/${id}`, {
                                         state: { url: url.url },
                                     })
                                 }
@@ -139,7 +138,9 @@ const SiteList = () => {
                                 }}
                             >
                                 <TableCell component="th" scope="row">
-                                    <div className={classes.titleUrl}>{url.url}</div>
+                                    <div className={classes.titleUrl}>
+                                        {url.url}
+                                    </div>
                                 </TableCell>
                                 <TableCell align="right">
                                     <DeleteOutlineIcon

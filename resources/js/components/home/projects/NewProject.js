@@ -10,14 +10,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../store/auth-context";
+import AuthContext from "./../../../store/auth-context";
 import { CircularProgress } from "@mui/material";
 
 const theme = createTheme();
 
-const NewUrl = () => {
-    const titleInputRef = useRef();
-    const urlInputRef = useRef();
+const NewProject = () => {
+    const nameInputRef = useRef();
     const [isLoading, setIsLoading] = useState(false);
 
     const authCtx = useContext(AuthContext);
@@ -28,18 +27,13 @@ const NewUrl = () => {
         event.preventDefault();
         setIsLoading(true);
         
-        console.log(titleInputRef.current.value);
-        const email = authCtx.user;
-        let site = {
-            email: email,
-            title: titleInputRef.current.value,
-            url: urlInputRef.current.value,
-        };
+        console.log(nameInputRef.current.value);
+        
 
         axios.defaults.withCredentials = true;
 
         axios
-            .post(`/api/newUrl`, site, {
+            .post(`/api/project`, {name: nameInputRef.current.value}, {
                 headers: {
                     // Overwrite Axios's automatically set Content-Type
                     "Content-Type": "application/json",
@@ -76,7 +70,7 @@ const NewUrl = () => {
                             <LanguageIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            New Url
+                            New Project
                         </Typography>
                         <Box
                             component="form"
@@ -93,19 +87,9 @@ const NewUrl = () => {
                                 name="title"
                                 autoComplete="title"
                                 autoFocus
-                                inputRef={titleInputRef}
+                                inputRef={nameInputRef}
                             />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="url"
-                                label="Url"
-                                type="url"
-                                id="url"
-                                autoComplete="current-url"
-                                inputRef={urlInputRef}
-                            />
+                            
 
                             <Button
                                 type="submit"
@@ -128,7 +112,7 @@ const NewUrl = () => {
                         }}
                     >
                         <CircularProgress />
-                        <div className="pt-8">Test Making</div>
+                        <div className="pt-8">Creating a new project</div>
                     </Box>
                 )}
             </Container>
@@ -136,4 +120,4 @@ const NewUrl = () => {
     );
 };
 
-export default NewUrl;
+export default NewProject;

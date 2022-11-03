@@ -18,8 +18,8 @@ class AuditController extends Controller
     {
 
         $data = $request->all();
-        $email = $data['email'];
-        //$email = Auth::user()->email;
+        //$email = $data['email'];
+        $email = Auth::user()->email;
         $title = $data['title'];
         $url = $data['url'];
 
@@ -132,8 +132,8 @@ class AuditController extends Controller
             'url' => 'required'
         ]);
 
-        $take = $request['take'] ?? '5';
-        $skip = $request['skip'] ?? '0';
+        // $take = $request['take'] ?? '5';
+        // $skip = $request['skip'] ?? '0';
 
         $startDate = date('Y-m-d', strtotime($request->start_date)) ?? Carbon::now()->subDays(31)->format('Y-m-d');
         $endDate =   date('Y-m-d', strtotime($request->end_date)) ?? Carbon::now()->format('Y-m-d');
@@ -143,8 +143,8 @@ class AuditController extends Controller
             ->where('project_id', $project['id'])
             ->where('url', $validated['url'])
             ->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)
-            ->take($take)
-            ->skip($skip)
+            // ->take($take)
+            // ->skip($skip)
             ->orderBy('created_at', 'desc')
             ->get();
 

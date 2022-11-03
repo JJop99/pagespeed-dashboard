@@ -47,7 +47,7 @@ const SignUp = () => {
             .then((res) => {
                 console.log(res);
                 if (res.statusText === "OK") {
-                    navigate("/site-list");
+                    navigate("/sign-in");
                     return res;
                 }
             })

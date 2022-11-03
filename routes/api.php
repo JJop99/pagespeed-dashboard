@@ -32,14 +32,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('project/{project}/audit', [AuditController::class, 'audit']); //create new url api
-Route::delete('project/{project}/deleteTests', [AuditController::class, 'deleteTests']);  //delete every tests with url's name api
-Route::delete('project/{project}/singleDelete', [AuditController::class, 'singleDelete']); //delete single test api
 Route::post('project', [ProjectController::class, 'project']);
 Route::get('projects', [ProjectController::class, 'getProjects']);
 Route::delete('deleteProject', [ProjectController::class, 'deleteProject']);
 
 Route::middleware('auth:sanctum')->group(function () {
+Route::post('project/{project}/audit', [AuditController::class, 'audit']); //create new url api
+Route::delete('project/{project}/deleteTests', [AuditController::class, 'deleteTests']);  //delete every tests with url's name api
+Route::delete('project/{project}/singleDelete', [AuditController::class, 'singleDelete']); //delete single test api
 Route::get('project/{project}/sites', [AuditController::class, 'getSites']); //list of sites api
 Route::get('project/{project}/audits', [AuditController::class, 'getAudits']); //research tests api
 Route::get('project/{project}/audit', [AuditController::class, 'getAudit']); //return pagespeed's calculate values api

@@ -8,13 +8,13 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AuthContext from "../../store/auth-context";
-import { Link, useNavigate } from "react-router-dom";
-import classes from "./TestList.module.scss";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import classes from "./Table.module.scss";
 import { Button, styled, TablePagination } from "@mui/material";
 import Moment from "react-moment";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { grey } from "@mui/material/colors";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -26,16 +26,17 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const TestList = () => {
-    const [tests, setTests] = useState([]);
+    const [audits, setAudits] = useState([]);
     axios.defaults.withCredentials = true;
     const authCtx = useContext(AuthContext);
     const navigate = useNavigate();
     const formatDate = Moment;
-
+    const location = useLocation();
+    console.log(location.pathname.slice(0, -1));
     //pagination
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
-    const [totalUrls, setTotalUrls] = useState();
+    const [totalAudits, setTotalAudits] = useState();
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -49,11 +50,10 @@ const TestList = () => {
     };
 
     const research = (page, rows) => {
-        const email = authCtx.user;
         axios
-            .post(
-                `/api/research`,
-                { email: email, page: page, take: rows },
+            .get(
+                `/api${location.pathname}`,
+                { params: { skip: page * rows, take: rows } },
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type
@@ -64,8 +64,8 @@ const TestList = () => {
             .then((res) => {
                 if (res.statusText === "OK") {
                     console.log(res);
-                    setTests(res.data.urls); //combiare urls con tests nell api
-                    setTotalUrls(res.data.total_urls);
+                    setAudits(res.data.urls); //combiare urls con tests nell api
+                    setTotalAudits(res.data.total_urls);
                     return res;
                 }
             })
@@ -78,15 +78,20 @@ const TestList = () => {
         research(page, rowsPerPage);
     }, []);
 
-    const handleDelete = (url) => {
+    const handleDelete = (audit) => {
+        
+        console.log(`/api
+        ${location.pathname.slice(
+            0,
+            location.pathname.lastIndexOf("/")
+        )} /singleDelete`);
         axios
             .delete(
-                `/api/singleDelete`,
+                `/api${location.pathname.slice(0,location.pathname.lastIndexOf("/"))}/singleDelete`,
                 {
                     params: {
-                        email: authCtx.user,
-                        url: url.url,
-                        created_at: url.created_at,
+                        url: audit.url,
+                        created_at: audit.created_at,
                     },
                 },
                 {
@@ -112,7 +117,9 @@ const TestList = () => {
             <div className={classes.title}>
                 Tests
                 <div>
-                    <Link to="/new-url"><AddIcon/></Link>
+                    <Link to={location.pathname.slice(0, -1)}>
+                        <AddIcon />
+                    </Link>
                 </div>
             </div>
 
@@ -135,14 +142,16 @@ const TestList = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {tests.map((url) => (
+                        {audits.map((audit) => (
                             <TableRow
                                 onClick={() =>
-                                    navigate(`/dashboard/${url.title}`, {
-                                        state: { id: url.id, url: url.url, title: url.title },
-                                    })
+                                    navigate(
+                                        `${location.pathname.slice(0, -1)}/${
+                                            audit.id
+                                        }`
+                                    )
                                 }
-                                key={url.title}
+                                key={audit.id}
                                 sx={{
                                     "&:last-child td, &:last-child th": {
                                         border: 0,
@@ -150,21 +159,26 @@ const TestList = () => {
                                 }}
                             >
                                 <TableCell component="th" scope="row">
-                                    <div>{url.title}</div>
+                                    <div>{audit.title}</div>
                                 </TableCell>
                                 <TableCell align="right">
-                                    <div className={classes.url }>{url.url}</div>
+                                    <div className={classes.url}>
+                                        {audit.url}
+                                    </div>
                                 </TableCell>
                                 <TableCell align="right">
-                                    <Moment className={classes.date } format="HH:mm DD-MM-YYYY">
-                                        {url.created_at}
+                                    <Moment
+                                        className={classes.date}
+                                        format="HH:mm DD-MM-YYYY"
+                                    >
+                                        {audit.created_at}
                                     </Moment>
                                 </TableCell>
                                 <TableCell align="right">
                                     <DeleteOutlineIcon
                                         variant="outlined"
                                         color="error"
-                                        onClick={() => handleDelete(url)}
+                                        onClick={() => handleDelete(audit)}
                                     >
                                         Delete
                                     </DeleteOutlineIcon>
@@ -177,7 +191,7 @@ const TestList = () => {
             <TablePagination
                 rowsPerPageOptions={[8, 15, 25]}
                 component="div"
-                count={totalUrls}
+                count={totalAudits}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
