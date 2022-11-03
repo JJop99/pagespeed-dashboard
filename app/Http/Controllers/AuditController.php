@@ -14,13 +14,16 @@ use Carbon\Carbon;
 class AuditController extends Controller
 {
 
-    public function audit(Request $request)
+    public function audit(Request $request, Project $project)
     {
 
         $data = $request->all();
         $email = $data['email'];
+        //$email = Auth::user()->email;
         $title = $data['title'];
         $url = $data['url'];
+
+        
         
         if (!Str::startsWith($url, ['http://', 'https://'])) {
             $url = 'https://' . $url;
@@ -51,8 +54,9 @@ class AuditController extends Controller
 
         $performance = (int)(($fCPaint * 10) + ($sIndex * 10) +  ($lCPaint * 25) + ($tBTime * 30) + ($cLShift * 15) + ($int * 10)) / 100;
 
-        $projectAudit = Project::find('project_id');
-        $project = $projectAudit->audit()->create([
+        //$project = Project::find($data['project_id']);
+        info($project);
+        $audit = $project->audits()->create([
             'email' => $email,
             'title' => $title,
             'url' => $url,
@@ -62,23 +66,11 @@ class AuditController extends Controller
             'totalBlockingTime' => json_encode($totalBlockingTime),
             'cumulativeLayoutShift' => json_encode($cumulativeLayoutShift),
             'interactive' => json_encode($interactive),
-            'performance' => $performance
+            'performance' => $performance,
+            
         ]);
         
-        //Audit::create([
-        //    'email' => $email,
-        //    'title' => $title,
-        //    'url' => $url,
-        //    'firstContentfulPaint' => json_encode($firstContentfulPaint),
-        //    'speedIndex' => json_encode($speedIndex),
-        //    'largestContentfulPaint' => json_encode($largestContentfulPaint),
-        //    'totalBlockingTime' => json_encode($totalBlockingTime),
-        //    'cumulativeLayoutShift' => json_encode($cumulativeLayoutShift),
-        //    'interactive' => json_encode($interactive),
-        //    'performance' => $performance
-        //]);
-
-
+        info($audit);
         return response()->json([
             $performance,
             $email,
@@ -86,7 +78,7 @@ class AuditController extends Controller
             $title
         ]);
     }
-    public function getAudit(Request $request)
+    public function getAudit(Request $request, Project $project)
     {
 
         $validated = $request->validate([
@@ -106,7 +98,7 @@ class AuditController extends Controller
         ];
     }
 
-    public function getAudits(Request $request)
+    public function getAudits(Request $request, Project $project)
     {
         
         $take = $request['take'] ?? '5';
@@ -130,7 +122,7 @@ class AuditController extends Controller
         ]);
     }
 
-    public function getSitePerformances(Request $request)
+    public function getSitePerformances(Request $request, Project $project)
     {
         $validated = $request->validate([
             'url' => 'required'
@@ -155,7 +147,7 @@ class AuditController extends Controller
             'urls' => $research,
         ]);
     }
-    public function getSites(Request $request)
+    public function getSites(Request $request, Project $project)
     {
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
@@ -180,7 +172,7 @@ class AuditController extends Controller
         ]);
     }
 
-    public function singleDelete(Request $request)
+    public function singleDelete(Request $request, Project $project)
     {
         $validated = $request->validate([
             'url' => 'required',
@@ -200,7 +192,7 @@ class AuditController extends Controller
         }
     }
 
-    public function deleteTests(Request $request)
+    public function deleteTests(Request $request, Project $project)
     {
         $validated = $request->validate([
             'url' => 'required',

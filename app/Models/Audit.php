@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Audit extends Model
 {
     use HasFactory;
@@ -13,4 +14,8 @@ class Audit extends Model
     protected $guarded =[];
 
     protected $table = 'audits';
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }

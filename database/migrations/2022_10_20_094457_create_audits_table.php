@@ -26,7 +26,7 @@ class CreateAuditsTable extends Migration
             $table->text('cumulativeLayoutShift');
             $table->text('interactive');
             $table->string('performance');
-            
+            $table->unsignedInteger('project_id');
         });
     }
 
