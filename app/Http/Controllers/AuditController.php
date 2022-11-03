@@ -86,10 +86,12 @@ class AuditController extends Controller
         ]);
         $statistics = Audit::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
             ->where('id', $validated['id'])
+            ->where('project_id', $project['id'])
             ->get();
 
         $performance = Audit::select('performance')
             ->where('id', $validated['id'])
+            ->where('project_id', $project['id'])
             ->get();
 
         return [
@@ -106,6 +108,7 @@ class AuditController extends Controller
 
         $research = Audit::select('url', 'title', 'id', 'created_at')
             ->where('email', Auth::user()->email)
+            ->where('project_id', $project['id'])
             ->take($take)
             ->skip($skip)
             ->orderBy('created_at', 'desc')
@@ -113,6 +116,7 @@ class AuditController extends Controller
 
         $total = Audit::select('url')
             ->where('email', Auth::user()->email)
+            ->where('project_id', $project['id'])
             ->count();
 
 
@@ -136,6 +140,7 @@ class AuditController extends Controller
 
         $research = Audit::select('performance', 'created_at')
             ->where('email', Auth::user()->email)
+            ->where('project_id', $project['id'])
             ->where('url', $validated['url'])
             ->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)
             ->take($take)
@@ -154,6 +159,7 @@ class AuditController extends Controller
 
         $results = Audit::select('url')
             ->where('email', Auth::user()->email)
+            ->where('project_id', $project['id'])
             ->groupBy('url')
             ->take($take)
             ->skip($skip)
@@ -162,6 +168,7 @@ class AuditController extends Controller
 
         $total = Audit::select('url')
             ->where('email', Auth::user()->email)
+            ->where('project_id', $project['id'])
             ->groupBy('url')
             ->get()
             ->count();
@@ -180,6 +187,7 @@ class AuditController extends Controller
         ]);
         $result = Audit::select('url')
             ->where('email', Auth::user()->email)
+            ->where('project_id', $project['id'])
             ->where('url', $validated['url'])
             ->where('created_at', $validated['created_at'])
             ->delete();
@@ -199,6 +207,7 @@ class AuditController extends Controller
         ]);
         $results = Audit::select('url')
             ->where('email', Auth::user()->email)
+            ->where('project_id', $project['id'])
             ->where('url', $validated['url'])
             ->delete();
 
