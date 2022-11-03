@@ -28,9 +28,14 @@ class ProjectController extends Controller
             ->skip($skip)
             ->orderBy('created_at', 'desc')
             ->get();
+        
+        $total = Project::select('id')
+            ->get()
+            ->count();
 
         return response()->json([
             'projects' => $research,
+            'total_projects' => $total
         ]);
     }
     public function deleteProject(Request $request)

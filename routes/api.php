@@ -32,10 +32,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('projects', [ProjectController::class, 'getProjects']);
 
 Route::middleware('auth:sanctum')->group(function () {
 Route::post('project', [ProjectController::class, 'project']);
-Route::get('projects', [ProjectController::class, 'getProjects']);
 Route::delete('deleteProject', [ProjectController::class, 'deleteProject']);
 Route::post('project/{project}/audit', [AuditController::class, 'audit']); //create new url api
 Route::delete('project/{project}/deleteTests', [AuditController::class, 'deleteTests']);  //delete every tests with url's name api
