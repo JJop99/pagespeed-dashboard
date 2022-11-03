@@ -79,10 +79,9 @@ const SiteList = () => {
     const handleDelete = (url) => {
         axios
             .delete(
-                `/api/deleteTests`,
+                `/api${location.pathname.slice(0,location.pathname.lastIndexOf("/"))}/deleteTests`,
                 {
                     params: {
-                        email: authCtx.user,
                         url: url.url,
                     },
                 },

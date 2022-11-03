@@ -51,10 +51,10 @@ const PerformanceHistory = () => {
                 if (res.statusText === "OK") {
                     console.log(res);
                     setPerformance(
-                        res.data[0].map(({ performance }) => performance)
+                        res.data.urls.map(({ performance }) => performance)
                     );
                     setDates(
-                        res.data[0].map(({ created_at }) =>
+                        res.data.urls.map(({ created_at }) =>
                             moment(created_at).format("DD-MM")
                         )
                     );

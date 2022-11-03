@@ -14,7 +14,7 @@ import { Button, styled, TablePagination } from "@mui/material";
 import Moment from "react-moment";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { grey } from "@mui/material/colors";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -35,7 +35,7 @@ const Projects = () => {
     //pagination
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
-    const [totalProjects, setTotalProjects] = useState();
+    const [totalProjects, setTotalProjects] = useState(0);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -51,8 +51,8 @@ const Projects = () => {
     const getProjects = (page, rows) => {
         axios
             .get(
-                `/api/projects`,{params:{  skip: page*rows, take: rows }}
-                ,
+                `/api/projects`,
+                { params: { skip: page * rows, take: rows } },
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type
@@ -63,8 +63,11 @@ const Projects = () => {
             .then((res) => {
                 if (res.statusText === "OK") {
                     console.log(res);
-                    setProjects(res.data.projects); //combiare urls con tests nell api
-                    setTotalProjects(res.data.total_projects);
+                    if(res.data.projects.length !== 0){
+                        setProjects(res.data.projects); //combiare urls con tests nell api
+                        setTotalProjects(res.data.total_projects);
+                    }
+                    
                     return res;
                 }
             })
@@ -77,15 +80,13 @@ const Projects = () => {
         getProjects(page, rowsPerPage);
     }, []);
 
-    const handleDelete = (url) => {
+    const handleDelete = (project) => {
         axios
             .delete(
-                `/api/singleDelete`,
+                `/api/deleteProject`,
                 {
                     params: {
-                        email: authCtx.user,
-                        url: url.url,
-                        created_at: url.created_at,
+                        id: project.id,
                     },
                 },
                 {
@@ -111,7 +112,9 @@ const Projects = () => {
             <div className={classes.title}>
                 Projects
                 <div>
-                    <Link to="/new-project"><AddIcon/></Link>
+                    <Link to="/new-project">
+                        <AddIcon />
+                    </Link>
                 </div>
             </div>
 
@@ -148,9 +151,12 @@ const Projects = () => {
                                 <TableCell component="th" scope="row">
                                     <div>{project.name}</div>
                                 </TableCell>
-                               
+
                                 <TableCell align="right">
-                                    <Moment className={classes.date } format="HH:mm DD-MM-YYYY">
+                                    <Moment
+                                        className={classes.date}
+                                        format="HH:mm DD-MM-YYYY"
+                                    >
                                         {project.created_at}
                                     </Moment>
                                 </TableCell>

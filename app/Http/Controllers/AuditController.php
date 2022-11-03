@@ -18,8 +18,8 @@ class AuditController extends Controller
     {
 
         $data = $request->all();
-        $email = $data['email'];
-        //$email = Auth::user()->email;
+        //$email = $data['email'];
+        $email = Auth::user()->email;
         $title = $data['title'];
         $url = $data['url'];
 
@@ -54,8 +54,7 @@ class AuditController extends Controller
 
         $performance = (int)(($fCPaint * 10) + ($sIndex * 10) +  ($lCPaint * 25) + ($tBTime * 30) + ($cLShift * 15) + ($int * 10)) / 100;
 
-        //$project = Project::find($data['project_id']);
-        info($project);
+        
         $audit = $project->audits()->create([
             'email' => $email,
             'title' => $title,
