@@ -38,10 +38,14 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'id' => 'required',
         ]);
-        $result = Project::select('id')
+        $audits = Audit::select('url')
             ->where('id', $validated['id'])
             ->delete();
 
+        $result = Project::select('id')
+            ->where('id', $validated['id'])
+            ->delete();
+        
         if ($result) {
 
             return response()->json(['message' => 'Successfully Deleted']);
