@@ -16,7 +16,7 @@ const MainNavigation = () => {
     const logoutHandler = () => {
         authCtx.onLogout();
         axios.defaults.withCredentials = true;
-        axios.post("/api/logout");
+        axios.get("/api/logout");
         navigate("/");
     };
 

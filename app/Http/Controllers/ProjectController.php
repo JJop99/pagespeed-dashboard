@@ -42,7 +42,6 @@ class ProjectController extends Controller
 
         $research = Project::select('name')
             ->where('id', $request['id'])
-            ->orderBy('created_at', 'desc')
             ->get();
         
         return response()->json([
