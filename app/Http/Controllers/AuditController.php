@@ -83,12 +83,12 @@ class AuditController extends Controller
         $validated = $request->validate([
             'id' => 'required'
         ]);
-        $statistics = Audit::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
+        $statistics = Audit::select( 'firstContentfulPaint', 'speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
             ->where('id', $validated['id'])
             ->where('project_id', $project['id'])
             ->get();
 
-        $performance = Audit::select('performance')
+        $performance = Audit::select('url', 'title', 'performance')
             ->where('id', $validated['id'])
             ->where('project_id', $project['id'])
             ->get();

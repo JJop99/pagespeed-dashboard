@@ -15,6 +15,7 @@ import Moment from "react-moment";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { grey } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteDialog from "../UI/DeleteDialog";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -28,11 +29,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const TestList = () => {
     const [audits, setAudits] = useState([]);
     axios.defaults.withCredentials = true;
-    const authCtx = useContext(AuthContext);
     const navigate = useNavigate();
     const formatDate = Moment;
     const location = useLocation();
-    console.log(location.pathname.slice(0, -1));
+
     //pagination
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -80,11 +80,6 @@ const TestList = () => {
 
     const handleDelete = (audit) => {
         
-        console.log(`/api
-        ${location.pathname.slice(
-            0,
-            location.pathname.lastIndexOf("/")
-        )} /singleDelete`);
         axios
             .delete(
                 `/api${location.pathname.slice(0,location.pathname.lastIndexOf("/"))}/singleDelete`,
@@ -143,6 +138,7 @@ const TestList = () => {
                     </TableHead>
                     <TableBody>
                         {audits.map((audit) => (
+                            
                             <TableRow
                                 onClick={() =>
                                     navigate(
@@ -174,14 +170,9 @@ const TestList = () => {
                                         {audit.created_at}
                                     </Moment>
                                 </TableCell>
-                                <TableCell align="right">
-                                    <DeleteOutlineIcon
-                                        variant="outlined"
-                                        color="error"
-                                        onClick={() => handleDelete(audit)}
-                                    >
-                                        Delete
-                                    </DeleteOutlineIcon>
+                                <TableCell align="right" onClick={e => e.stopPropagation()}>
+                                    
+                                    <DeleteDialog title={audit.title} delete={()=>handleDelete(audit)}/>
                                 </TableCell>
                             </TableRow>
                         ))}
