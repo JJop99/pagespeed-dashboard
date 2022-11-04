@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Audit;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -24,6 +25,7 @@ class ProjectController extends Controller
         $skip = $request['skip'] ?? '0';
 
         $research = Project::select('name','id')
+            ->where('email', Auth::user()->email)
             ->take($take)
             ->skip($skip)
             ->orderBy('created_at', 'desc')
@@ -42,6 +44,7 @@ class ProjectController extends Controller
 
         $research = Project::select('name')
             ->where('id', $request['id'])
+            ->where('email', Auth::user()->email)
             ->get();
         
         return response()->json([
