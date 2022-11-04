@@ -2,21 +2,23 @@ import { Box, Container, Grid, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import AnimatedProgressProvider from "../UI/AnimatedProgressProvider.js";
 import { TasksProgress } from "./tasks-progress";
 import { easeQuadInOut } from "d3-ease";
 import "react-circular-progressbar/dist/styles.css";
 import classes from "./Audit.module.scss";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 const Audit = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [audits, setAudits] = useState([]);
     const [info, setInfo] = useState();
     const [project, setProject] = useState("");
-
+    const navigate = useNavigate();
     const location = useLocation();
+
 
     const projectId = location.pathname.split("/")[2];
 
@@ -68,6 +70,9 @@ const Audit = () => {
                     console.log(res);
                     setAudits(res.data[0]);
                     setInfo(res.data[1][0]);
+                    if (res.data[0].length === 0) {
+                        navigate("/not-exist");
+                    }
                     return res;
                 }
             })
@@ -85,11 +90,16 @@ const Audit = () => {
         <div>
             {!isLoading && (
                 <div className={classes.box}>
-                    <div> <Link to={`${path}s`}><ArrowBackIosNewIcon/></Link>Project: {project.name}</div>
+                    <div className={classes.project}>
+                        <Link to={`${path}s`}>
+                            <ArrowBackIosNewRoundedIcon />
+                        </Link>
+                        Project: {project.name}
+                    </div>
                     <div className={classes.title}>{info.title}</div>
                     <div className={classes.subtitle}>{info.url}</div>
                     <div className={classes.performance}>Performance Score</div>
-                    <div className=" flex  w-full  -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
+                    <div className=" flex flex-col sm:flex-row w-full  -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
                         <div className="  my-3 px-3  overflow-hidden  sm:px-3   md:px-3   lg:px-3 lg:w-1/3  xl:px-3 xl:w-1/3">
                             <div>
                                 <AnimatedProgressProvider
@@ -167,6 +177,7 @@ const Audit = () => {
                     </div>
                 </div>
             )}
+            {isLoading && <LoadingSpinner/>}
         </div>
     );
 };

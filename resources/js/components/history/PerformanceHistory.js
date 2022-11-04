@@ -1,32 +1,65 @@
 import axios from "axios";
 import { Fragment, useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "react-circular-progressbar/dist/styles.css";
 import AuthContext from "../../store/auth-context.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Chart } from "react-chartjs-2";
 import classes from "./PerformanceHistory.module.scss";
 import InfoIcon from "@mui/icons-material/Info";
-import moment, { Moment } from "moment";
+import moment from "moment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-//import { MobileDateRangePicker } from "@mui/x-date-pickers-pro/MobileDateRangePicker";
-import { DesktopDateRangePicker } from "@mui/x-date-pickers-pro/DesktopDateRangePicker";
-//import { DateRange } from '@mui/x-date-picker/';
 import { Box, TextField } from "@mui/material";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 const PerformanceHistory = () => {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
     const [dates, setDates] = useState([]);
     const [performance, setPerformance] = useState([]);
-    const [value, setValue] = useState([null, null]);
+    const [from, setFrom] = useState();
+    const [to, setTo] = useState();
 
-    const authCtx = useContext(AuthContext);
+    const [project, setProject] = useState("");
+
+    const navigate = useNavigate();
 
     axios.defaults.withCredentials = true;
 
+    const projectId = location.pathname.split("/")[2];
+
+    const getProject = () => {
+        axios
+            .get(
+                `/api/project`,
+                { params: { id: projectId } },
+                {
+                    headers: {
+                        // Overwrite Axios's automatically set Content-Type
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                console.log(res);
+                if (res.statusText === "OK") {
+                    setProject(res.data.project[0]);
+                    if (res.data.project.length === 0) {
+                        navigate("/not-exist");
+                    }
+                    return res;
+                }
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
+    };
+
     useEffect(() => {
+        getProject();
         console.log(
             `/api${location.pathname.slice(
                 0,
@@ -39,7 +72,13 @@ const PerformanceHistory = () => {
                     0,
                     location.pathname.lastIndexOf("/")
                 )}`,
-                { params: { url: location.state.url } },
+                {
+                    params: {
+                        url: location.state.url,
+                        from: moment(from).format("YYYY-MM-DD"),
+                        to: moment(to).format("YYYY-MM-DD"),
+                    },
+                },
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type
@@ -69,7 +108,7 @@ const PerformanceHistory = () => {
                 setIsLoading(false);
                 console.log(performance);
             });
-    }, []);
+    }, [from, to]);
 
     const data = {
         labels: dates,
@@ -82,12 +121,17 @@ const PerformanceHistory = () => {
             },
         ],
     };
-    console.log(performance);
-    console.log(value);
+
     return (
         <div>
             {!isLoading && (
                 <div className={classes.box}>
+                    <div className={classes.project}>
+                        <Link to={`/project/${projectId}/audits`}>
+                            <ArrowBackIosNewRoundedIcon />
+                        </Link>
+                        Project: {project.name}
+                    </div>
                     <div className={classes.title}>Performance Scores</div>
                     <div className={classes.subtitle}>{location.state.url}</div>
 
@@ -110,37 +154,39 @@ const PerformanceHistory = () => {
                                     },
                                 }}
                             />{" "}
-                            <LocalizationProvider
-                                dateAdapter={AdapterMoment}
-                                localeText={{
-                                    start: "Desktop start",
-                                    end: "Desktop end",
-                                }}
-                            >
-                                <DesktopDateRangePicker
-                                    value={value}
-                                    onChange={(newValue) => {
-                                        setValue(newValue);
+                        </div>
+                        <div className={classes.datePickers}>
+                            {" "}
+                            <LocalizationProvider dateAdapter={AdapterMoment}>
+                                <DesktopDatePicker
+                                    className={classes.datePicker}
+                                    label="From"
+                                    value={from}
+                                    minDate={moment("2017-01-01")}
+                                    inputFormat="DD/MM/YYYY"
+                                    onChange={(newFrom) => {
+                                        setFrom(newFrom);
                                     }}
-                                    renderInput={(startProps, endProps) => (
-                                        <Fragment>
-                                            <TextField {...startProps} />
-                                            <Box sx={{ mx: 2 }}> to </Box>
-                                            <TextField {...endProps} />
-                                        </Fragment>
+                                    renderInput={(params) => (
+                                        <TextField {...params} />
                                     )}
                                 />
-                                {/* <MobileDatePicker
-                            label="Date mobile"
-                            inputFormat="MM/DD/YYYY"
-                            value={value}
-                            onChange={handleChange}
-                            renderInput={(params) => (
-                                <TextField {...params} />
-                            )}
-                        /> */}
+                                <DesktopDatePicker
+                                    className={classes.datePicker}
+                                    label="To"
+                                    value={to}
+                                    minDate={from}
+                                    inputFormat="DD/MM/YYYY"
+                                    onChange={(newTo) => {
+                                        setTo(newTo);
+                                    }}
+                                    renderInput={(params) => (
+                                        <TextField {...params} />
+                                    )}
+                                />
                             </LocalizationProvider>
                         </div>
+
                         <div>
                             <div className={classes.description}>
                                 <InfoIcon />
@@ -174,6 +220,7 @@ const PerformanceHistory = () => {
                     </div>
                 </div>
             )}
+            {isLoading && <LoadingSpinner/>}
         </div>
     );
 };

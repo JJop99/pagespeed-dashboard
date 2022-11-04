@@ -25,6 +25,12 @@ const Layout = (props) => {
                 authCtx.onLogout();
                 navigate("/");
             }
+            if (
+                error.response.status === 404 
+            ) {
+                //place your reentry code
+                navigate("*");
+            }
             return error;
         }
     );

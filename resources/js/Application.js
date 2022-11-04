@@ -13,6 +13,7 @@ import AuthContext from "./store/auth-context";
 import NewProject from "./components/home/projects/NewProject";
 import Audits from "./components/audits/Audits";
 import NewTest from "./components/new-test/NewTest";
+import NotExist from "./components/NotExist";
 
 const Application = () => {
     const authCtx = useContext(AuthContext);
@@ -40,6 +41,7 @@ const Application = () => {
                     element={<PerformanceHistory />}
                 />
                 <Route path="*" element={<PageNotFound />} />
+                <Route path="/not-exist" element={<NotExist/>} />
             </Routes>
         </Layout>
     );

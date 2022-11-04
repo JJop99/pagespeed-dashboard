@@ -16,6 +16,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { grey } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteDialog from "../../UI/DeleteDialog";
+import LoadingSpinner from "../../UI/LoadingSpinner";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -29,7 +30,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const Projects = () => {
     const [projects, setProjects] = useState([]);
     axios.defaults.withCredentials = true;
-    const authCtx = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const formatDate = Moment;
 
@@ -50,6 +51,7 @@ const Projects = () => {
     };
 
     const getProjects = (page, rows) => {
+        setIsLoading(true);
         axios
             .get(
                 `/api/projects`,
@@ -64,16 +66,19 @@ const Projects = () => {
             .then((res) => {
                 if (res.statusText === "OK") {
                     console.log(res);
-                    if(res.data.projects.length !== 0){
+                    if (res.data.projects.length !== 0) {
                         setProjects(res.data.projects); //combiare urls con tests nell api
                         setTotalProjects(res.data.total_projects);
                     }
-                    
+
                     return res;
                 }
             })
             .catch((err) => {
                 alert(err.message);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -82,6 +87,7 @@ const Projects = () => {
     }, []);
 
     const handleDelete = (project) => {
+        setIsLoading(true);
         axios
             .delete(
                 `/api/deleteProject`,
@@ -105,83 +111,98 @@ const Projects = () => {
             })
             .catch((err) => {
                 alert(err.message);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
     return (
         <Fragment>
-            <div className={classes.title}>
-                Projects
+            {!isLoading && (
                 <div>
-                    <Link to="/new-project">
-                        <AddIcon />
-                    </Link>
-                </div>
-            </div>
+                    <div className={classes.title}>
+                        Projects
+                        <div>
+                            <Link to="/new-project">
+                                <AddIcon />
+                            </Link>
+                        </div>
+                    </div>
 
-            <TableContainer component={Paper}>
-                <Table
-                    stickyHeader
-                    sx={{ maxHeight: 220 }}
-                    aria-label="simple table"
-                >
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Project</StyledTableCell>
-                            <StyledTableCell align="right">
-                                Date
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                                Delete
-                            </StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {projects.map((project) => (
-                            <TableRow
-                                onClick={() =>
-                                    navigate(`/project/${project.id}/audits`)
-                                }
-                                key={project.name}
-                                sx={{
-                                    "&:last-child td, &:last-child th": {
-                                        border: 0,
-                                    },
-                                }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    <div>{project.name}</div>
-                                </TableCell>
-
-                                <TableCell align="right">
-                                    <Moment
-                                        className={classes.date}
-                                        format="HH:mm DD-MM-YYYY"
+                    <TableContainer component={Paper}>
+                        <Table
+                            stickyHeader
+                            sx={{ maxHeight: 220 }}
+                            aria-label="simple table"
+                        >
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell>Project</StyledTableCell>
+                                    <StyledTableCell align="right">
+                                        Date
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">
+                                        Delete
+                                    </StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {projects.map((project) => (
+                                    <TableRow
+                                        onClick={() =>
+                                            navigate(
+                                                `/project/${project.id}/audits`
+                                            )
+                                        }
+                                        key={project.name}
+                                        sx={{
+                                            "&:last-child td, &:last-child th":
+                                                {
+                                                    border: 0,
+                                                },
+                                        }}
                                     >
-                                        {project.created_at}
-                                    </Moment>
-                                </TableCell>
-                                <TableCell align="right" onClick={(e) => e.stopPropagation()}
-                                >
-                                    <DeleteDialog
-                                        title={project.name}
-                                        delete={() => handleDelete(project)}
-                                    />
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[8, 15, 25]}
-                component="div"
-                count={totalProjects}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+                                        <TableCell component="th" scope="row">
+                                            <div>{project.name}</div>
+                                        </TableCell>
+
+                                        <TableCell align="right">
+                                            <Moment
+                                                className={classes.date}
+                                                format="HH:mm DD-MM-YYYY"
+                                            >
+                                                {project.created_at}
+                                            </Moment>
+                                        </TableCell>
+                                        <TableCell
+                                            align="right"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <DeleteDialog
+                                                title={project.name}
+                                                delete={() =>
+                                                    handleDelete(project)
+                                                }
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={[8, 15, 25]}
+                        component="div"
+                        count={totalProjects}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </div>
+            )}
+            {isLoading && <LoadingSpinner />}
         </Fragment>
     );
 };

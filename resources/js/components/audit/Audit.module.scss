@@ -8,6 +8,10 @@
     @apply text-5xl text-gray-900 mb-2
 
 }
+.project{
+    @apply text-xl md:text-2xl text-gray-900 mb-4 align-middle
+
+}
 .subtitle{
     @apply text-3xl text-gray-500 mb-16 w-64 sm:w-10/12;
 

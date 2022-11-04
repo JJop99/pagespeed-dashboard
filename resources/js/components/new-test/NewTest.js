@@ -12,6 +12,7 @@ import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import { CircularProgress } from "@mui/material";
+import LoadingSpinner from "../UI/LoadingSpinner";
 
 const theme = createTheme();
 
@@ -118,17 +119,7 @@ const NewTest = () => {
                     </Box>
                 )}
                 {isLoading && (
-                    <Box
-                        sx={{
-                            marginTop: 8,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                        }}
-                    >
-                        <CircularProgress />
-                        <div className="pt-8">Test Making</div>
-                    </Box>
+                    <LoadingSpinner/>
                 )}
             </Container>
         </ThemeProvider>

@@ -29,3 +29,8 @@
 .title {
     @apply my-4 font-medium text-xl flex justify-between;
 }
+
+.project{
+    @apply text-xl md:text-2xl text-gray-900 mb-4
+
+}
