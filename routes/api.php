@@ -33,12 +33,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+Route::post('project/{project}/audit', [AuditController::class, 'audit']); //create new url api
 Route::middleware('auth:sanctum')->group(function () {
 Route::post('project', [ProjectController::class, 'project']);
 Route::get('projects', [ProjectController::class, 'getProjects']);
 Route::get('project', [ProjectController::class, 'getProject']);
 Route::delete('deleteProject', [ProjectController::class, 'deleteProject']);
-Route::post('project/{project}/audit', [AuditController::class, 'audit']); //create new url api
 Route::delete('project/{project}/deleteTests', [AuditController::class, 'deleteTests']);  //delete every tests with url's name api
 Route::delete('project/{project}/singleDelete', [AuditController::class, 'singleDelete']); //delete single test api
 Route::get('project/{project}/sites', [AuditController::class, 'getSites']); //list of sites api
