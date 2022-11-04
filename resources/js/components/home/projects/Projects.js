@@ -15,6 +15,7 @@ import Moment from "react-moment";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { grey } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteDialog from "../../UI/DeleteDialog";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -98,7 +99,7 @@ const Projects = () => {
             )
             .then((res) => {
                 if (res.statusText === "OK") {
-                    navigate("/home");
+                    navigate("/");
                     return res;
                 }
             })
@@ -160,14 +161,12 @@ const Projects = () => {
                                         {project.created_at}
                                     </Moment>
                                 </TableCell>
-                                <TableCell align="right">
-                                    <DeleteOutlineIcon
-                                        variant="outlined"
-                                        color="error"
-                                        onClick={() => handleDelete(project)}
-                                    >
-                                        Delete
-                                    </DeleteOutlineIcon>
+                                <TableCell align="right" onClick={(e) => e.stopPropagation()}
+                                >
+                                    <DeleteDialog
+                                        title={project.name}
+                                        delete={() => handleDelete(project)}
+                                    />
                                 </TableCell>
                             </TableRow>
                         ))}

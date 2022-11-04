@@ -14,6 +14,7 @@ import { Button, TablePagination } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { grey } from "@mui/material/colors";
 import styled from "@emotion/styled";
+import DeleteDialog from "../UI/DeleteDialog";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -50,7 +51,10 @@ const SiteList = () => {
         const email = authCtx.user;
         axios
             .get(
-                `/api${location.pathname.slice(0,location.pathname.lastIndexOf("/"))}/sites`,
+                `/api${location.pathname.slice(
+                    0,
+                    location.pathname.lastIndexOf("/")
+                )}/sites`,
                 { params: { skip: page * rows, take: rows } },
                 {
                     headers: {
@@ -79,7 +83,10 @@ const SiteList = () => {
     const handleDelete = (url) => {
         axios
             .delete(
-                `/api${location.pathname.slice(0,location.pathname.lastIndexOf("/"))}/deleteTests`,
+                `/api${location.pathname.slice(
+                    0,
+                    location.pathname.lastIndexOf("/")
+                )}/deleteTests`,
                 {
                     params: {
                         url: url.url,
@@ -125,9 +132,15 @@ const SiteList = () => {
                         {urls.map((url, id) => (
                             <TableRow
                                 onClick={() =>
-                                    navigate(`${location.pathname.slice(0,location.pathname.lastIndexOf("/"))}/sitePerformances/${id}`, {
-                                        state: { url: url.url },
-                                    })
+                                    navigate(
+                                        `${location.pathname.slice(
+                                            0,
+                                            location.pathname.lastIndexOf("/")
+                                        )}/sitePerformances/${id}`,
+                                        {
+                                            state: { url: url.url },
+                                        }
+                                    )
                                 }
                                 key={id}
                                 sx={{
@@ -141,14 +154,14 @@ const SiteList = () => {
                                         {url.url}
                                     </div>
                                 </TableCell>
-                                <TableCell align="right">
-                                    <DeleteOutlineIcon
-                                        variant="outlined"
-                                        color="error"
-                                        onClick={() => handleDelete(url)}
-                                    >
-                                        Delete
-                                    </DeleteOutlineIcon>
+                                <TableCell
+                                    align="right"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <DeleteDialog
+                                        title={url.url}
+                                        delete={() => handleDelete(url)}
+                                    />
                                 </TableCell>
                             </TableRow>
                         ))}

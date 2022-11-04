@@ -2,29 +2,60 @@ import { Box, Container, Grid, CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { buildStyles, CircularProgressbar } from "react-circular-progressbar";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AnimatedProgressProvider from "../UI/AnimatedProgressProvider.js";
 import { TasksProgress } from "./tasks-progress";
 import { easeQuadInOut } from "d3-ease";
 import "react-circular-progressbar/dist/styles.css";
 import classes from "./Audit.module.scss";
-import Card from "../UI/Card.js";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+
 const Audit = () => {
-    const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
     const [audits, setAudits] = useState([]);
-    const [performance, setPerformance] = useState();
+    const [info, setInfo] = useState();
+    const [project, setProject] = useState("");
+
+    const location = useLocation();
+
+    const projectId = location.pathname.split("/")[2];
 
     axios.defaults.withCredentials = true;
-    const path = location.pathname.slice(0, location.pathname.lastIndexOf('/'));
+    const path = location.pathname.slice(0, location.pathname.lastIndexOf("/"));
     const id = location.pathname.split("/").pop();
 
+    const getProject = () => {
+        axios
+            .get(
+                `/api/project`,
+                { params: { id: projectId } },
+                {
+                    headers: {
+                        // Overwrite Axios's automatically set Content-Type
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                console.log(res);
+                if (res.statusText === "OK") {
+                    setProject(res.data.project[0]);
+
+                    return res;
+                }
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
+    };
+
     useEffect(() => {
-        console.log(path);
+        getProject();
+
         axios
             .get(
                 `/api${path}`,
-                { params: { id:  id}},
+                { params: { id: id } },
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type
@@ -34,8 +65,9 @@ const Audit = () => {
             )
             .then((res) => {
                 if (res.statusText === "OK") {
+                    console.log(res);
                     setAudits(res.data[0]);
-                    setPerformance(res.data[1][0].performance * 100);
+                    setInfo(res.data[1][0]);
                     return res;
                 }
             })
@@ -47,21 +79,22 @@ const Audit = () => {
             });
     }, []);
 
+    console.log(info);
+
     return (
         <div>
             {!isLoading && (
-                <div
-                    className={classes.box}
-                >
-                    {/* <div className={classes.title}>{location.state.title}</div>
-                    <div className={classes.subtitle}>{location.state.url}</div> */}
+                <div className={classes.box}>
+                    <div> <Link to={`${path}s`}><ArrowBackIosNewIcon/></Link>Project: {project.name}</div>
+                    <div className={classes.title}>{info.title}</div>
+                    <div className={classes.subtitle}>{info.url}</div>
                     <div className={classes.performance}>Performance Score</div>
                     <div className=" flex  w-full  -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
                         <div className="  my-3 px-3  overflow-hidden  sm:px-3   md:px-3   lg:px-3 lg:w-1/3  xl:px-3 xl:w-1/3">
                             <div>
                                 <AnimatedProgressProvider
                                     valueStart={0}
-                                    valueEnd={performance}
+                                    valueEnd={info.performance * 100}
                                     duration={1.4}
                                     easingFunction={easeQuadInOut}
                                 >
