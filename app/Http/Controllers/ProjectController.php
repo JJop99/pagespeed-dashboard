@@ -32,14 +32,14 @@ class ProjectController extends Controller
 
 
         if ($request['order'] == 'desc') {
-            $research = Project::select('name', 'id')
+            $research = Project::select('name', 'id', 'created_at')
                 ->where('email', Auth::user()->email)
                 ->take($take)
                 ->skip($skip)
                 ->orderBy($validated['filter'], 'desc')
                 ->get();
         } else {
-            $research = Project::select('name', 'id')
+            $research = Project::select('name', 'id', 'created_at')
                 ->where('email', Auth::user()->email)
                 ->take($take)
                 ->skip($skip)

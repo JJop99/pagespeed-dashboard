@@ -12,13 +12,15 @@ import EditDialog from "../../UI/EditDialog";
 
 const tableConstants = (handleEdit, handleDelete) => {
     return [
-        {
+        {   
+            id: "name",
             title: "Project",
             render: (rowData) => {
                 return <span>{rowData.name}</span>;
             },
         },
         {
+            id: "created_at",
             title: "Date",
             render: (rowData) => {
                 return (
@@ -35,6 +37,7 @@ const tableConstants = (handleEdit, handleDelete) => {
         },
 
         {
+            id: "delete",
             title: "Delete",
             render: (rowData) => {
                 return (
@@ -47,6 +50,7 @@ const tableConstants = (handleEdit, handleDelete) => {
             },
         },
         {
+            id: "edit",
             title: "Edit",
             render: (rowData) => {
                 return (
@@ -68,6 +72,8 @@ const Projects_newTable = (props) => {
     const navigate = useNavigate();
     const formatDate = Moment;
     const api = "projects";
+
+   
 
     const handleDelete = (project) => {
         setIsLoading(true);
