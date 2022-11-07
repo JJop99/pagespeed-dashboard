@@ -160,18 +160,31 @@ class AuditController extends Controller
     }
     public function getSites(Request $request, Project $project)
     {
+        $validated = $request->validate([
+            'filter' => 'required',
+            'order' => 'required'
+        ]);
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
-
+        if ($request['order'] == 'desc') {
         $results = Audit::select('url')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
             ->groupBy('url')
             ->take($take)
             ->skip($skip)
-            ->orderBy('url', 'desc')
+            ->orderBy($validated['filter'], 'desc')
             ->get();
-
+        }else{
+            $results = Audit::select('url')
+            ->where('email', Auth::user()->email)
+            ->where('project_id', $project['id'])
+            ->groupBy($validated['filter'])
+            ->take($take)
+            ->skip($skip)
+            ->orderBy('url')
+            ->get();
+        }
         $total = Audit::select('url')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
