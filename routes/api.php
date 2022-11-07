@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+Route::get('project/{project}/editAudit', [AuditController::class, 'editAudit']); //return pagespeed's calculate values api
 Route::post('project/{project}/audit', [AuditController::class, 'audit']); //create new url api
 Route::middleware('auth:sanctum')->group(function () {
 Route::post('project', [ProjectController::class, 'project']);

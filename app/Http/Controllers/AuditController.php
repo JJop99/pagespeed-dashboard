@@ -101,23 +101,33 @@ class AuditController extends Controller
 
     public function getAudits(Request $request, Project $project)
     {
-        
+        $validated = request()->validated([
+            'filter' => 'required'
+        ]);
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
-
+        if ($request->has('desc')) {
         $research = Audit::select('url', 'title', 'id', 'created_at')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
             ->take($take)
             ->skip($skip)
-            ->orderBy('created_at', 'desc')
+            ->orderBy($validated['filter'], 'desc')
             ->get();
+        }else{
+            $research = Audit::select('url', 'title', 'id', 'created_at')
+            ->where('email', Auth::user()->email)
+            ->where('project_id', $project['id'])
+            ->take($take)
+            ->skip($skip)
+            ->orderBy($validated['filter'])
+            ->get();
+        }
 
         $total = Audit::select('url')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
             ->count();
-
 
         return response()->json([
             'urls' => $research,
@@ -218,5 +228,27 @@ class AuditController extends Controller
         } else {
             return response()->json(['message' => 'Delete Failed']);
         }
+    }
+    public function editAudit(Request $request, Project $project){
+        $validated = $request->validate([
+            'id' => 'required',
+            'newTitle' => 'required',
+            'email' => 'required'
+        ]);
+        //$result = Audit::select('title')
+            //->where('email', $validated['email'])
+            //->where('email', Auth::user()->email)
+            //->where('project_id', $project['id'])
+            //->where('id', $validated['id'])
+            //->update(array('title' => $validated['newTitle']))
+            //->get();
+        $result = Audit::where('email', $validated['email'])
+        ->where('project_id', $project['id'])
+        ->where('id', $validated['id'])
+        ->update(array('title' =>  $validated['newTitle']));
+        
+       //$result->title = $validated['newTitle'];
+            
+        return response()->json($result);
     }
 }
