@@ -38,13 +38,13 @@ const SiteList = () => {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-        research(newPage, rowsPerPage);
+        getSites(newPage, rowsPerPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
-        research(0, +event.target.value);
+        getSites(0, +event.target.value);
     };
 
     const getSites = (page, rows) => {

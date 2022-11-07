@@ -11,7 +11,7 @@ const LoadingSpinner = () => {
             }}
         >
             <CircularProgress />
-            <div className="pt-8">Plesae wait ...</div>
+            <div className="pt-8">Please wait ...</div>
         </Box>
     );
 };

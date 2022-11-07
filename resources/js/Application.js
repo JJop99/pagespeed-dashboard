@@ -14,6 +14,7 @@ import NewProject from "./components/home/projects/NewProject";
 import Audits from "./components/audits/Audits";
 import NewTest from "./components/new-test/NewTest";
 import NotExist from "./components/NotExist";
+import Projects_newTable from "./components/home/projects/Projects_newTable";
 
 const Application = () => {
     const authCtx = useContext(AuthContext);
@@ -42,6 +43,9 @@ const Application = () => {
                 />
                 <Route path="*" element={<PageNotFound />} />
                 <Route path="/not-exist" element={<NotExist/>} />
+
+
+                <Route path="/table_test" element={<Projects_newTable />} />
             </Routes>
         </Layout>
     );

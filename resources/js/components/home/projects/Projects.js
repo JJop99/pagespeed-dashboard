@@ -17,6 +17,7 @@ import { grey } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteDialog from "../../UI/DeleteDialog";
 import LoadingSpinner from "../../UI/LoadingSpinner";
+import EditDialog from "../../UI/EditDialog";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -27,7 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
 }));
 
-const Projects = () => {
+const Projects = (props) => {
     const [projects, setProjects] = useState([]);
     axios.defaults.withCredentials = true;
     const [isLoading, setIsLoading] = useState(false);
@@ -41,13 +42,13 @@ const Projects = () => {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-        research(newPage, rowsPerPage);
+        getProjects(newPage, rowsPerPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
-        research(0, +event.target.value);
+        getProjects(0, +event.target.value);
     };
 
     const getProjects = (page, rows) => {
@@ -117,6 +118,39 @@ const Projects = () => {
             });
     };
 
+    const handleEdit = (id, newName) => {
+        setIsLoading(true);
+        console.log(newName);
+        axios
+            .get(
+                `/api/editProject`,
+                {
+                    params: {
+                        id: id,
+                        name: newName,
+                    },
+                },
+                {
+                    headers: {
+                        // Overwrite Axios's automatically set Content-Type
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                if (res.statusText === "OK") {
+                    navigate("/");
+                    return res;
+                }
+            })
+            .catch((err) => {
+                alert(err.message);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+    };
+
     return (
         <Fragment>
             {!isLoading && (
@@ -144,6 +178,9 @@ const Projects = () => {
                                     </StyledTableCell>
                                     <StyledTableCell align="right">
                                         Delete
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">
+                                        Edit
                                     </StyledTableCell>
                                 </TableRow>
                             </TableHead>
@@ -184,6 +221,16 @@ const Projects = () => {
                                                 delete={() =>
                                                     handleDelete(project)
                                                 }
+                                            />
+                                        </TableCell>
+                                        <TableCell
+                                            align="right"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            <EditDialog
+                                                title={project.name}
+                                                id={project.id}
+                                                edit={handleEdit}
                                             />
                                         </TableCell>
                                     </TableRow>
