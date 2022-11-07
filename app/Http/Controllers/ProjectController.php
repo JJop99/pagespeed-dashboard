@@ -11,27 +11,41 @@ class ProjectController extends Controller
 {
     public function project(Request $request)
     {
-      $project =  Project::create([
-            'name'=>$request['name'],
-            'email'=>Auth::user()->email
+
+        $project =  Project::create([
+            'name' => $request['name'],
+            'email' => Auth::user()->email
 
         ]);
-        
+
         return response()->json($project);
     }
 
-    public function getProjects(Request $request){
-
+    public function getProjects(Request $request)
+    {
+        $validated = $request->validate([
+            'filter' => 'required',
+            'order' => 'required'
+        ]);
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
 
-        $research = Project::select('name','id')
-            ->where('email', Auth::user()->email)
-            ->take($take)
-            ->skip($skip)
-            ->orderBy('created_at', 'desc')
-            ->get();
-        
+
+        if ($request['order'] == 'desc') {
+            $research = Project::select('name', 'id')
+                ->where('email', Auth::user()->email)
+                ->take($take)
+                ->skip($skip)
+                ->orderBy($validated['filter'], 'desc')
+                ->get();
+        } else {
+            $research = Project::select('name', 'id')
+                ->where('email', Auth::user()->email)
+                ->take($take)
+                ->skip($skip)
+                ->orderBy($validated['filter'])
+                ->get();
+        }
         $total = Project::select('id')
             ->get()
             ->count();
@@ -41,13 +55,14 @@ class ProjectController extends Controller
             'total_projects' => $total
         ]);
     }
-    public function getProject(Request $request){
+    public function getProject(Request $request)
+    {
 
         $research = Project::select('name')
             ->where('id', $request['id'])
             ->where('email', Auth::user()->email)
             ->get();
-        
+
         return response()->json([
             'project' => $research,
         ]);
@@ -64,12 +79,27 @@ class ProjectController extends Controller
         $result = Project::select('id')
             ->where('id', $validated['id'])
             ->delete();
-        
+
         if ($result) {
 
             return response()->json(['message' => 'Successfully Deleted']);
         } else {
             return response()->json(['message' => 'Delete Failed']);
         }
+    }
+
+    public function editProject(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required',
+            'newTitle' => 'required',
+        ]);
+
+        $research = Project::where('id', $request['id'])
+            ->where('email', Auth::user()->email)
+            ->update(array('name' =>  $validated['newTitle']));
+
+
+        return response()->json($research);
     }
 }
