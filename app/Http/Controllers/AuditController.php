@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Audit;
 use App\Models\Project;
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -18,7 +17,6 @@ class AuditController extends Controller
     {
 
         $data = $request->all();
-        //$email = $data['email'];
         $email = Auth::user()->email;
         $title = $data['title'];
         $url = $data['url'];
