@@ -7,7 +7,6 @@ import AnimatedProgressProvider from "../UI/AnimatedProgressProvider.js";
 import { TasksProgress } from "./tasks-progress";
 import { easeQuadInOut } from "d3-ease";
 import "react-circular-progressbar/dist/styles.css";
-import classes from "./Audit.module.scss";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import LoadingSpinner from "../UI/LoadingSpinner";
 
@@ -89,16 +88,16 @@ const Audit = () => {
     return (
         <div>
             {!isLoading && (
-                <div className={classes.box}>
-                    <div className={classes.project}>
+                <div>
+                    <div className="result__project-audit">
                         <Link to={`${path}s`}>
                             <ArrowBackIosNewRoundedIcon />
                         </Link>
                         Project: {project.name}
                     </div>
-                    <div className={classes.title}>{info.title}</div>
-                    <div className={classes.subtitle}>{info.url}</div>
-                    <div className={classes.performance}>Performance Score</div>
+                    <div className="result__title-audit">{info.title}</div>
+                    <div className="result__subtitle-audit">{info.url}</div>
+                    <div className="result__performance">Performance Score</div>
                     <div className=" flex flex-col sm:flex-row w-full  -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
                         <div className="  my-3 px-3  overflow-hidden  sm:px-3   md:px-3   lg:px-3 lg:w-1/3  xl:px-3 xl:w-1/3">
                             <div>
@@ -139,7 +138,7 @@ const Audit = () => {
                         </div>
 
                         <div className=" my-3 px-3 w-full overflow-hidden  sm:px-3   md:px-3   lg:px-3 lg:w-2/3  xl:px-3 xl:w-2/3">
-                            <div className={classes.description}>
+                            <div className="result__description-audit">
                                 The Performance score is a weighted average of
                                 the metric scores.
                                 <br />
@@ -156,7 +155,7 @@ const Audit = () => {
                         </div>
                     </div>
                     <br></br>
-                    <div className={classes.performance}>Metrics</div>
+                    <div className="result__performance">Metrics</div>
                     <div className="flex flex-wrap -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
                         {Object.entries(...audits).map((audit) => (
                             <div

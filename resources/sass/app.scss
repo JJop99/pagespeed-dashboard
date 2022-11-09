@@ -1,20 +1,229 @@
 // Variables
-@import 'variables';
+@import "variables";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 // Fontsource Roboto
-@import '@fontsource/roboto/300.css';
-@import '@fontsource/roboto/400.css';
-@import '@fontsource/roboto/500.css';
-@import '@fontsource/roboto/700.css';
+@import "@fontsource/roboto/300.css";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/500.css";
+@import "@fontsource/roboto/700.css";
 
-.MuiTableRow-root{
+.MuiTableRow-root {
     cursor: pointer;
 }
 
-.MuiTableHead-root{
-    @apply bg-slate-300
+.MuiTableHead-root {
+    @apply bg-slate-300;
+}
+
+// Container.js
+.container {
+    @apply w-11/12 sm:w-4/5 p-6 sm:p-16;
+
+    min-height: 80%;
+    top: 0;
+    margin: auto;
+    margin-top: -5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 14px;
+    background-color: white;
+    z-index: 1;
+    //position: absolute;
+}
+
+// Layout.js
+.layout {
+    //display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+// Card.js
+.card {
+    padding: 1rem;
+    margin: 1rem;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 14px;
+    background-color: white;
+}
+
+// MainNavigation.js
+.mainNav {
+    &__header {
+        width: 100%;
+        height: 15rem;
+        top: 0;
+        background-color: #111827;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        padding: 0 10%;
+
+        div {
+            height: 5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: baseline;
+        }
+
+        li {
+            margin: 0 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+
+            a:hover {
+                color: #c291e2;
+            }
+        }
+
+        button {
+            font: inherit;
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            font-weight: bold;
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #c291e2;
+            color: #38015c;
+        }
+    }
+
+    &__logo {
+        color: white;
+        margin: 0;
+    }
+
+    &__title {
+        @apply text-2xl sm:text-4xl;
+        font-style: normal;
+        font-weight: 500;
+        color: white;
+    }
+}
+
+// tables
+.table {
+    &__url {
+        display: block;
+        float: right;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @apply w-32 md:w-64;
+    }
+    &__date {
+        display: block;
+        float: right;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    &__project {
+        @apply text-xl md:text-2xl text-gray-900 mb-4;
+    }
+
+    &__titleUrl {
+        display: block;
+        @apply w-32 md:w-64;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__title {
+        @apply my-4 font-medium text-xl flex justify-between;
+    }
+}
+
+// results (Audit.js, PerformanceHistory.js)
+.result {
+    &__description {
+        @apply text-left border-t-2 text-lg text-gray-500;
+        &-audit {
+            @apply p-6 mb-16  md:border-t-0 md:border-l-2;
+        }
+        &-performance {
+            @apply pt-10 mt-16;
+        }
+    }
+    &__title {
+        @apply text-gray-900 mb-2;
+        &-audit {
+            @apply text-5xl;
+        }
+        &-performance {
+            @apply text-3xl md:text-5xl;
+        }
+    }
+    &__project {
+        @apply text-xl md:text-2xl text-gray-900 mb-4;
+        &-audit {
+            @apply align-middle;
+        }
+        
+    }
+    &__subtitle {
+        @apply  text-gray-500 mb-16 w-64 sm:w-10/12;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &-audit {
+            @apply text-3xl ;
+        }
+        &-performance {
+            @apply text-2xl md:text-3xl;
+        }
+    }
+
+
+    &__performance {
+        @apply text-3xl text-gray-900 mb-8;
+    }
+
+    &__list {
+        @apply list-inside list-disc;
+    }
+
+    &__chart{
+        @apply sm:m-16 ;
+    }
+
+    &__datePickers {
+        @apply flex flex-col sm:flex-row justify-center;
+    
+        &-datePicker{
+            @apply m-2 md:m-4;
+        }
+    
+    }
+}
+
+// Footer.js
+.footer {
+    margin: 3rem;
+    bottom: 0;
+
+    img {
+        display: inline;
+    }
 }

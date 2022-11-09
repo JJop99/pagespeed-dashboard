@@ -1,16 +1,14 @@
 import axios from "axios";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "react-circular-progressbar/dist/styles.css";
-import AuthContext from "../../store/auth-context.js";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Chart } from "react-chartjs-2";
-import classes from "./PerformanceHistory.module.scss";
 import InfoIcon from "@mui/icons-material/Info";
 import moment from "moment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { Box, TextField } from "@mui/material";
+import {  TextField } from "@mui/material";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import LoadingSpinner from "../UI/LoadingSpinner";
@@ -125,18 +123,18 @@ const PerformanceHistory = () => {
     return (
         <div>
             {!isLoading && (
-                <div className={classes.box}>
-                    <div className={classes.project}>
+                <div>
+                    <div className="result__project">
                         <Link to={`/project/${projectId}/audits`}>
                             <ArrowBackIosNewRoundedIcon />
                         </Link>
                         Project: {project.name}
                     </div>
-                    <div className={classes.title}>Performance Scores</div>
-                    <div className={classes.subtitle}>{location.state.url}</div>
+                    <div className="result__title-performance">Performance Scores</div>
+                    <div className="result__subtitle-performance">{location.state.url}</div>
 
                     <div>
-                        <div className={classes.chart}>
+                        <div className="result__chart">
                             <Chart
                                 type="line"
                                 data={data}
@@ -155,11 +153,11 @@ const PerformanceHistory = () => {
                                 }}
                             />{" "}
                         </div>
-                        <div className={classes.datePickers}>
+                        <div className="result__datePickers">
                             {" "}
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DesktopDatePicker
-                                    className={classes.datePicker}
+                                    className="result__datePickers-datePicker"
                                     label="From"
                                     value={from}
                                     minDate={moment("2017-01-01")}
@@ -172,7 +170,7 @@ const PerformanceHistory = () => {
                                     )}
                                 />
                                 <DesktopDatePicker
-                                    className={classes.datePicker}
+                                    className="result__datePickers-datePicker"
                                     label="To"
                                     value={to}
                                     minDate={from}
@@ -188,7 +186,7 @@ const PerformanceHistory = () => {
                         </div>
 
                         <div>
-                            <div className={classes.description}>
+                            <div className="result__description-performance">
                                 <InfoIcon />
                                 <br />
                                 <br />
@@ -198,7 +196,7 @@ const PerformanceHistory = () => {
                                 <br />
                                 <br />
                                 Common problems include:
-                                <ul className={classes.list}>
+                                <ul className="result__list">
                                     <li>
                                         A/B tests or changes in ads being served
                                     </li>

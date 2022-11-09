@@ -1,11 +1,10 @@
 import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import SiteList from "./SiteList";
 import TestList from "./TestList";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
-import classes from "./Table.module.scss";
 import LoadingSpinner from "../UI/LoadingSpinner";
+import SiteList from "./SiteList";
 
 const Audits = () => {
     const [project, setProject] = useState("");
@@ -52,11 +51,11 @@ const Audits = () => {
         <Fragment>
             {!isLoading && <div>
                 {" "}
-                <div className={classes.project}>
+                <div className="table__project">
                     <Link to={"/home"}>
                         <ArrowBackIosNewRoundedIcon />
                     </Link>
-                    Project: {project.name}
+                    Project: {project.title}
                 </div>
                 <TestList />
                 <SiteList />
