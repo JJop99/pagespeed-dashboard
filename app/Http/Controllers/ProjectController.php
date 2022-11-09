@@ -32,14 +32,14 @@ class ProjectController extends Controller
 
 
         if ($request['order'] == 'desc') {
-            $research = Project::select('name', 'id', 'created_at')
+            $research = Project::select('title', 'id', 'created_at')
                 ->where('email', Auth::user()->email)
                 ->take($take)
                 ->skip($skip)
                 ->orderBy($validated['filter'], 'desc')
                 ->get();
         } else {
-            $research = Project::select('name', 'id', 'created_at')
+            $research = Project::select('title', 'id', 'created_at')
                 ->where('email', Auth::user()->email)
                 ->take($take)
                 ->skip($skip)
@@ -58,7 +58,7 @@ class ProjectController extends Controller
     public function getProject(Request $request)
     {
 
-        $research = Project::select('name')
+        $research = Project::select('title')
             ->where('id', $request['id'])
             ->where('email', Auth::user()->email)
             ->get();
@@ -97,7 +97,7 @@ class ProjectController extends Controller
 
         $research = Project::where('id', $request['id'])
             ->where('email', Auth::user()->email)
-            ->update(array('name' =>  $validated['newTitle']));
+            ->update(array('title' =>  $validated['newTitle']));
 
 
         return response()->json($research);
