@@ -13,7 +13,7 @@ class ProjectController extends Controller
     {
 
         $project =  Project::create([
-            'name' => $request['name'],
+            'title' => $request['title'],
             'email' => Auth::user()->email
 
         ]);

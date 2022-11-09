@@ -199,14 +199,12 @@ class AuditController extends Controller
     public function singleDelete(Request $request, Project $project)
     {
         $validated = $request->validate([
-            'url' => 'required',
-            'created_at' => 'required'
+            'id' => 'required'
         ]);
         $result = Audit::select('url')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
-            ->where('url', $validated['url'])
-            ->where('created_at', $validated['created_at'])
+            ->where('id', $validated['id'])
             ->delete();
 
         if ($result) {
