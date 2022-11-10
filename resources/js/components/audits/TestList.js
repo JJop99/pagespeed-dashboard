@@ -1,16 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
-import axios from "axios";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { styled, TablePagination } from "@mui/material";
 import Moment from "react-moment";
-import { grey } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteDialog from "../UI/DeleteDialog";
 import EditDialog from "../UI/EditDialog";
@@ -61,6 +51,7 @@ const tableConstants = () => {
                     <DeleteDialog
                         title={rowData.title}
                         id={rowData.id}
+                        to={location.pathname}
                         deleteApi={`${location.pathname.slice(0,location.pathname.lastIndexOf('/'))}/singleDelete`}
                     />
                 );

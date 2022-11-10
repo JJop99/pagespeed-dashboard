@@ -44,7 +44,7 @@ const DeleteDialog = (props) => {
             )
             .then((res) => {
                 if (res.statusText === "OK") {
-                    navigate("/");
+                    location.reload();
                     return res;
                 }
             })
@@ -77,7 +77,7 @@ const DeleteDialog = (props) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={handleClose} variant="contained">
+                    <Button  autoFocus onClick={handleClose} variant="contained" color="info">
                         Disagree
                     </Button>
                     <Button onClick={handleDelete} variant="outlined" color="error">

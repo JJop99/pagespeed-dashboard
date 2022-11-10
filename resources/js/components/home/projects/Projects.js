@@ -44,6 +44,7 @@ const tableConstants = () => {
                         title={rowData.title}
                         id={rowData.id}
                         deleteApi="/deleteProject"
+                        to={location.pathname}
                     />
                 );
             },

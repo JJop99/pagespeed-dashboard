@@ -20,8 +20,8 @@ const PerformanceHistory = () => {
     const [performance, setPerformance] = useState([]);
     const [from, setFrom] = useState();
     const [to, setTo] = useState();
-    const [searchParams] = useSearchParams();
     const [project, setProject] = useState("");
+    const url = decodeURIComponent(location.search.split('=').pop());
 
     const navigate = useNavigate();
 
@@ -59,7 +59,7 @@ const PerformanceHistory = () => {
     useEffect(() => {
         getProject();
         console.log(
-            location.search.split('=').pop()
+           url
         );
         axios
             .get(
@@ -69,7 +69,7 @@ const PerformanceHistory = () => {
                 )}`,
                 {
                     params: {
-                        url: location.search.split('=').pop(),
+                        url: url,
                         from: moment(from).format("YYYY-MM-DD"),
                         to: moment(to).format("YYYY-MM-DD"),
                     },
@@ -85,7 +85,7 @@ const PerformanceHistory = () => {
                 if (res.statusText === "OK") {
                     console.log(res);
                     setPerformance(
-                        res.data.urls.map(({ performance }) => performance)
+                        res.data.urls.map(({ performance }) => performance*100)
                     );
                     setDates(
                         res.data.urls.map(({ created_at }) =>
@@ -125,10 +125,10 @@ const PerformanceHistory = () => {
                         <Link to={`/project/${projectId}/audits`}>
                             <ArrowBackIosNewRoundedIcon />
                         </Link>
-                        Project: {project.name}
+                        Project: {project.title}
                     </div>
-                    <div className="result__title-performance">Performance Scores</div>
-                    <div className="result__subtitle-performance">{location.search.split('=').pop()}</div>
+                    <div className="result__title result__title-performance">Performance Scores</div>
+                    <div className="result__subtitle result__subtitle-performance">{url}</div>
 
                     <div>
                         <div className="result__chart">
@@ -139,7 +139,7 @@ const PerformanceHistory = () => {
                                     scales: {
                                         yAxis: {
                                             min: 0,
-                                            max: 1,
+                                            max: 100,
                                         },
                                     },
                                     plugins: {
@@ -154,7 +154,7 @@ const PerformanceHistory = () => {
                             {" "}
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DesktopDatePicker
-                                    className="result__datePickers-datePicker"
+                                    className="result__datePickers result__datePickers-datePicker"
                                     label="From"
                                     value={from}
                                     minDate={moment("2017-01-01")}
@@ -167,7 +167,7 @@ const PerformanceHistory = () => {
                                     )}
                                 />
                                 <DesktopDatePicker
-                                    className="result__datePickers-datePicker"
+                                    className="result__datePickers result__datePickers-datePicker"
                                     label="To"
                                     value={to}
                                     minDate={from}
@@ -183,7 +183,7 @@ const PerformanceHistory = () => {
                         </div>
 
                         <div>
-                            <div className="result__description-performance">
+                            <div className="result__description result__description-performance">
                                 <InfoIcon />
                                 <br />
                                 <br />

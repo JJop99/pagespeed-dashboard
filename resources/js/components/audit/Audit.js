@@ -89,14 +89,14 @@ const Audit = () => {
         <div>
             {!isLoading && (
                 <div>
-                    <div className="result__project-audit">
+                    <div className="result__project result__project-audit">
                         <Link to={`${path}s`}>
                             <ArrowBackIosNewRoundedIcon />
                         </Link>
                         Project: {project.name}
                     </div>
-                    <div className="result__title-audit">{info.title}</div>
-                    <div className="result__subtitle-audit">{info.url}</div>
+                    <div className="result__title result__title-audit">{info.title}</div>
+                    <div className="result__subtitle result__subtitle-audit">{info.url}</div>
                     <div className="result__performance">Performance Score</div>
                     <div className=" flex flex-col sm:flex-row w-full  -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
                         <div className="  my-3 px-3  overflow-hidden  sm:px-3   md:px-3   lg:px-3 lg:w-1/3  xl:px-3 xl:w-1/3">
@@ -138,7 +138,7 @@ const Audit = () => {
                         </div>
 
                         <div className=" my-3 px-3 w-full overflow-hidden  sm:px-3   md:px-3   lg:px-3 lg:w-2/3  xl:px-3 xl:w-2/3">
-                            <div className="result__description-audit">
+                            <div className="result__description result__description-audit">
                                 The Performance score is a weighted average of
                                 the metric scores.
                                 <br />

@@ -1,19 +1,6 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
-import axios from "axios";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import AuthContext from "../../store/auth-context";
 import { useNavigate, useLocation } from "react-router-dom";
-import { TablePagination } from "@mui/material";
-import { grey } from "@mui/material/colors";
-import styled from "@emotion/styled";
 import DeleteDialog from "../UI/DeleteDialog";
-import EditDialog from "../UI/EditDialog";
 import MyTable from "../Layout/MyTable";
 
 const tableConstants = () => {
@@ -65,7 +52,7 @@ const SiteList = () => {
                 )}/sites`}
                 type="urls"
                 total="total_urls"
-                to="`${location.pathname.slice(0,location.pathname.lastIndexOf('/'))}/sitePerformances/search?url=url`"
+                to="`${location.pathname.slice(0,location.pathname.lastIndexOf('/'))}/sitePerformances/search?url= ${encodeURIComponent(item.url)}`"
                 filter="url"
             />
         </Fragment>

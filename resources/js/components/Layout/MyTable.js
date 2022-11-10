@@ -111,12 +111,10 @@ const MyTable = ({ cols, api, type, total, to, filter }) => {
     const [rowsPerPage, setRowsPerPage] = useState(8);
     const [isLoading, setIsLoading] = useState(false);
     const colLength = cols.length;
-    let colIsLong = true;
+    let colIsLong;
 
-    if(colLength>2)
-        colIsLong=true;
-    else
-        colIsLong=false;
+    if (colLength > 2) colIsLong = true;
+    else colIsLong = false;
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -220,10 +218,17 @@ const MyTable = ({ cols, api, type, total, to, filter }) => {
                                     >
                                         {cols.map((col, key) => (
                                             <TableCell
-                                                onClick={(colIsLong ? (key >= colLength - 2 ? ((event) => event.stopPropagation())
-                                                    : (key === 1 
-                                                    ? ((event) => event.stopPropagation())
-                                                    : () => {})):() => {})}
+                                                onClick={
+                                                    colIsLong
+                                                        ? key >= colLength - 2
+                                                            ? (event) =>
+                                                                  event.stopPropagation()
+                                                            : () => {}
+                                                        : key === 1
+                                                        ? (event) =>
+                                                              event.stopPropagation()
+                                                        : () => {}
+                                                }
                                                 key={key}
                                                 align={
                                                     key === 0 ? "left" : "right"

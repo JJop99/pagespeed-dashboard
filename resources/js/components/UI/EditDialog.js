@@ -48,7 +48,7 @@ const EditDialog = (props) => {
             )
             .then((res) => {
                 if (res.statusText === "OK") {
-                    navigate("/");
+                    location.reload();
                     return res;
                 }
             })
@@ -83,7 +83,7 @@ const EditDialog = (props) => {
                         autoFocus
                         margin="dense"
                         id="name"
-                        label="New Project Name"
+                        label="New title"
                         type="text"
                         fullWidth
                         variant="standard"
@@ -91,7 +91,7 @@ const EditDialog = (props) => {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={handleClose} variant="contained">
+                    <Button autoFocus onClick={handleClose} variant="contained" color="info">
                         Close
                     </Button>
                     <Button

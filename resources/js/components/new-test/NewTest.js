@@ -30,14 +30,12 @@ const NewTest = () => {
         setIsLoading(true);
 
         console.log(titleInputRef.current.value);
-        const email = authCtx.user;
         let site = {
             title: titleInputRef.current.value,
             url: urlInputRef.current.value,
         };
 
         axios.defaults.withCredentials = true;
-        console.log(`/api${location.pathname}`);
         axios
             .post(`/api${location.pathname}`, site, {
                 headers: {
@@ -48,7 +46,7 @@ const NewTest = () => {
             .then((res) => {
                 console.log(res);
                 if (res.statusText === "OK") {
-                    navigate("/home");
+                    navigate(`${location.pathname}s`);
                     return res;
                 }
             })
