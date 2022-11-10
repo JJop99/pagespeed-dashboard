@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 import Container from "./Container";
 import Footer from "./Footer";
-import classes from "./Layout.module.scss";
 
 import MainNavigation from "./MainNavigation";
 
@@ -37,7 +36,7 @@ const Layout = (props) => {
 
     return (
         <Fragment>
-            <div className={classes.layout}>
+            <div className="layout">
                 <MainNavigation />
                 <Container>{props.children}</Container>
                 <Footer />

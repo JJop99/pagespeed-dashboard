@@ -1,10 +1,8 @@
 import { Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import classes from "./Footer.module.scss";
 
 const Footer = (props) => {
     return (
-        <div className={classes.footer}>
+        <div className="footer">
             <Typography
                 variant="body2"
                 color="text.secondary"

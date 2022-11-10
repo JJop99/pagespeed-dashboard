@@ -9,9 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import AuthContext from "../../store/auth-context";
 import { useNavigate } from "react-router-dom";
-import classes from "./Table.module.scss";
-import { Button, TablePagination } from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { TablePagination } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import styled from "@emotion/styled";
 import DeleteDialog from "../UI/DeleteDialog";
@@ -113,7 +111,7 @@ const SiteList = () => {
     return (
         <Fragment>
             {" "}
-            <div className={classes.title}>Tested Sites</div>
+            <div className="table__title">Tested Sites</div>
             <TableContainer component={Paper}>
                 <Table
                     stickyHeader
@@ -150,7 +148,7 @@ const SiteList = () => {
                                 }}
                             >
                                 <TableCell component="th" scope="row">
-                                    <div className={classes.titleUrl}>
+                                    <div className="table__titleUrl">
                                         {url.url}
                                     </div>
                                 </TableCell>

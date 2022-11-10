@@ -2,7 +2,6 @@ import React, { Fragment, useState } from "react";
 import axios from "axios";
 
 import { Link, useNavigate } from "react-router-dom";
-import classes from "./../TestList.module.scss";
 import Moment from "react-moment";
 import AddIcon from "@mui/icons-material/Add";
 import LoadingSpinner from "../../UI/LoadingSpinner";
@@ -26,7 +25,7 @@ const tableConstants = (handleEdit, handleDelete) => {
                 return (
                     <span>
                         <Moment
-                            className={classes.date}
+                            className="table__date"
                             format="HH:mm DD-MM-YYYY"
                         >
                             {rowData.created_at}
@@ -143,7 +142,7 @@ const Projects_newTable = (props) => {
         <Fragment>
             {!isLoading && (
                 <div>
-                    <div className={classes.title}>
+                    <div className="table__title">
                         Projects
                         <div>
                             <Link to="/new-project">

@@ -1,9 +1,8 @@
 import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
-
-import classes from "./MainNavigation.module.scss";
 import axios from "axios";
+
 const MainNavigation = () => {
     const authCtx = useContext(AuthContext);
     const navigate = useNavigate();
@@ -21,17 +20,17 @@ const MainNavigation = () => {
     };
 
     return (
-        <header className={classes.header}>
-            <div className={classes.logo}>
+        <header className="mainNav__header">
+            <div className="mainNav__logo">
                 <img src="/logo-mumble-white.svg" alt="SVG as an image" />
             </div>
             <div>
                 {isLoggedIn ? (
                     <Link to="/home">
-                        <div className={classes.title}>PageSpeed Dashboard</div>
+                        <div className="mainNav__title">PageSpeed Dashboard</div>
                     </Link>
                 ) : (
-                    <div className={classes.title}>PageSpeed Dashboard</div>
+                    <div className="mainNav__title">PageSpeed Dashboard</div>
                 )}
 
                 <nav>
