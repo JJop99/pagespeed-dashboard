@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "react-circular-progressbar/dist/styles.css";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Chart } from "react-chartjs-2";
@@ -8,10 +8,11 @@ import InfoIcon from "@mui/icons-material/Info";
 import moment from "moment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import {  TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import LoadingSpinner from "../UI/LoadingSpinner";
+import LineChart from "../UI/LineChart";
 
 const PerformanceHistory = () => {
     const location = useLocation();
@@ -21,7 +22,7 @@ const PerformanceHistory = () => {
     const [from, setFrom] = useState();
     const [to, setTo] = useState();
     const [project, setProject] = useState("");
-    const url = decodeURIComponent(location.search.split('=').pop());
+    const url = decodeURIComponent(location.search.split("=").pop());
 
     const navigate = useNavigate();
 
@@ -58,9 +59,7 @@ const PerformanceHistory = () => {
 
     useEffect(() => {
         getProject();
-        console.log(
-           url
-        );
+        console.log(url);
         axios
             .get(
                 `/api${location.pathname.slice(
@@ -85,14 +84,15 @@ const PerformanceHistory = () => {
                 if (res.statusText === "OK") {
                     console.log(res);
                     setPerformance(
-                        res.data.urls.map(({ performance }) => performance*100)
+                        res.data.urls.map(
+                            ({ performance }) => performance * 100
+                        )
                     );
                     setDates(
                         res.data.urls.map(({ created_at }) =>
-                            moment(created_at).format("DD-MM")
+                            moment(created_at).format("DD-MM-YYYY HH:mm")
                         )
                     );
-                    // setPerformance(res.data[1][0].performance * 100);
                     return res;
                 }
             })
@@ -127,12 +127,16 @@ const PerformanceHistory = () => {
                         </Link>
                         Project: {project.title}
                     </div>
-                    <div className="result__title result__title-performance">Performance Scores</div>
-                    <div className="result__subtitle result__subtitle-performance">{url}</div>
+                    <div className="result__title result__title-performance">
+                        Performance Scores
+                    </div>
+                    <div className="result__subtitle result__subtitle-performance">
+                        {url}
+                    </div>
 
                     <div>
                         <div className="result__chart">
-                            <Chart
+                            {/* <Chart
                                 type="line"
                                 data={data}
                                 options={{
@@ -148,7 +152,12 @@ const PerformanceHistory = () => {
                                         },
                                     },
                                 }}
-                            />{" "}
+                            />{" "} */}
+                            <LineChart
+                                dateLabels={dates}
+                                analyticsData={performance}
+                                fillColor="#111827"
+                            />
                         </div>
                         <div className="result__datePickers">
                             {" "}
@@ -215,7 +224,7 @@ const PerformanceHistory = () => {
                     </div>
                 </div>
             )}
-            {isLoading && <LoadingSpinner/>}
+            {isLoading && <LoadingSpinner />}
         </div>
     );
 };

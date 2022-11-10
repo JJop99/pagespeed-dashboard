@@ -1204,6 +1204,9 @@ video {
 }
 .result__chart{
   margin-bottom: 2rem;
+  max-height: 20rem;
+  min-height: -moz-min-content;
+  min-height: min-content;
 }
 @media (min-width: 640px){
   .result__chart{

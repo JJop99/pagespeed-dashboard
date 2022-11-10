@@ -151,7 +151,7 @@
     }
 
     &__chart {
-        @apply mb-8 sm:m-16;
+        @apply mb-8 sm:m-16 min-h-min max-h-80 ;
     }
 
     &__datePickers {

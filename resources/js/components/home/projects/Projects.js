@@ -26,7 +26,7 @@ const tableConstants = () => {
                     <span>
                         <Moment
                             className="table__date"
-                            format="HH:mm DD-MM-YYYY"
+                            format="DD-MM-YYYY HH:mm"
                         >
                             {rowData.created_at}
                         </Moment>
