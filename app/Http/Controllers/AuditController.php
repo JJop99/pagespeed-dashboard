@@ -62,7 +62,6 @@ class AuditController extends Controller
 
         ]);
 
-        info($audit);
         return response()->json([
             $performance,
             $email,
@@ -73,7 +72,6 @@ class AuditController extends Controller
 
     public function getAudit(Request $request, Project $project)
     {
-
         $validated = $request->validate([
             'id' => 'required'
         ]);
@@ -99,31 +97,20 @@ class AuditController extends Controller
             'filter' => 'required',
             'order' => 'required'
         ]);
+
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
-        if ($request['order'] == 'desc') {
-            $research = Audit::select('url', 'title', 'id', 'created_at')
-                ->where('email', Auth::user()->email)
-                ->where('project_id', $project['id'])
-                ->take($take)
-                ->skip($skip)
-                ->orderBy($validated['filter'], 'desc')
-                ->get();
-        } else {
-            $research = Audit::select('url', 'title', 'id', 'created_at')
-                ->where('email', Auth::user()->email)
-                ->where('project_id', $project['id'])
-                ->take($take)
-                ->skip($skip)
-                ->orderBy($validated['filter'])
-                ->get();
-        }
 
-        $total = Audit::select('url')
+        $research = Audit::select('url', 'title', 'id', 'created_at')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
-            ->count();
+            ->take($take)
+            ->skip($skip)
+            ->orderBy($validated['filter'], $validated['order'])
+            ->get();
 
+        $total = $research->count();
+        
         return response()->json([
             'urls' => $research,
             'total_urls' => $total
@@ -133,19 +120,19 @@ class AuditController extends Controller
     public function getSitePerformances(Request $request, Project $project)
     {
         $validated = $request->validate([
-            'url' => 'required'
+            'url' => 'required',
+            
         ]);
 
         $startDate = $request->from ? Carbon::parse($request->from)->format('Y-m-d') : Carbon::now()->subDays(31)->format('Y-m-d');
         $endDate =  $request->to ? Carbon::parse($request->to)->format('Y-m-d') : Carbon::now()->format('Y-m-d');
-        info($startDate);
-        info($endDate);
+
         $research = Audit::select('performance', 'created_at')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
             ->where('url', $validated['url'])
             ->whereDate('created_at', '>=', $startDate)->whereDate('created_at', '<=', $endDate)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('created_at')
             ->get();
 
         return response()->json([
@@ -161,32 +148,17 @@ class AuditController extends Controller
         ]);
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
-        if ($request['order'] == 'desc') {
-            $results = Audit::select('url')
-                ->where('email', Auth::user()->email)
-                ->where('project_id', $project['id'])
-                ->groupBy('url')
-                ->take($take)
-                ->skip($skip)
-                ->orderBy($validated['filter'], 'desc')
-                ->get();
-        } else {
-            $results = Audit::select('url')
-                ->where('email', Auth::user()->email)
-                ->where('project_id', $project['id'])
-                ->groupBy($validated['filter'])
-                ->take($take)
-                ->skip($skip)
-                ->orderBy('url')
-                ->get();
-        }
-        $total = Audit::select('url')
+
+        $results = Audit::select('url')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
-            ->groupBy('url')
-            ->get()
-            ->count();
+            ->take($take)
+            ->skip($skip)
+            ->orderBy('url', $request['order'])
+            ->get();
 
+        $total = $results->groupBy('url')->count();
+        
         return response()->json([
             'urls' => $results,
             'total_urls' => $total
@@ -217,9 +189,7 @@ class AuditController extends Controller
         $validated = $request->validate([
             'url' => 'required',
         ]);
-        $results = Audit::select('url')
-            ->where('email', Auth::user()->email)
-            ->where('project_id', $project['id'])
+        $results = Audit::where('project_id', $project['id'])
             ->where('url', $validated['url'])
             ->delete();
 
@@ -230,6 +200,7 @@ class AuditController extends Controller
             return response()->json(['message' => 'Delete Failed']);
         }
     }
+
     public function editAudit(Request $request, Project $project)
     {
         $validated = $request->validate([
@@ -237,8 +208,7 @@ class AuditController extends Controller
             'newTitle' => 'required',
         ]);
 
-        $result = Audit::where('email', Auth::user()->email)
-            ->where('project_id', $project['id'])
+        $result = Audit::where('project_id', $project['id'])
             ->where('id', $validated['id'])
             ->update(array('title' =>  $validated['newTitle']));
 
