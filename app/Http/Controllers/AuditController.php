@@ -12,7 +12,6 @@ use Carbon\Carbon;
 
 class AuditController extends Controller
 {
-
     public function audit(Request $request, Project $project)
     {
 
@@ -20,8 +19,6 @@ class AuditController extends Controller
         $email = Auth::user()->email;
         $title = $data['title'];
         $url = $data['url'];
-
-
 
         if (!Str::startsWith($url, ['http://', 'https://'])) {
             $url = 'https://' . $url;
@@ -41,7 +38,6 @@ class AuditController extends Controller
         $cumulativeLayoutShift = $body['lighthouseResult']['audits']['cumulative-layout-shift'];
         $interactive = $body['lighthouseResult']['audits']['interactive'];
 
-
         //calculate performance
         $fCPaint = $body['lighthouseResult']['audits']['first-contentful-paint']['score'];
         $sIndex = $body['lighthouseResult']['audits']['speed-index']['score'];;
@@ -51,7 +47,6 @@ class AuditController extends Controller
         $int = $body['lighthouseResult']['audits']['interactive']['score'];
 
         $performance = (int)(($fCPaint * 10) + ($sIndex * 10) +  ($lCPaint * 25) + ($tBTime * 30) + ($cLShift * 15) + ($int * 10)) / 100;
-
 
         $audit = $project->audits()->create([
             'email' => $email,
@@ -75,6 +70,7 @@ class AuditController extends Controller
             $title
         ]);
     }
+
     public function getAudit(Request $request, Project $project)
     {
 
@@ -156,6 +152,7 @@ class AuditController extends Controller
             'urls' => $research,
         ]);
     }
+
     public function getSites(Request $request, Project $project)
     {
         $validated = $request->validate([
@@ -165,23 +162,23 @@ class AuditController extends Controller
         $take = $request['take'] ?? '5';
         $skip = $request['skip'] ?? '0';
         if ($request['order'] == 'desc') {
-        $results = Audit::select('url')
-            ->where('email', Auth::user()->email)
-            ->where('project_id', $project['id'])
-            ->groupBy('url')
-            ->take($take)
-            ->skip($skip)
-            ->orderBy($validated['filter'], 'desc')
-            ->get();
-        }else{
             $results = Audit::select('url')
-            ->where('email', Auth::user()->email)
-            ->where('project_id', $project['id'])
-            ->groupBy($validated['filter'])
-            ->take($take)
-            ->skip($skip)
-            ->orderBy('url')
-            ->get();
+                ->where('email', Auth::user()->email)
+                ->where('project_id', $project['id'])
+                ->groupBy('url')
+                ->take($take)
+                ->skip($skip)
+                ->orderBy($validated['filter'], 'desc')
+                ->get();
+        } else {
+            $results = Audit::select('url')
+                ->where('email', Auth::user()->email)
+                ->where('project_id', $project['id'])
+                ->groupBy($validated['filter'])
+                ->take($take)
+                ->skip($skip)
+                ->orderBy('url')
+                ->get();
         }
         $total = Audit::select('url')
             ->where('email', Auth::user()->email)

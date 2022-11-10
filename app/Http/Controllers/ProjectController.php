@@ -11,7 +11,6 @@ class ProjectController extends Controller
 {
     public function project(Request $request)
     {
-
         $project =  Project::create([
             'title' => $request['title'],
             'email' => Auth::user()->email
@@ -57,7 +56,6 @@ class ProjectController extends Controller
     }
     public function getProject(Request $request)
     {
-
         $research = Project::select('title')
             ->where('id', $request['id'])
             ->where('email', Auth::user()->email)
@@ -67,6 +65,7 @@ class ProjectController extends Controller
             'project' => $research,
         ]);
     }
+
     public function deleteProject(Request $request)
     {
         $validated = $request->validate([
