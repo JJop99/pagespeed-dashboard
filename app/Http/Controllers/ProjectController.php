@@ -29,20 +29,15 @@ class ProjectController extends Controller
 
         $research = Project::select('title', 'id', 'created_at')
             ->where('email', Auth::user()->email)
-            ->take($take)
-            ->skip($skip)
-            ->orderBy($validated['filter'], $request['order'])
-            ->get();
+            ->orderBy($validated['filter'], $request['order']);
 
-        //$total = Project::select('id')
-        //    ->where('email', Auth::user()->email)
-        //    ->get()
-        //    ->count();
+        $query = $research->clone();
+        $research = $research->take($take)->skip($skip)->get();
+        $result = $query->get()->count();
 
-        $total = $request->research->audits()->count()->get();
         return response()->json([
             'projects' => $research,
-            'total_projects' => $total
+            'total_projects' => $result
         ]);
     }
     public function getProject(Request $request)
