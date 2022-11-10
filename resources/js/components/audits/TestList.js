@@ -13,100 +13,84 @@ import Moment from "react-moment";
 import { grey } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteDialog from "../UI/DeleteDialog";
+import EditDialog from "../UI/EditDialog";
+import MyTable from "../Layout/MyTable";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: grey[100],
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
-    },
-}));
+const tableConstants = () => {
+    return [
+        {
+            id: "title",
+            title: "Test",
+            render: (rowData) => {
+                return <span>{rowData.title}</span>;
+            },
+        },
+        {
+            id: "url",
+            title: "Url",
+            render: (rowData) => {
+                return (
+                    <span>
+                        <div className="table__url">{rowData.url}</div>
+                    </span>
+                );
+            },
+        },
+        {
+            id: "created_at",
+            title: "Date",
+            render: (rowData) => {
+                return (
+                    <span>
+                        <Moment
+                            className="table__date"
+                            format="HH:mm DD-MM-YYYY"
+                        >
+                            {rowData.created_at}
+                        </Moment>
+                    </span>
+                );
+            },
+        },
+
+        {
+            id: "delete",
+            title: "Delete",
+            render: (rowData) => {
+                return (
+                    <DeleteDialog
+                        title={rowData.title}
+                        id={rowData.id}
+                        deleteApi={`${location.pathname.slice(0,location.pathname.lastIndexOf('/'))}/singleDelete`}
+                    />
+                );
+            },
+        },
+        {
+            id: "edit",
+            title: "Edit",
+            render: (rowData) => {
+                return (
+                    <EditDialog
+                        title={rowData.title}
+                        id={rowData.id}
+                        editApi={`${location.pathname.slice(0,location.pathname.lastIndexOf('/'))}/edit`}
+                    />
+                );
+            },
+        },
+    ];
+};
 
 const TestList = () => {
-    const [audits, setAudits] = useState([]);
-    axios.defaults.withCredentials = true;
     const navigate = useNavigate();
-    const formatDate = Moment;
     const location = useLocation();
 
-    //pagination
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(8);
-    const [totalAudits, setTotalAudits] = useState();
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-        research(newPage, rowsPerPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-        research(0, +event.target.value);
-    };
-
-    const research = (page, rows) => {
-        axios
-            .get(
-                `/api${location.pathname}`,
-                { params: { skip: page * rows, take: rows } },
-                {
-                    headers: {
-                        // Overwrite Axios's automatically set Content-Type
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
-            .then((res) => {
-                if (res.statusText === "OK") {
-                    console.log(res);
-                    setAudits(res.data.urls); //combiare urls con tests nell api
-                    setTotalAudits(res.data.total_urls);
-                    return res;
-                }
-            })
-            .catch((err) => {
-                alert(err.message);
-            });
-    };
-
-    useEffect(() => {
-        research(page, rowsPerPage);
-    }, []);
-
-    const handleDelete = (audit) => {
-        
-        axios
-            .delete(
-                `/api${location.pathname.slice(0,location.pathname.lastIndexOf("/"))}/singleDelete`,
-                {
-                    params: {
-                        url: audit.url,
-                        created_at: audit.created_at,
-                    },
-                },
-                {
-                    headers: {
-                        // Overwrite Axios's automatically set Content-Type
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
-            .then((res) => {
-                if (res.statusText === "OK") {
-                    navigate("/home");
-                    return res;
-                }
-            })
-            .catch((err) => {
-                alert(err.message);
-            });
-    };
+    
 
     return (
         <Fragment>
-            <div className={classes.title}>
+            <div className="table__title">
                 Tests
                 <div>
                     <Link to={location.pathname.slice(0, -1)}>
@@ -115,75 +99,13 @@ const TestList = () => {
                 </div>
             </div>
 
-            <TableContainer component={Paper}>
-                <Table
-                    stickyHeader
-                    sx={{ maxHeight: 220 }}
-                    aria-label="simple table"
-                >
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Pagina</StyledTableCell>
-                            <StyledTableCell align="right">Url</StyledTableCell>
-                            <StyledTableCell align="right">
-                                Date
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                                Delete
-                            </StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {audits.map((audit) => (
-                            
-                            <TableRow
-                                onClick={() =>
-                                    navigate(
-                                        `${location.pathname.slice(0, -1)}/${
-                                            audit.id
-                                        }`
-                                    )
-                                }
-                                key={audit.id}
-                                sx={{
-                                    "&:last-child td, &:last-child th": {
-                                        border: 0,
-                                    },
-                                }}
-                            >
-                                <TableCell component="th" scope="row">
-                                    <div>{audit.title}</div>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <div className={classes.url}>
-                                        {audit.url}
-                                    </div>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <Moment
-                                        className={classes.date}
-                                        format="HH:mm DD-MM-YYYY"
-                                    >
-                                        {audit.created_at}
-                                    </Moment>
-                                </TableCell>
-                                <TableCell align="right" onClick={e => e.stopPropagation()}>
-                                    
-                                    <DeleteDialog title={audit.title} delete={()=>handleDelete(audit)}/>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[8, 15, 25]}
-                component="div"
-                count={totalAudits}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+            <MyTable
+                cols={tableConstants()}
+                api={location.pathname}
+                type="urls"
+                total="total_urls"
+                to="`${location.pathname.slice(0, -1)}/${item.id}`"
+                filter="created_at"
             />
         </Fragment>
     );

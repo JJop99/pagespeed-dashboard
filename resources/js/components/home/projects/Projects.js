@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import axios from "axios";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import AddIcon from "@mui/icons-material/Add";
 import LoadingSpinner from "../../UI/LoadingSpinner";
@@ -9,13 +9,13 @@ import MyTable from "../../Layout/MyTable";
 import DeleteDialog from "../../UI/DeleteDialog";
 import EditDialog from "../../UI/EditDialog";
 
-const tableConstants = (handleEdit, handleDelete) => {
+const tableConstants = () => {
     return [
         {   
-            id: "name",
+            id: "title",
             title: "Project",
             render: (rowData) => {
-                return <span>{rowData.name}</span>;
+                return <span>{rowData.title}</span>;
             },
         },
         {
@@ -41,9 +41,9 @@ const tableConstants = (handleEdit, handleDelete) => {
             render: (rowData) => {
                 return (
                     <DeleteDialog
-                        onClick={(e) => e.stopPropagation()}
-                        title={rowData.name}
-                        delete={() => handleDelete(rowData)}
+                        title={rowData.title}
+                        id={rowData.id}
+                        deleteApi="/deleteProject"
                     />
                 );
             },
@@ -54,10 +54,9 @@ const tableConstants = (handleEdit, handleDelete) => {
             render: (rowData) => {
                 return (
                     <EditDialog
-                        onClick={(e) => e.stopPropagation()}
-                        title={rowData.name}
+                        title={rowData.title}
                         id={rowData.id}
-                        edit={handleEdit}
+                        editApi="/editProject"
                     />
                 );
             },
@@ -65,78 +64,13 @@ const tableConstants = (handleEdit, handleDelete) => {
     ];
 };
 
-const Projects_newTable = (props) => {
+const Projects = (props) => {
     axios.defaults.withCredentials = true;
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
-    const formatDate = Moment;
-    const api = "projects";
 
    
 
-    const handleDelete = (project) => {
-        setIsLoading(true);
-        axios
-            .delete(
-                `/api/deleteProject`,
-                {
-                    params: {
-                        id: project.id,
-                    },
-                },
-                {
-                    headers: {
-                        // Overwrite Axios's automatically set Content-Type
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
-            .then((res) => {
-                if (res.statusText === "OK") {
-                    navigate("/");
-                    return res;
-                }
-            })
-            .catch((err) => {
-                alert(err.message);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    };
 
-    const handleEdit = (id, newName) => {
-        setIsLoading(true);
-        console.log(newName);
-        axios
-            .get(
-                `/api/editProject`,
-                {
-                    params: {
-                        id: id,
-                        name: newName,
-                    },
-                },
-                {
-                    headers: {
-                        // Overwrite Axios's automatically set Content-Type
-                        "Content-Type": "application/json",
-                    },
-                }
-            )
-            .then((res) => {
-                if (res.statusText === "OK") {
-                    navigate("/");
-                    return res;
-                }
-            })
-            .catch((err) => {
-                alert(err.message);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    };
 
     return (
         <Fragment>
@@ -152,10 +86,12 @@ const Projects_newTable = (props) => {
                     </div>
 
                     <MyTable
-                        cols={tableConstants(handleEdit, handleDelete)}
-                        api={api}
+                        cols={tableConstants()}
+                        api="/projects"
                         type="projects"
                         total="total_projects"
+                        to="`/project/${item.id}/audits`"
+                        filter="created_at"
                     />
                 </div>
             )}
@@ -164,4 +100,4 @@ const Projects_newTable = (props) => {
     );
 };
 
-export default Projects_newTable;
+export default Projects;

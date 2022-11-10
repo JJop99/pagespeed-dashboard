@@ -10,21 +10,51 @@ import EditOutlineIcon from "@mui/icons-material/EditOutlined";
 import { PropaneSharp } from "@mui/icons-material";
 import { useRef, useState } from "react";
 import { TextField } from "@mui/material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const EditDialog = (props) => {
     const [open, setOpen] = useState(false);
     const newNameInputRef = useRef();
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
-    const id = props.id;
+    const navigate = useNavigate();
+
     const handleClickOpen = () => {
         setOpen(true);
-        console.log(id);
     };
 
     const handleClose = () => {
         setOpen(false);
-        console.log(newNameInputRef.current.value)
+        console.log(newNameInputRef.current.value);
+    };
+
+    const handleEdit = () => {
+        axios
+            .get(
+                `/api${props.editApi}`,
+                {
+                    params: {
+                        id: props.id,
+                        newTitle: newNameInputRef.current.value,
+                    },
+                },
+                {
+                    headers: {
+                        // Overwrite Axios's automatically set Content-Type
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                if (res.statusText === "OK") {
+                    navigate("/");
+                    return res;
+                }
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
     };
 
     return (
@@ -65,7 +95,7 @@ const EditDialog = (props) => {
                         Close
                     </Button>
                     <Button
-                        onClick={()=>props.edit(id, newNameInputRef.current.value)}
+                        onClick={handleEdit}
                         variant="outlined"
                         color="error"
                     >

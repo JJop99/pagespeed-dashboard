@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import "react-circular-progressbar/dist/styles.css";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Chart } from "react-chartjs-2";
@@ -20,7 +20,7 @@ const PerformanceHistory = () => {
     const [performance, setPerformance] = useState([]);
     const [from, setFrom] = useState();
     const [to, setTo] = useState();
-
+    const [searchParams] = useSearchParams();
     const [project, setProject] = useState("");
 
     const navigate = useNavigate();
@@ -59,10 +59,7 @@ const PerformanceHistory = () => {
     useEffect(() => {
         getProject();
         console.log(
-            `/api${location.pathname.slice(
-                0,
-                location.pathname.lastIndexOf("/")
-            )}`
+            location.search.split('=').pop()
         );
         axios
             .get(
@@ -72,7 +69,7 @@ const PerformanceHistory = () => {
                 )}`,
                 {
                     params: {
-                        url: location.state.url,
+                        url: location.search.split('=').pop(),
                         from: moment(from).format("YYYY-MM-DD"),
                         to: moment(to).format("YYYY-MM-DD"),
                     },
@@ -131,7 +128,7 @@ const PerformanceHistory = () => {
                         Project: {project.name}
                     </div>
                     <div className="result__title-performance">Performance Scores</div>
-                    <div className="result__subtitle-performance">{location.state.url}</div>
+                    <div className="result__subtitle-performance">{location.search.split('=').pop()}</div>
 
                     <div>
                         <div className="result__chart">

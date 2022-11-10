@@ -8,12 +8,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { PropaneSharp } from "@mui/icons-material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const DeleteDialog = (props) => {
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+    const navigate = useNavigate();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -21,6 +23,34 @@ const DeleteDialog = (props) => {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+
+    const handleDelete = () => {
+        axios
+            .delete(
+                `/api${props.deleteApi}`,
+                {
+                    params: {
+                        id: props.id,
+                    },
+                },
+                {
+                    headers: {
+                        // Overwrite Axios's automatically set Content-Type
+                        "Content-Type": "application/json",
+                    },
+                }
+            )
+            .then((res) => {
+                if (res.statusText === "OK") {
+                    navigate("/");
+                    return res;
+                }
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
     };
 
     return (
@@ -50,7 +80,7 @@ const DeleteDialog = (props) => {
                     <Button autoFocus onClick={handleClose} variant="contained">
                         Disagree
                     </Button>
-                    <Button onClick={props.delete} variant="outlined" color="error">
+                    <Button onClick={handleDelete} variant="outlined" color="error">
                         Delete
                     </Button>
                 </DialogActions>

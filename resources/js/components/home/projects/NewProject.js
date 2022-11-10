@@ -33,7 +33,7 @@ const NewProject = () => {
         axios.defaults.withCredentials = true;
 
         axios
-            .post(`/api/project`, {name: nameInputRef.current.value}, {
+            .post(`/api/project`, {title: nameInputRef.current.value}, {
                 headers: {
                     // Overwrite Axios's automatically set Content-Type
                     "Content-Type": "application/json",
