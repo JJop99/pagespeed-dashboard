@@ -40,7 +40,7 @@
 // MainNavigation.js
 .mainNav {
     &__header {
-        background-color: #111827;
+        background-color: $deep-blue;
         padding: 0 10%;
         @apply shadow top-0 h-60 w-full;
 
@@ -66,12 +66,12 @@
 
         button {
             font: inherit;
-            @apply cursor-pointer bg-transparent text-white border border-white rounded-md font-bold px-6 py-2;
+            @apply cursor-pointer whitespace-nowrap bg-transparent text-white border border-white rounded-md font-bold px-6 py-2;
         }
 
         button:hover {
             @apply bg-blue-200;
-            color: #111827;
+            color: $deep-blue;
         }
     }
 

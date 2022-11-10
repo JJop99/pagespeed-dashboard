@@ -10,7 +10,6 @@ const MainNavigation = () => {
     const path = location.pathname;
 
     const isLoggedIn = authCtx.isLoggedIn;
-    //const isLoggedIn = true;
 
     const logoutHandler = () => {
         authCtx.onLogout();
@@ -27,7 +26,9 @@ const MainNavigation = () => {
             <div>
                 {isLoggedIn ? (
                     <Link to="/home">
-                        <div className="mainNav__title">PageSpeed Dashboard</div>
+                        <div className="mainNav__title">
+                            PageSpeed Dashboard
+                        </div>
                     </Link>
                 ) : (
                     <div className="mainNav__title">PageSpeed Dashboard</div>
@@ -37,15 +38,20 @@ const MainNavigation = () => {
                     <ul>
                         {!isLoggedIn && path === "/sign-up" && (
                             <li>
-                                <Link to="/sign-in">Sign In</Link>
+                                <button>
+                                    <Link to="/sign-in">Sign In</Link>
+                                </button>
                             </li>
                         )}
                         {!isLoggedIn && path !== "/sign-up" && (
                             <li>
-                                <Link to="/sign-up">Sign Up</Link>
+                                <button>
+                                    {" "}
+                                    <Link to="/sign-up">Sign Up</Link>
+                                </button>
                             </li>
                         )}
-                        
+
                         {isLoggedIn && (
                             <li>
                                 <button onClick={logoutHandler}>Logout</button>

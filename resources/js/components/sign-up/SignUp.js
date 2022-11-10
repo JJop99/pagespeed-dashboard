@@ -12,8 +12,6 @@ import axios from "axios";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-
-
 const theme = createTheme();
 
 const SignUp = () => {
@@ -67,7 +65,7 @@ const SignUp = () => {
                         alignItems: "center",
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                    <Avatar sx={{ m: 1 }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
@@ -112,7 +110,6 @@ const SignUp = () => {
                         </Button>
                     </Box>
                 </Box>
-               
             </Container>
         </ThemeProvider>
     );
