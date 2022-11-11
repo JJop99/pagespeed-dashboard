@@ -8,18 +8,25 @@ import InfoIcon from "@mui/icons-material/Info";
 import moment from "moment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { TextField } from "@mui/material";
+import { Skeleton, TextField } from "@mui/material";
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import LineChart from "../UI/LineChart";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'; 
 
 const PerformanceHistory = () => {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
     const [dates, setDates] = useState([]);
     const [performance, setPerformance] = useState([]);
-    const [from, setFrom] = useState();
+    const [from, setFrom] = useState(
+        moment().subtract(1, "months").format("YYYY-MM-DD")
+    );
     const [to, setTo] = useState();
     const [project, setProject] = useState("");
     const url = decodeURIComponent(location.search.split("=").pop());
@@ -59,7 +66,7 @@ const PerformanceHistory = () => {
 
     useEffect(() => {
         getProject();
-        console.log(url);
+        console.log(url + " " + from + " " + to);
         axios
             .get(
                 `/api${location.pathname.slice(
@@ -101,7 +108,7 @@ const PerformanceHistory = () => {
             })
             .finally(() => {
                 setIsLoading(false);
-                console.log(performance);
+                console.log(dates);
             });
     }, [from, to]);
 
@@ -136,23 +143,6 @@ const PerformanceHistory = () => {
 
                     <div>
                         <div className="result__chart">
-                            {/* <Chart
-                                type="line"
-                                data={data}
-                                options={{
-                                    scales: {
-                                        yAxis: {
-                                            min: 0,
-                                            max: 100,
-                                        },
-                                    },
-                                    plugins: {
-                                        legend: {
-                                            display: false,
-                                        },
-                                    },
-                                }}
-                            />{" "} */}
                             <LineChart
                                 dateLabels={dates}
                                 analyticsData={performance}
@@ -193,38 +183,71 @@ const PerformanceHistory = () => {
 
                         <div>
                             <div className="result__description result__description-performance">
-                                <InfoIcon />
-                                <br />
-                                <br />
-                                When your Performance score fluctuates it's
-                                usually because of changes in underlying
-                                conditions.
-                                <br />
-                                <br />
-                                Common problems include:
-                                <ul className="result__list">
-                                    <li>
-                                        A/B tests or changes in ads being served
-                                    </li>
-                                    <li>Internet traffic routing changes</li>
-                                    <li>
-                                        Testing on different devices, such as a
-                                        high-performance desktop and a
-                                        low-performance laptop
-                                    </li>
-                                    <li>
-                                        Browser extensions that inject
-                                        JavaScript and add/modify network
-                                        requests
-                                    </li>
-                                    <li>Antivirus software</li>
-                                </ul>
+                                <Accordion>
+                                    <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
+                                    >
+                                        <Typography>
+                                            <InfoIcon /> More details about performances.
+                                        </Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <Typography>
+                                            When your Performance score
+                                            fluctuates it's usually because of
+                                            changes in underlying conditions.
+                                            <br />
+                                            <br />
+                                            Common problems include:
+                                            <ul className="result__list">
+                                                <li>
+                                                    A/B tests or changes in ads
+                                                    being served
+                                                </li>
+                                                <li>
+                                                    Internet traffic routing
+                                                    changes
+                                                </li>
+                                                <li>
+                                                    Testing on different
+                                                    devices, such as a
+                                                    high-performance desktop and
+                                                    a low-performance laptop
+                                                </li>
+                                                <li>
+                                                    Browser extensions that
+                                                    inject JavaScript and
+                                                    add/modify network requests
+                                                </li>
+                                                <li>Antivirus software</li>
+                                            </ul>
+                                        </Typography>
+                                    </AccordionDetails>
+                                </Accordion>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             )}
-            {isLoading && <LoadingSpinner />}
+
+            {isLoading && (
+                <div>
+                    <div className="result__project">
+                        <Skeleton animation="wave" />
+                    </div>
+                    <div className="result__title result__title-performance">
+                        <Skeleton animation="wave" />
+                    </div>
+                    <div className="result__subtitle result__subtitle-performance">
+                        <Skeleton animation="wave" />
+                    </div>
+
+                    <LoadingSpinner />
+                </div>
+            )}
         </div>
     );
 };
