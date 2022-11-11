@@ -68,7 +68,7 @@ class ProjectController extends Controller
             die("Caught an error");
         }
 
-        if ($result) {
+        if ($result && $audits) {
 
             return response()->json(['message' => 'Successfully Deleted']);
         } else {

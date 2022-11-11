@@ -75,17 +75,38 @@ class AuditController extends Controller
         $validated = $request->validate([
             'id' => 'required'
         ]);
-        $statistics = Audit::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
+
+        //$statistics = Audit::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive')
+        //    ->where('id', $validated['id'])
+        //    ->where('project_id', $project['id'])
+        //    ->get();
+
+        //$performance = Audit::select('url', 'title', 'performance')
+        //    ->where('id', $validated['id'])
+        //    ->where('project_id', $project['id'])
+        //    ->get();
+        $input = Audit::select('firstContentfulPaint', 'speedIndex', 'largestContentfulPaint', 'totalBlockingTime', 'cumulativeLayoutShift', 'interactive', 'url', 'title', 'performance')
             ->where('id', $validated['id'])
             ->where('project_id', $project['id'])
             ->get();
 
-        $performance = Audit::select('url', 'title', 'performance')
-            ->where('id', $validated['id'])
-            ->where('project_id', $project['id'])
-            ->get();
+        $statistics = [
+            $input[0]['firstContentfulPaint'],
+            $input[0]['speedIndex'],
+            $input[0]['largestContentfulPaint'],
+            $input[0]['totalBlockingTime'],
+            $input[0]['cumulativeLayoutShift'],
+            $input[0]['interactive'],
+        ];
+
+        $performance = [
+            $input[0]['url'],
+            $input[0]['title'],
+            $input[0]['performance'],
+        ];
 
         return [
+            //$input,
             $statistics,
             $performance
         ];
@@ -104,13 +125,11 @@ class AuditController extends Controller
         $research = Audit::select('url', 'title', 'id', 'created_at')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
-            ->take($take)
-            ->skip($skip)
-            ->orderBy($validated['filter'], $validated['order'])
-            ->get();
+            ->orderBy($validated['filter'], $validated['order']);
 
-        $total = $research->count();
-        
+        $query = $research->clone();
+        $research = $research->take($take)->skip($skip)->get();
+        $total = $query->get()->count();
         return response()->json([
             'urls' => $research,
             'total_urls' => $total
@@ -121,7 +140,7 @@ class AuditController extends Controller
     {
         $validated = $request->validate([
             'url' => 'required',
-            
+
         ]);
 
         $startDate = $request->from ? Carbon::parse($request->from)->format('Y-m-d') : Carbon::now()->subDays(31)->format('Y-m-d');
@@ -152,13 +171,12 @@ class AuditController extends Controller
         $results = Audit::select('url')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
-            ->take($take)
-            ->skip($skip)
-            ->orderBy('url', $request['order'])
-            ->get();
+            ->orderBy('url', $request['order']);
 
-        $total = $results->groupBy('url')->count();
-        
+        $query = $results->clone();
+        $results = $results->take($take)->skip($skip)->get();
+        $total = $query->groupBy('url')->count();
+
         return response()->json([
             'urls' => $results,
             'total_urls' => $total
