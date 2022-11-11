@@ -1,23 +1,37 @@
+// axios
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "react-circular-progressbar/dist/styles.css";
-import { Chart as ChartJS } from "chart.js/auto";
-import { Chart } from "react-chartjs-2";
-import InfoIcon from "@mui/icons-material/Info";
+
+// moment
 import moment from "moment";
+
+// mui date picker
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { Skeleton, TextField } from "@mui/material";
-import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+
+// chart
+import { Chart as ChartJS } from "chart.js/auto";
+import { Chart } from "react-chartjs-2";
+
+// mui
+import {
+    Skeleton,
+    TextField,
+    Typography,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+import InfoIcon from "@mui/icons-material/Info";
+
+// UI
 import LoadingSpinner from "../UI/LoadingSpinner";
 import LineChart from "../UI/LineChart";
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'; 
 
 const PerformanceHistory = () => {
     const location = useLocation();
@@ -190,7 +204,8 @@ const PerformanceHistory = () => {
                                         id="panel1a-header"
                                     >
                                         <Typography>
-                                            <InfoIcon /> More details about performances.
+                                            <InfoIcon /> More details about
+                                            performances.
                                         </Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
@@ -226,7 +241,6 @@ const PerformanceHistory = () => {
                                         </Typography>
                                     </AccordionDetails>
                                 </Accordion>
-                                
                             </div>
                         </div>
                     </div>

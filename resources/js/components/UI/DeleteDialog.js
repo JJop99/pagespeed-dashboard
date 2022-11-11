@@ -1,18 +1,25 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import useMediaQuery from "@mui/material/useMediaQuery";
+// mui
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    useMediaQuery,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import axios from "axios";
+
+// react
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+// axios
+import axios from "axios";
+
 const DeleteDialog = (props) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
     const navigate = useNavigate();
@@ -24,7 +31,6 @@ const DeleteDialog = (props) => {
     const handleClose = () => {
         setOpen(false);
     };
-
 
     const handleDelete = () => {
         axios
@@ -69,7 +75,7 @@ const DeleteDialog = (props) => {
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle id="responsive-dialog-title">
-                    {props.title+" cancellation"}
+                    {props.title + " cancellation"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -77,10 +83,19 @@ const DeleteDialog = (props) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button  autoFocus onClick={handleClose} variant="contained" color="info">
+                    <Button
+                        autoFocus
+                        onClick={handleClose}
+                        variant="contained"
+                        color="info"
+                    >
                         Disagree
                     </Button>
-                    <Button onClick={handleDelete} variant="outlined" color="error">
+                    <Button
+                        onClick={handleDelete}
+                        variant="outlined"
+                        color="error"
+                    >
                         Delete
                     </Button>
                 </DialogActions>

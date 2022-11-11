@@ -1,18 +1,23 @@
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import useMediaQuery from "@mui/material/useMediaQuery";
+// mui
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    useMediaQuery,
+    TextField
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import EditOutlineIcon from "@mui/icons-material/EditOutlined";
 
 // react
 import { useRef, useState } from "react";
-import { TextField } from "@mui/material";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+// axios
+import axios from "axios";
 
 const EditDialog = (props) => {
     const [open, setOpen] = useState(false);
@@ -92,7 +97,12 @@ const EditDialog = (props) => {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={handleClose} variant="contained" color="info">
+                    <Button
+                        autoFocus
+                        onClick={handleClose}
+                        variant="contained"
+                        color="info"
+                    >
                         Close
                     </Button>
                     <Button

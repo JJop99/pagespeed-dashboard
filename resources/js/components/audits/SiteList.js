@@ -1,5 +1,8 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+// react
+import React, { Fragment } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+
+// layout & UI
 import DeleteDialog from "../UI/DeleteDialog";
 import MyTable from "../Layout/MyTable";
 

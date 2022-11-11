@@ -1,8 +1,15 @@
+// axios
 import axios from "axios";
+
+// react
 import { Fragment, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import TestList from "./TestList";
+
+// mui
 import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
+
+// UI & audits
+import TestList from "./TestList";
 import LoadingSpinner from "../UI/LoadingSpinner";
 import SiteList from "./SiteList";
 

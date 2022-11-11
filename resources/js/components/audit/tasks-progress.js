@@ -1,3 +1,4 @@
+// mui
 import {
     Avatar,
     Box,
@@ -6,9 +7,10 @@ import {
     Typography,
 } from "@mui/material";
 import SpeedIcon from "@mui/icons-material/Speed";
-import Card from "../UI/Card";
 import { grey } from "@mui/material/colors";
-import { buildStyles } from "react-circular-progressbar";
+
+// UI
+import Card from "../UI/Card";
 
 export const TasksProgress = (props) => {
     return (
