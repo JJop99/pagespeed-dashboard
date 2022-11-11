@@ -12,6 +12,7 @@ import {
     Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import 'chartjs-adapter-moment';
 
 // css
 //import "./LineChart.css";
@@ -33,12 +34,13 @@ function LineChart({ dateLabels, analyticsData, fillColor }) {
 
     const chartRef = useRef();
 
-    const labels = [...dateLabels];
+    const labels = dateLabels;
     const options = {
         maintainAspectRatio: true,
         responsive: true,
         scales: {
             x: {
+                type: "time",
                 display: false,
                 ticks: {
                     display: false,
@@ -48,25 +50,24 @@ function LineChart({ dateLabels, analyticsData, fillColor }) {
                 },
             },
             y: {
-                display: false,
+                display: true,
                 ticks: {
-                    beginAtZero: true,
-                    max: 100,
-                    min: 0
+                    display: true,
+                    stepSize: 20,
                 },
                 grid: {
                     display: false,
                 },
                 beginAtZero: true,
-                
-
-            },
-            yAxis: {
-                beginAtZero: true,
                 max: 100,
-                min: 0
-            
+                min: 0,
             },
+            // yAxis: {
+            //     beginAtZero: true,
+            //     max: 100,
+            //     min: 0
+
+            // },
         },
         plugins: {
             legend: {

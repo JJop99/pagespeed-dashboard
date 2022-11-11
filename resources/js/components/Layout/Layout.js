@@ -20,13 +20,15 @@ const Layout = (props) => {
                 error.response.status === 401 ||
                 error.response.status === 419
             ) {
-                //place your reentry code
+                if (
+                    error.response.status === 401 &&
+                    location.pathname !== "/sign-in"
+                ) {
+                    navigate("/");
+                }
                 authCtx.onLogout();
-                navigate("/");
             }
-            if (
-                error.response.status === 404 
-            ) {
+            if (error.response.status === 404) {
                 //place your reentry code
                 navigate("*");
             }

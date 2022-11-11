@@ -11,8 +11,7 @@ import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
-
-
+import { Alert } from "@mui/material";
 
 const theme = createTheme();
 
@@ -21,6 +20,7 @@ const SignIn = () => {
     const passwordInputRef = useRef();
 
     const authCtx = useContext(AuthContext);
+    const [alert, setAlert] = useState(false);
 
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
@@ -37,50 +37,56 @@ const SignIn = () => {
         console.log(user);
         axios.defaults.withCredentials = true;
         // CSRF COOKIE
-        axios.get("/sanctum/csrf-cookie").then(
-            (res) => {
-                console.log(res);
-                // LOGIN
-                axios
-                    .post(
-                        `/api/signIn`,
-                        { ...user },
-                        {
-                            headers: {
-                                // Overwrite Axios's automatically set Content-Type
-                                "Content-Type": "application/json",
-                            },
-                        }
-                    )
-                    .then((res) => {
-                        console.log(res);
-                        setIsLoading(false);
-                        if (res.statusText === "OK") {
-                            // ...
-                            console.log("ciao");
-                            authCtx.onLogin(user.email);
-                            navigate("/home");
-                            return res;
-                        } else {
-                            return res.then((data) => {
-                                //show an error modal
-                                let errorMessage = "Authentication failed!";
-                                if (data && data.error && data.error.message) {
-                                    errorMessage = data.error.message;
-                                }
-                                throw new Error(errorMessage);
-                            });
-                        }
-                    })
-                    .catch((err) => {
-                        alert(err.message);
-                    });
-            },
-        // COOKIE ERROR
-            
-        ).catch((error) => {
-            setErrorMessage("Could not complete the login");
-        });
+        axios
+            .get("/sanctum/csrf-cookie")
+            .then(
+                (res) => {
+                    console.log(res);
+                    // LOGIN
+                    axios
+                        .post(
+                            `/api/signIn`,
+                            { ...user },
+                            {
+                                headers: {
+                                    // Overwrite Axios's automatically set Content-Type
+                                    "Content-Type": "application/json",
+                                },
+                            }
+                        )
+                        .then((res) => {
+                            console.log(res);
+                            setIsLoading(false);
+                            if (res.statusText === "OK") {
+                                // ...
+                                console.log("ciao");
+                                authCtx.onLogin(user.email);
+                                navigate("/home");
+                                return res;
+                            } else {
+                                return res.then((data) => {
+                                    //show an error modal
+                                    let errorMessage = "Authentication failed!";
+                                    if (
+                                        data &&
+                                        data.error &&
+                                        data.error.message
+                                    ) {
+                                        errorMessage = data.error.message;
+                                    }
+                                    throw new Error(errorMessage);
+                                });
+                            }
+                        })
+                        .catch((err) => {
+                            setAlert(true);
+                        });
+                }
+                // COOKIE ERROR
+            )
+            .catch((error) => {
+                setErrorMessage("Could not complete the login");
+            });
     };
 
     return (
@@ -89,18 +95,24 @@ const SignIn = () => {
                 <CssBaseline />
                 <Box
                     sx={{
-                        
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                    <Avatar sx={{ m: 1 }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign In
                     </Typography>
+                    {alert ? (
+                        <Alert severity="error">
+                            Your provided credentials could be wrong.
+                        </Alert>
+                    ) : (
+                        <></>
+                    )}
                     <Box
                         component="form"
                         onSubmit={handleSubmit}
@@ -139,10 +151,8 @@ const SignIn = () => {
                         >
                             Sign In
                         </Button>
-                        
                     </Box>
                 </Box>
-               
             </Container>
         </ThemeProvider>
     );

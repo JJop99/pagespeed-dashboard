@@ -8,14 +8,17 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
+
 
 const theme = createTheme();
 
 const SignUp = () => {
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
+    const [alert, setAlert] = useState(false);
 
     const navigate = useNavigate();
 
@@ -49,7 +52,7 @@ const SignUp = () => {
                 }
             })
             .catch((err) => {
-                alert(err.message);
+                setAlert(true);
             });
     };
 
@@ -70,6 +73,13 @@ const SignUp = () => {
                     <Typography component="h1" variant="h5">
                         Sign Up
                     </Typography>
+                    {alert ? (
+                        <Alert severity="error">
+                            Your provided credentials could be wrong.
+                        </Alert>
+                    ) : (
+                        <></>
+                    )}
                     <Box
                         component="form"
                         onSubmit={handleSubmit}

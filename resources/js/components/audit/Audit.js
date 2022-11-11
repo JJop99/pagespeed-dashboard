@@ -68,7 +68,7 @@ const Audit = () => {
                 if (res.statusText === "OK") {
                     console.log(res);
                     setAudits(res.data[0]);
-                    setInfo(res.data[1][0]);
+                    setInfo(res.data[1]);
                     if (res.data[0].length === 0) {
                         navigate("/not-exist");
                     }
@@ -93,7 +93,7 @@ const Audit = () => {
                         <Link to={`${path}s`}>
                             <ArrowBackIosNewRoundedIcon />
                         </Link>
-                        Project: {project.name}
+                        Project: {project.title}
                     </div>
                     <div className="result__title result__title-audit">{info.title}</div>
                     <div className="result__subtitle result__subtitle-audit">{info.url}</div>
@@ -157,7 +157,7 @@ const Audit = () => {
                     <br></br>
                     <div className="result__performance">Metrics</div>
                     <div className="flex flex-wrap -mx-3 overflow-hidden sm:-mx-3 md:-mx-3 lg:-mx-3 xl:-mx-3">
-                        {Object.entries(...audits).map((audit) => (
+                        {Object.entries(audits).map((audit) => (
                             <div
                                 key={JSON.parse(audit[1]).id}
                                 className=" w-full  overflow-hidden  sm:w-1/2  md:w-1/2  lg:w-1/2  xl:w-1/2"
