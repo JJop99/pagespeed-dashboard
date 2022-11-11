@@ -1,3 +1,4 @@
+// mui
 import {
     styled,
     TableCell,
@@ -13,11 +14,17 @@ import {
     Box,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { visuallyHidden } from "@mui/utils";
+
 import axios from "axios";
+// axios
 import { Fragment, useEffect, useState } from "react";
+
+// react
 import { useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { visuallyHidden } from "@mui/utils";
+
+// UI
 import LoadingSpinner from "../UI/LoadingSpinner";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

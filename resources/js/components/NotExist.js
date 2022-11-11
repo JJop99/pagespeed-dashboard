@@ -1,7 +1,8 @@
-//import Head from 'next/head';
-//import NextLink from 'next/link';
+// mui
 import { Box, Button, Container, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+// react
 import { Link } from 'react-router-dom';
 
 const NotExist = () => (

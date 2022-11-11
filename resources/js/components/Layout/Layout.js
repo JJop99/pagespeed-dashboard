@@ -1,7 +1,14 @@
+// axios
 import axios from "axios";
+
+// react
 import { Fragment, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+// context
 import AuthContext from "../../store/auth-context";
+
+// layout
 import Container from "./Container";
 import Footer from "./Footer";
 
@@ -32,6 +39,11 @@ const Layout = (props) => {
                 //place your reentry code
                 navigate("*");
             }
+            // if (error.response.status === 422) {
+            //     console.log(error.toJSON() + "intercepted");
+
+            //     //setAlert(true);
+            // }
             return error;
         }
     );

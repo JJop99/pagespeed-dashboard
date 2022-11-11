@@ -14,9 +14,6 @@ import {
 import { Line } from "react-chartjs-2";
 import 'chartjs-adapter-moment';
 
-// css
-//import "./LineChart.css";
-// import Spinner from "../Spinner/Spinner";
 
 ChartJS.register(
     CategoryScale,

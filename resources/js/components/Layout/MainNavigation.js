@@ -1,6 +1,11 @@
+// react
 import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
+// context
 import AuthContext from "../../store/auth-context";
+
+// axios
 import axios from "axios";
 
 const MainNavigation = () => {

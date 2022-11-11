@@ -1,17 +1,27 @@
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
+// mui
+import {
+    Avatar,
+    Button,
+    CssBaseline,
+    TextField,
+    Box,
+    Typography,
+    Container,
+} from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+// axios
 import axios from "axios";
+
+// react
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+// context
 import AuthContext from "../../store/auth-context";
-import { CircularProgress } from "@mui/material";
+
+// UI
 import LoadingSpinner from "../UI/LoadingSpinner";
 
 const theme = createTheme();
@@ -116,9 +126,7 @@ const NewTest = () => {
                         </Box>
                     </Box>
                 )}
-                {isLoading && (
-                    <LoadingSpinner/>
-                )}
+                {isLoading && <LoadingSpinner />}
             </Container>
         </ThemeProvider>
     );

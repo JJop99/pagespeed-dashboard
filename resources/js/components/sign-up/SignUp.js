@@ -1,17 +1,23 @@
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
+// mui
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import {
+    Alert,
+    Avatar,
+    Button,
+    CssBaseline,
+    TextField,
+    Box,
+    Typography,
+    Container,
+} from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+// axios
 import axios from "axios";
+
+// react
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert } from "@mui/material";
-
 
 const theme = createTheme();
 
@@ -49,12 +55,18 @@ const SignUp = () => {
                 if (res.statusText === "OK") {
                     navigate("/sign-in");
                     return res;
+                } else {
+                    throw new Error();
+                   
                 }
             })
             .catch((err) => {
                 setAlert(true);
+                console.log(err.response)
             });
     };
+    console.log(alert)
+
 
     return (
         <ThemeProvider theme={theme}>
@@ -73,13 +85,11 @@ const SignUp = () => {
                     <Typography component="h1" variant="h5">
                         Sign Up
                     </Typography>
-                    {alert ? (
+                    {alert && (
                         <Alert severity="error">
                             Your provided credentials could be wrong.
                         </Alert>
-                    ) : (
-                        <></>
-                    )}
+                    ) }
                     <Box
                         component="form"
                         onSubmit={handleSubmit}

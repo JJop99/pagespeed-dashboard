@@ -1,17 +1,24 @@
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
+// mui
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
+import {
+    Alert,
+    Avatar,
+    Button,
+    CssBaseline,
+    TextField,
+    Box,
+    Typography,
+    Container,
+} from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+// axios
 import axios from "axios";
+
+// react
 import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
-import { Alert } from "@mui/material";
 
 const theme = createTheme();
 
@@ -24,6 +31,21 @@ const SignIn = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+
+    // axios.interceptors.response.use(
+    //     (response) => {
+    //         return response;
+    //     },
+    //     (error) => {
+    //         if (error.response.status === 422) {
+    //             console.log(error.response + "intercepted");
+
+    //             setAlert(true);
+    //         }
+
+    //         return error;
+    //     }
+    // );
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -43,49 +65,56 @@ const SignIn = () => {
                 (res) => {
                     console.log(res);
                     // LOGIN
-                    axios
-                        .post(
-                            `/api/signIn`,
-                            { ...user },
-                            {
-                                headers: {
-                                    // Overwrite Axios's automatically set Content-Type
-                                    "Content-Type": "application/json",
-                                },
-                            }
-                        )
-                        .then((res) => {
-                            console.log(res);
-                            setIsLoading(false);
-                            if (res.statusText === "OK") {
-                                // ...
-                                console.log("ciao");
-                                authCtx.onLogin(user.email);
-                                navigate("/home");
-                                return res;
-                            } else {
-                                return res.then((data) => {
-                                    //show an error modal
-                                    let errorMessage = "Authentication failed!";
-                                    if (
-                                        data &&
-                                        data.error &&
-                                        data.error.message
-                                    ) {
-                                        errorMessage = data.error.message;
-                                    }
-                                    throw new Error(errorMessage);
-                                });
-                            }
-                        })
-                        .catch((err) => {
-                            setAlert(true);
-                        });
+                    try {
+                        axios
+                            .post(
+                                `/api/signIn`,
+                                { ...user },
+                                {
+                                    headers: {
+                                        // Overwrite Axios's automatically set Content-Type
+                                        "Content-Type": "application/json",
+                                    },
+                                }
+                            )
+                            .then((res) => {
+                                //console.log(res + "ciaone");
+                                setIsLoading(false);
+                                if (res.statusText === "OK") {
+                                    // ...
+                                    console.log("ciao");
+                                    authCtx.onLogin(user.email);
+                                    navigate("/home");
+                                    return res;
+                                }
+                                // else {
+                                //     return res.then((data) => {
+                                //         //show an error modal
+                                //         console.log(data);
+                                //         let errorMessage = "Authentication failed!";
+                                //         if (
+                                //             data &&
+                                //             data.error &&
+                                //             data.error.message
+                                //         ) {
+                                //             errorMessage = data.error.message;
+                                //         }
+                                //         throw new Error(errorMessage);
+                                //     });
+                                // }
+                            })
+                            .catch((err) => {
+                                //setAlert(true);
+                            });
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }
                 // COOKIE ERROR
             )
             .catch((error) => {
-                setErrorMessage("Could not complete the login");
+                //console.log(error);
+                //setErrorMessage("Could not complete the login");
             });
     };
 
