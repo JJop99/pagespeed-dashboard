@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -13,9 +14,13 @@ class LoginController extends Controller
             'email' => 'required|email|exists:users',
             'password' => 'required',
         ]);
-        if (Auth::attempt($attributes)) {
+        if ( ! Auth::attempt($attributes)) {
+            throw ValidationException::withMessages([
+                'email' => 'Your provided credentials could not be right.'
+            ]);
+            
             return redirect('/sitelist')->with('success', 'Welcome Back!.');
-        }
+        } 
     }
 
     public function logout()
