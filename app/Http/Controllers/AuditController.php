@@ -91,18 +91,18 @@ class AuditController extends Controller
             ->get();
 
         $statistics = [
-            $input[0]['firstContentfulPaint'],
-            $input[0]['speedIndex'],
-            $input[0]['largestContentfulPaint'],
-            $input[0]['totalBlockingTime'],
-            $input[0]['cumulativeLayoutShift'],
-            $input[0]['interactive'],
+            'firstContentfulPaint' => $input[0]['firstContentfulPaint'],
+            'speedIndex' => $input[0]['speedIndex'],
+            'largestContentfulPaint' => $input[0]['largestContentfulPaint'],
+            'totalBlockingTime' => $input[0]['totalBlockingTime'],
+            'cumulativeLayoutShift' => $input[0]['cumulativeLayoutShift'],
+            'interactive' => $input[0]['interactive'],
         ];
 
         $performance = [
-            $input[0]['url'],
-            $input[0]['title'],
-            $input[0]['performance'],
+            'url' => $input[0]['url'],
+            'title' => $input[0]['title'],
+            'performance' => $input[0]['performance'],
         ];
 
         return [
@@ -171,11 +171,12 @@ class AuditController extends Controller
         $results = Audit::select('url')
             ->where('email', Auth::user()->email)
             ->where('project_id', $project['id'])
+            ->groupBy('url')
             ->orderBy('url', $request['order']);
 
         $query = $results->clone();
         $results = $results->take($take)->skip($skip)->get();
-        $total = $query->groupBy('url')->count();
+        $total = $query->groupBy('url')->get()->count();
 
         return response()->json([
             'urls' => $results,
