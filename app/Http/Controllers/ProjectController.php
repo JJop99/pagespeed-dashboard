@@ -6,6 +6,7 @@ use App\Models\Audit;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class ProjectController extends Controller
 {
@@ -65,7 +66,9 @@ class ProjectController extends Controller
                 ->where('id', $validated['id'])
                 ->delete();
         } catch (\Illuminate\Database\QueryException $ex) {
-            die("Caught an error");
+            throw ValidationException::withMessages([
+                'error' => 'error'
+            ]);
         }
 
         if ($result && $audits) {
