@@ -8,7 +8,7 @@ import {
     DialogTitle,
     useMediaQuery,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import {  createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 // react
@@ -18,9 +18,16 @@ import { useNavigate } from "react-router-dom";
 // axios
 import axios from "axios";
 
+const { palette } = createTheme();
+const { augmentColor } = palette;
+const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
+const theme = createTheme({
+  palette: {
+    close: createColor('#111827'),
+  },
+});
 const DeleteDialog = (props) => {
     const [open, setOpen] = useState(false);
-    const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
     const navigate = useNavigate();
 
@@ -33,6 +40,7 @@ const DeleteDialog = (props) => {
     };
 
     const handleDelete = () => {
+        setOpen(false);
         axios
             .delete(
                 `/api${props.deleteApi}`,
@@ -68,38 +76,40 @@ const DeleteDialog = (props) => {
             >
                 Delete
             </DeleteOutlineIcon>
-            <Dialog
-                fullScreen={fullScreen}
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="responsive-dialog-title"
-            >
-                <DialogTitle id="responsive-dialog-title">
-                    {props.title + " cancellation"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        The item {props.title} will be permanently deleted.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        autoFocus
-                        onClick={handleClose}
-                        variant="contained"
-                        color="info"
-                    >
-                        Disagree
-                    </Button>
-                    <Button
-                        onClick={handleDelete}
-                        variant="outlined"
-                        color="error"
-                    >
-                        Delete
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <ThemeProvider theme={theme}>
+                <Dialog
+                    fullScreen={fullScreen}
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <DialogTitle id="responsive-dialog-title">
+                        {props.title + " cancellation"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            The item {props.title} will be permanently deleted.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            autoFocus
+                            onClick={handleClose}
+                            variant="contained"
+                            color="close"
+                        >
+                            Close
+                        </Button>
+                        <Button
+                            onClick={handleDelete}
+                            variant="outlined"
+                            color="error"
+                        >
+                            Delete
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </ThemeProvider>
         </div>
     );
 };

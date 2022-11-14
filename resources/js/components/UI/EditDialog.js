@@ -7,9 +7,9 @@ import {
     DialogContentText,
     DialogTitle,
     useMediaQuery,
-    TextField
+    TextField,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import EditOutlineIcon from "@mui/icons-material/EditOutlined";
 
 // react
@@ -19,10 +19,19 @@ import { useNavigate } from "react-router-dom";
 // axios
 import axios from "axios";
 
+const { palette } = createTheme();
+const { augmentColor } = palette;
+const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
+const theme = createTheme({
+    palette: {
+        close: createColor("#111827"),
+        edit: createColor("#2e7d32"),
+    },
+});
+
 const EditDialog = (props) => {
     const [open, setOpen] = useState(false);
     const newNameInputRef = useRef();
-    const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
     const navigate = useNavigate();
 
@@ -32,10 +41,10 @@ const EditDialog = (props) => {
 
     const handleClose = () => {
         setOpen(false);
-        console.log(newNameInputRef.current.value);
     };
 
     const handleEdit = () => {
+        setOpen(false);
         axios
             .get(
                 `/api${props.editApi}`,
@@ -72,48 +81,50 @@ const EditDialog = (props) => {
             >
                 Edit
             </EditOutlineIcon>
-            <Dialog
-                fullScreen={fullScreen}
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="responsive-dialog-title"
-            >
-                <DialogTitle id="responsive-dialog-title">
-                    {props.title + "  edit"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        The item {props.title} will be permanently changed.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="New title"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        inputRef={newNameInputRef}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        autoFocus
-                        onClick={handleClose}
-                        variant="contained"
-                        color="info"
-                    >
-                        Close
-                    </Button>
-                    <Button
-                        onClick={handleEdit}
-                        variant="outlined"
-                        color="error"
-                    >
-                        Edit
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            <ThemeProvider theme={theme}>
+                <Dialog
+                    fullScreen={fullScreen}
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="responsive-dialog-title"
+                >
+                    <DialogTitle id="responsive-dialog-title">
+                        {props.title + "  edit"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            The item {props.title} will be permanently changed.
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="New title"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            inputRef={newNameInputRef}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button
+                            autoFocus
+                            onClick={handleClose}
+                            variant="contained"
+                            color="close"
+                        >
+                            Close
+                        </Button>
+                        <Button
+                            onClick={handleEdit}
+                            variant="outlined"
+                            color="edit"
+                        >
+                            Edit
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </ThemeProvider>
         </div>
     );
 };

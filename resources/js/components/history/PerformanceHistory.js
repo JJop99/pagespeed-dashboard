@@ -10,7 +10,7 @@ import moment from "moment";
 // mui date picker
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { DatePicker } from "@mui/x-date-pickers";
 
 // chart
 import { Chart as ChartJS } from "chart.js/auto";
@@ -41,7 +41,7 @@ const PerformanceHistory = () => {
     const [from, setFrom] = useState(
         moment().subtract(1, "months").format("YYYY-MM-DD")
     );
-    const [to, setTo] = useState();
+    const [to, setTo] = useState(moment().format("YYYY-MM-DD"));
     const [project, setProject] = useState("");
     const url = decodeURIComponent(location.search.split("=").pop());
 
@@ -111,7 +111,7 @@ const PerformanceHistory = () => {
                     );
                     setDates(
                         res.data.urls.map(({ created_at }) =>
-                            moment(created_at).format("DD-MM-YYYY HH:mm")
+                            moment(created_at)
                         )
                     );
                     return res;
@@ -123,30 +123,21 @@ const PerformanceHistory = () => {
             .finally(() => {
                 setIsLoading(false);
                 console.log(dates);
+                console.log(performance);
             });
     }, [from, to]);
-
-    const data = {
-        labels: dates,
-        datasets: [
-            {
-                data: performance,
-                fill: true,
-                backgroundColor: "rgba(64, 95, 242, 0.2)",
-                borderColor: "rgba(64, 95, 242, 1)",
-            },
-        ],
-    };
 
     return (
         <div>
             {!isLoading && (
                 <div>
-                    <div className="result__project">
-                        <Link to={`/project/${projectId}/audits`}>
-                            <ArrowBackIosNewRoundedIcon />
+                    <div>
+                        <Link
+                            to={`/project/${projectId}/audits`}
+                            className="project__title"
+                        >
+                            <ArrowBackIosNewRoundedIcon /> Project: {project.title}
                         </Link>
-                        Project: {project.title}
                     </div>
                     <div className="result__title result__title-performance">
                         Performance Scores
@@ -166,9 +157,12 @@ const PerformanceHistory = () => {
                         <div className="result__datePickers">
                             {" "}
                             <LocalizationProvider dateAdapter={AdapterMoment}>
-                                <DesktopDatePicker
+                                <DatePicker
                                     className="result__datePickers result__datePickers-datePicker"
+                                    disableFuture
                                     label="From"
+                                    openTo="day"
+                                    views={["year", "month", "day"]}
                                     value={from}
                                     minDate={moment("2017-01-01")}
                                     inputFormat="DD/MM/YYYY"
@@ -179,9 +173,13 @@ const PerformanceHistory = () => {
                                         <TextField {...params} />
                                     )}
                                 />
-                                <DesktopDatePicker
+
+                                <DatePicker
                                     className="result__datePickers result__datePickers-datePicker"
+                                    disableFuture
                                     label="To"
+                                    openTo="day"
+                                    views={["year", "month", "day"]}
                                     value={to}
                                     minDate={from}
                                     inputFormat="DD/MM/YYYY"

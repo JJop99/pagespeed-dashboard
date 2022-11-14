@@ -12,8 +12,7 @@ import {
     Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-import 'chartjs-adapter-moment';
-
+import "chartjs-adapter-moment";
 
 ChartJS.register(
     CategoryScale,
@@ -38,6 +37,11 @@ function LineChart({ dateLabels, analyticsData, fillColor }) {
         scales: {
             x: {
                 type: "time",
+                time: {
+                    // Luxon format string
+                    tooltipFormat: "DD/MM/YYYY HH:mm",
+                },
+
                 display: false,
                 ticks: {
                     display: false,
@@ -59,12 +63,7 @@ function LineChart({ dateLabels, analyticsData, fillColor }) {
                 max: 100,
                 min: 0,
             },
-            // yAxis: {
-            //     beginAtZero: true,
-            //     max: 100,
-            //     min: 0
-
-            // },
+            
         },
         plugins: {
             legend: {
@@ -74,7 +73,7 @@ function LineChart({ dateLabels, analyticsData, fillColor }) {
     };
 
     function createGradient(ctx, area) {
-        const colorStart = "rgba(255, 255, 255, 0.8)";
+        const colorStart = "rgba(255, 255, 255, 0.9)";
         const colorEnd = fillColor;
 
         const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
@@ -108,9 +107,7 @@ function LineChart({ dateLabels, analyticsData, fillColor }) {
         };
 
         setChartData(data);
-        console.log(analyticsData);
     }, [analyticsData]); // never add labels to the dependencies array (php storm is stupid)
-
     return <Line ref={chartRef} data={chartData} options={options} />;
 }
 

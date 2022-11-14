@@ -55,18 +55,13 @@ const SignUp = () => {
                 if (res.statusText === "OK") {
                     navigate("/sign-in");
                     return res;
-                } else {
-                    throw new Error();
-                   
-                }
+                } 
             })
             .catch((err) => {
-                setAlert(true);
-                console.log(err.response)
+                console.log(err.response);
             });
     };
-    console.log(alert)
-
+    console.log(alert);
 
     return (
         <ThemeProvider theme={theme}>
@@ -85,11 +80,7 @@ const SignUp = () => {
                     <Typography component="h1" variant="h5">
                         Sign Up
                     </Typography>
-                    {alert && (
-                        <Alert severity="error">
-                            Your provided credentials could be wrong.
-                        </Alert>
-                    ) }
+
                     <Box
                         component="form"
                         onSubmit={handleSubmit}

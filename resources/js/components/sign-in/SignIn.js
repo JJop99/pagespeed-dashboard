@@ -32,21 +32,6 @@ const SignIn = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-    // axios.interceptors.response.use(
-    //     (response) => {
-    //         return response;
-    //     },
-    //     (error) => {
-    //         if (error.response.status === 422) {
-    //             console.log(error.response + "intercepted");
-
-    //             setAlert(true);
-    //         }
-
-    //         return error;
-    //     }
-    // );
-
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(emailInputRef.current.value);
@@ -65,56 +50,36 @@ const SignIn = () => {
                 (res) => {
                     console.log(res);
                     // LOGIN
-                    try {
-                        axios
-                            .post(
-                                `/api/signIn`,
-                                { ...user },
-                                {
-                                    headers: {
-                                        // Overwrite Axios's automatically set Content-Type
-                                        "Content-Type": "application/json",
-                                    },
-                                }
-                            )
-                            .then((res) => {
-                                //console.log(res + "ciaone");
-                                setIsLoading(false);
-                                if (res.statusText === "OK") {
-                                    // ...
-                                    console.log("ciao");
-                                    authCtx.onLogin(user.email);
-                                    navigate("/home");
-                                    return res;
-                                }
-                                // else {
-                                //     return res.then((data) => {
-                                //         //show an error modal
-                                //         console.log(data);
-                                //         let errorMessage = "Authentication failed!";
-                                //         if (
-                                //             data &&
-                                //             data.error &&
-                                //             data.error.message
-                                //         ) {
-                                //             errorMessage = data.error.message;
-                                //         }
-                                //         throw new Error(errorMessage);
-                                //     });
-                                // }
-                            })
-                            .catch((err) => {
-                                //setAlert(true);
-                            });
-                    } catch (error) {
-                        console.log(error);
-                    }
+
+                    axios
+                        .post(
+                            `/api/signIn`,
+                            { ...user },
+                            {
+                                headers: {
+                                    // Overwrite Axios's automatically set Content-Type
+                                    "Content-Type": "application/json",
+                                },
+                            }
+                        )
+                        .then((res) => {
+                            setIsLoading(false);
+                            if (res.statusText === "OK") {
+                                // ...
+                                console.log("ciao");
+                                authCtx.onLogin(user.email);
+                                navigate("/home");
+                                return res;
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
                 }
                 // COOKIE ERROR
             )
             .catch((error) => {
-                //console.log(error);
-                //setErrorMessage("Could not complete the login");
+                console.log(error);
             });
     };
 
@@ -135,13 +100,7 @@ const SignIn = () => {
                     <Typography component="h1" variant="h5">
                         Sign In
                     </Typography>
-                    {alert ? (
-                        <Alert severity="error">
-                            Your provided credentials could be wrong.
-                        </Alert>
-                    ) : (
-                        <></>
-                    )}
+                    
                     <Box
                         component="form"
                         onSubmit={handleSubmit}

@@ -56,18 +56,19 @@ const Audits = () => {
     }, []);
     return (
         <Fragment>
-            {!isLoading && <div>
-                {" "}
-                <div className="table__project">
-                    <Link to={"/home"}>
-                        <ArrowBackIosNewRoundedIcon />
-                    </Link>
-                    Project: {project.title}
+            {!isLoading && (
+                <div>
+                    {" "}
+                    <div >
+                        <Link to={"/home"} className="project__title">
+                            <ArrowBackIosNewRoundedIcon /> Project: {project.title}
+                        </Link>
+                    </div>
+                    <TestList />
+                    <SiteList />
                 </div>
-                <TestList />
-                <SiteList />
-            </div>}
-            {isLoading && <LoadingSpinner/>}
+            )}
+            {isLoading && <LoadingSpinner />}
         </Fragment>
     );
 };

@@ -92,9 +92,6 @@
     &__date {
         @apply truncate block float-right;
     }
-    &__project {
-        @apply text-xl md:text-2xl text-gray-900 mb-4;
-    }
 
     &__titleUrl {
         @apply block w-32 md:w-64 truncate;
@@ -107,13 +104,22 @@
 
 // results (Audit.js, PerformanceHistory.js)
 .result {
+    &__score {
+        @apply flex flex-col md:flex-row  -mx-3 overflow-hidden;
+        &-graph {
+            @apply my-3 px-3  overflow-hidden   md:w-2/5;
+        }
+        &-info {
+            @apply my-3 px-3  w-full overflow-hidden md:w-3/5;
+        }
+    }
     &__description {
-        @apply text-left border-t-2 text-lg text-gray-500;
+        @apply text-left  text-sm md:text-base text-gray-500;
         &-audit {
-            @apply p-6 mb-16  md:border-t-0 md:border-l-2;
+            @apply p-6 border-t-2 md:border-t-0 md:border-l-2;
         }
         &-performance {
-            @apply pt-10 mt-16;
+            @apply pt-10 mt-8;
         }
     }
     &__title {
@@ -125,12 +131,7 @@
             @apply text-3xl md:text-5xl;
         }
     }
-    &__project {
-        @apply text-xl md:text-2xl text-gray-900 mb-4;
-        &-audit {
-            @apply align-middle;
-        }
-    }
+
     &__subtitle {
         @apply text-gray-500  w-64 sm:w-10/12 truncate;
 
@@ -143,7 +144,7 @@
     }
 
     &__performance {
-        @apply text-3xl text-gray-900 mb-8;
+        @apply text-3xl text-gray-900 mb-8 mt-16;
     }
 
     &__list {
@@ -151,7 +152,7 @@
     }
 
     &__chart {
-        @apply mb-8 sm:m-16 min-h-min max-h-80 ;
+        @apply mb-8 md:m-16 ;
     }
 
     &__datePickers {
@@ -161,6 +162,10 @@
             @apply m-2 md:m-4 #{!important};
         }
     }
+}
+
+.project__title {
+    @apply mb-8 flex text-xl md:text-2xl text-gray-500 items-center flex-wrap;
 }
 
 // Footer.js

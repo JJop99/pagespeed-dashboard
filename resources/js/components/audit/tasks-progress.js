@@ -2,8 +2,10 @@
 import {
     Avatar,
     Box,
+    createTheme,
     Grid,
     LinearProgress,
+    ThemeProvider,
     Typography,
 } from "@mui/material";
 import SpeedIcon from "@mui/icons-material/Speed";
@@ -13,9 +15,10 @@ import { grey } from "@mui/material/colors";
 import Card from "../UI/Card";
 
 export const TasksProgress = (props) => {
+    const theme = createTheme();
     return (
-        <Card >
-           
+        <Card className="p-2">
+            <ThemeProvider theme={theme}>
                 <Grid
                     container
                     spacing={3}
@@ -37,12 +40,26 @@ export const TasksProgress = (props) => {
                         <Avatar
                             sx={{
                                 backgroundColor:
-                                    props.score > 0.5 ? props.score > 0.9 ? "success.light" : "warning.light" : "error.light",
+                                    props.score > 0.5
+                                        ? props.score > 0.9
+                                            ? "success.light"
+                                            : "warning.light"
+                                        : "error.light",
                                 height: 56,
                                 width: 56,
+                                [theme.breakpoints.down("md")]: {
+                                    height: 36,
+                                    width: 36,
+                                },
                             }}
                         >
-                            <SpeedIcon />
+                            <SpeedIcon
+                                sx={{
+                                    [theme.breakpoints.down("md")]: {
+                                        fontSize: "medium",
+                                    },
+                                }}
+                            />
                         </Avatar>
                     </Grid>
                 </Grid>
@@ -53,11 +70,12 @@ export const TasksProgress = (props) => {
                         sx={{
                             backgroundColor: grey[200],
                             "& .MuiLinearProgress-bar": {
-                              backgroundColor: grey[600]
-                            }
-                          }}
+                                backgroundColor: grey[600],
+                            },
+                        }}
                     />
                 </Box>
+            </ThemeProvider>
         </Card>
     );
 };

@@ -2,11 +2,12 @@
 import axios from "axios";
 
 // react
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // context
 import AuthContext from "../../store/auth-context";
+import ErrorAlert from "../UI/ErrorAlert";
 
 // layout
 import Container from "./Container";
@@ -17,6 +18,8 @@ import MainNavigation from "./MainNavigation";
 const Layout = (props) => {
     const authCtx = useContext(AuthContext);
     const navigate = useNavigate();
+    const [alert, setAlert] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     axios.interceptors.response.use(
         (response) => {
@@ -39,11 +42,22 @@ const Layout = (props) => {
                 //place your reentry code
                 navigate("*");
             }
-            // if (error.response.status === 422) {
-            //     console.log(error.toJSON() + "intercepted");
+            if (error.response.status === 422) {
+                // console.log(
+                //     JSON.stringify(error.response.data.errors) + " intercepted"
+                // );
 
-            //     //setAlert(true);
-            // }
+                setErrorMessage(
+                    Object.values(error.response.data.errors)
+                        .map((prop) => prop)
+                        .join("\n")
+                );
+                setAlert(true);
+            }
+            if (error.response.status === 429) {
+                setErrorMessage("We had a problem with the test execution, try again please.");
+                setAlert(true);
+            }
             return error;
         }
     );
@@ -52,7 +66,16 @@ const Layout = (props) => {
         <Fragment>
             <div className="layout">
                 <MainNavigation />
-                <Container>{props.children}</Container>
+                <Container>
+                    {
+                        <ErrorAlert
+                            open={alert}
+                            message={errorMessage}
+                            setOpen={setAlert}
+                        />
+                    }
+                    {props.children}
+                </Container>
                 <Footer />
             </div>
         </Fragment>
