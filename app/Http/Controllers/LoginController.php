@@ -14,13 +14,13 @@ class LoginController extends Controller
             'email' => 'required|email|exists:users',
             'password' => 'required',
         ]);
-        if ( ! Auth::attempt($attributes)) {
+        if (!Auth::attempt($attributes)) {
             throw ValidationException::withMessages([
                 'error' => 'Your provided credentials could not be right.'
             ]);
-            
+
             return redirect('/sitelist')->with('success', 'Welcome Back!.');
-        } 
+        }
     }
 
     public function logout()
