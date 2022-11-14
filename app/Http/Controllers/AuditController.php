@@ -135,9 +135,11 @@ class AuditController extends Controller
 
         ]);
 
-        $startDate = $request->from ? Carbon::parse($request->from)->format('Y-m-d') : Carbon::now()->subDays(31)->format('Y-m-d');
-        $endDate =  $request->to ? Carbon::parse($request->to)->format('Y-m-d') : Carbon::now()->format('Y-m-d');
-
+        //$startDate = $request->from ? Carbon::parse($request->from)->format('Y-m-d') : Carbon::now()->subDays(31)->format('Y-m-d');
+        //$endDate =  $request->to ? Carbon::parse($request->to)->format('Y-m-d') : Carbon::now()->format('Y-m-d');
+        $startDate = Carbon::parse($request->from)->format('Y-m-d');
+        $endDate = Carbon::parse($request->to)->format('Y-m-d');
+        
         $research = Audit::select('performance', 'created_at')
             ->where('project_id', $project['id'])
             ->where('email', Auth::user()->email)

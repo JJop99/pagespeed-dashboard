@@ -16,7 +16,7 @@ class LoginController extends Controller
         ]);
         if ( ! Auth::attempt($attributes)) {
             throw ValidationException::withMessages([
-                'email' => 'Your provided credentials could not be right.'
+                'error' => 'Your provided credentials could not be right.'
             ]);
             
             return redirect('/sitelist')->with('success', 'Welcome Back!.');
