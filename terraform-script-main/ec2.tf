@@ -16,6 +16,7 @@ resource "aws_instance" "ec2_instance_1" {
   instance_type = "t2.micro"
   key_name      = aws_key_pair.ec2_ssh_key.key_name
 
+
   network_interface {
     network_interface_id = aws_network_interface.network_interface_1.id
     device_index         = 0
@@ -28,6 +29,7 @@ resource "aws_instance" "ec2_instance_1" {
   user_data = <<-EOL
   #!/bin/bash -xe
 
+  echo "docker ps -aq | xargs docker stop | xargs docker rm && bash /var/lib/cloud/instances/*/scripts/part-001" > /root/docker-script.sh
   yum install docker -y
   docker login ${var.docker_registry.registry} --username ${var.docker_registry.username} --password ${var.docker_registry.password}
   systemctl enable docker.service
