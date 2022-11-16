@@ -1,3 +1,9 @@
+variable "prj_name" {
+  type        = string
+  description = "Project Slugged Name"
+  default     = "Jack-TF"
+}
+
 variable "aws_region" {
   type        = string
   description = "AWS Region"
@@ -7,7 +13,7 @@ variable "aws_region" {
 variable "aws_profile" {
   type        = string
   description = "Name of the local AWS Profile"
-  default     = "pagespeed"
+  default     = "default"
 }
 
 variable "azs" {
@@ -22,11 +28,11 @@ variable "vpc_cidr" {
   default     = "123.0.0.0/16"
 }
 
-variable "private_subnets" {
-  description = "Private Subnets CIDR"
-  type        = list(any)
-  default     = ["123.0.11.0/24", "123.0.12.0/24"]
-}
+# variable "private_subnets" {
+#   description = "Private Subnets CIDR"
+#   type        = list(any)
+#   default     = ["123.0.11.0/24", "123.0.12.0/24"]
+# }
 
 variable "public_subnets" {
   description = "Public Subnets CIDR"
@@ -52,4 +58,12 @@ variable "docker_registry" {
     password = "glpat-GHdxzPKfyV_DeSs5fxA3"
     image    = "registry.gitlab.com/mumble1/experiments/pagespeed-dashboard/pagespeed-dashboard:latest"
   }
+}
+
+# Domain www.terraform-mumble-test.com
+# AWS Account 152006163228
+variable "deploy_domain_id" {
+  description = "Deploy domain Zone ID"
+  type        = string
+  default     = "Z07637113DG1FCACDWH2I"
 }

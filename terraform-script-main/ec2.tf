@@ -21,6 +21,10 @@ resource "aws_instance" "ec2_instance_1" {
     device_index         = 0
   }
 
+  tags = {
+    Name = "${var.prj_name} Instance"
+  }
+
   user_data = <<-EOL
   #!/bin/bash -xe
 
