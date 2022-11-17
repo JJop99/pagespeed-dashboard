@@ -28,7 +28,6 @@ Route::post('signIn', [LoginController::class, 'signIn']);
 
 Route::post('signUp', [RegisterController::class, 'signUp']);
 
-Route::get('project/{project}/change', [PasswordController::class, 'change']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -36,6 +35,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('change', [PasswordController::class, 'change']);
+
     Route::get('project/{project}/audits', [AuditController::class, 'getAudits']);
     Route::post('project/{project}/audit', [AuditController::class, 'audit']);
     Route::post('project', [ProjectController::class, 'project']);
