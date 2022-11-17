@@ -7,9 +7,11 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import PasswordIcon from "@mui/icons-material/Password";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { white } from '@mui/material/colors';
 
 import { Fragment, useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../store/auth-context";
 
@@ -41,16 +43,17 @@ export default function AccountMenu() {
                 }}
             >
                 <Tooltip title="Account settings">
-                    <IconButton
+                    <AccountCircleIcon
                         onClick={handleClick}
-                        size="small"
-                        sx={{ ml: 2 }}
+                        fontSize="large"
+                        
+                        sx={{ color: "#fff"}}
                         aria-controls={open ? "account-menu" : undefined}
                         aria-haspopup="true"
                         aria-expanded={open ? "true" : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}/>
-                    </IconButton>
+                       
+                    </AccountCircleIcon>
                 </Tooltip>
             </Box>
             <Menu

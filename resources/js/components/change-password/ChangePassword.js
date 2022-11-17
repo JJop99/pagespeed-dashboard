@@ -61,7 +61,7 @@ const ChangePassword = () => {
             .then((res) => {
                 console.log(res);
                 if (res.statusText === "OK") {
-                    logoutHandler;
+                    logoutHandler();
                     return res;
                 } 
             })
@@ -117,6 +117,7 @@ const ChangePassword = () => {
                             autoComplete="current-password"
                             inputRef={passwordInputRef}
                         />
+                        
 
                         <Button
                             type="submit"

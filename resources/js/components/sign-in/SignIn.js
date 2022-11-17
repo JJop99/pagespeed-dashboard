@@ -9,6 +9,7 @@ import {
     Box,
     Typography,
     Container,
+    Grid,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -17,7 +18,7 @@ import axios from "axios";
 
 // react
 import { useContext, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
 
 const theme = createTheme();
@@ -100,7 +101,7 @@ const SignIn = () => {
                     <Typography component="h1" variant="h5">
                         Sign In
                     </Typography>
-                    
+
                     <Box
                         component="form"
                         onSubmit={handleSubmit}
@@ -139,6 +140,18 @@ const SignIn = () => {
                         >
                             Sign In
                         </Button>
+                        <Grid container>
+                            <Grid item xs>
+                                <Link to="/forgot-password" >
+                                    Forgot password?
+                                </Link>
+                            </Grid>
+                            <Grid item>
+                                <Link to="/sign-up" >
+                                    Don't have an account? Sign Up
+                                </Link>
+                            </Grid>
+                        </Grid>
                     </Box>
                 </Box>
             </Container>

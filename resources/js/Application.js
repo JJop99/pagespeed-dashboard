@@ -33,6 +33,7 @@ const Application = () => {
                 <Route path="/new-project" element={<NewProject />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/change-password" element={<ChangePassword />} />
+                {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
                 {!isLoggedIn && <Route path="/sign-up" element={<SignUp />} />}
                 {isLoggedIn && <Route path="/sign-up" element={<Navigate to="/home" replace />} />}
 
