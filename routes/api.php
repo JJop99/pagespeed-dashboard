@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\PasswordController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,6 +28,7 @@ Route::post('signIn', [LoginController::class, 'signIn']);
 
 Route::post('signUp', [RegisterController::class, 'signUp']);
 
+Route::get('project/{project}/change', [PassowrdController::class, 'change']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

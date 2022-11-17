@@ -27,7 +27,7 @@ class CreateAuditsTable extends Migration
             $table->text('interactive');
             $table->string('performance');
             $table->unsignedInteger('project_id');
-            //S$table->foreign('project_id')->references('id')->on('projects');
+           
         });
     }
 
