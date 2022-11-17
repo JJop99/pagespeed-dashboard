@@ -7,21 +7,16 @@ import AuthContext from "../../store/auth-context";
 
 // axios
 import axios from "axios";
+import AccountMenu from "../UI/AccountMenu";
 
 const MainNavigation = () => {
     const authCtx = useContext(AuthContext);
-    const navigate = useNavigate();
     const location = useLocation();
     const path = location.pathname;
 
     const isLoggedIn = authCtx.isLoggedIn;
 
-    const logoutHandler = () => {
-        authCtx.onLogout();
-        axios.defaults.withCredentials = true;
-        axios.get("/api/logout");
-        navigate("/");
-    };
+   
 
     return (
         <header className="mainNav__header">
@@ -59,7 +54,8 @@ const MainNavigation = () => {
 
                         {isLoggedIn && (
                             <li>
-                                <button onClick={logoutHandler}>Logout</button>
+                                <AccountMenu/>
+                                {/* <button onClick={logoutHandler}>Logout</button> */}
                             </li>
                         )}
                     </ul>
