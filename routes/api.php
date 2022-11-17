@@ -28,7 +28,7 @@ Route::post('signIn', [LoginController::class, 'signIn']);
 
 Route::post('signUp', [RegisterController::class, 'signUp']);
 
-Route::get('project/{project}/change', [PassowrdController::class, 'change']);
+Route::get('project/{project}/change', [PasswordController::class, 'change']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

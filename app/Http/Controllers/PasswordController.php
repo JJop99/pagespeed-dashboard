@@ -14,7 +14,7 @@ class PasswordController extends Controller
         $request->validate([
             'id' => 'required',
             'old_password' => 'required',
-            'new_password' => 'required|confirmed',
+            'new_password' => 'required',
         ]);
         if (!Hash::check($request->old_password, auth()->user()->password)) {
             return response()->json("Old Password Doesn't match!");
