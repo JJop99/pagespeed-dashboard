@@ -33,10 +33,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('forgot', [PasswordController::class, 'forgot']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('change', [PasswordController::class, 'change']);
-
     Route::get('project/{project}/audits', [AuditController::class, 'getAudits']);
     Route::post('project/{project}/audit', [AuditController::class, 'audit']);
     Route::post('project', [ProjectController::class, 'project']);
