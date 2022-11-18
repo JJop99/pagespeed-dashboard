@@ -13,10 +13,10 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
-
+    
     'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
+        'domain' => env('mailgun.terraform-mumble-test.com'),
+        'secret' => env('1361e9f6d873a53ab4da1799900b1670-2de3d545-12933acd'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
     ],
 
