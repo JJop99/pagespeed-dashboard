@@ -5,15 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Message;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 
 class PasswordController extends Controller
 {
-    public function change(Request $request)
+    public function changePassword(Request $request)
     {
         $request->validate([
             'old_password' => 'required',
@@ -21,7 +19,7 @@ class PasswordController extends Controller
             'confirm_password' => 'required|same:new_password',
         ]);
         if (!Hash::check($request->old_password, auth()->user()->password)) {
-            return response()->json(["error" => 'Old password does not match']);
+            return response()->json(["error" => 'Old password does not match'], 400);
         }
         User::whereId(auth()->user()->id)->update([
             'password' => Hash::make($request->new_password)
@@ -57,7 +55,8 @@ class PasswordController extends Controller
         return response()->json(["msg" => 'Reset password link sent on your email id.']);
     }
 
-    public function reset() {
+    public function resetPassword(Request $request)
+    {
         $credentials = request()->validate([
             'email' => 'required',
             'token' => 'required',
