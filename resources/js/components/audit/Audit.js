@@ -52,7 +52,7 @@ const Audit = () => {
             )
             .then((res) => {
                 console.log(res);
-                if (res.statusText === "OK") {
+                if (res.status === 200) {
                     setProject(res.data.project[0]);
 
                     return res;
@@ -78,7 +78,7 @@ const Audit = () => {
                 }
             )
             .then((res) => {
-                if (res.status === 204) {
+                if (res.status === 200) {
                     console.log(res);
                     setAudits(res.data[0]);
                     setInfo(res.data[1]);

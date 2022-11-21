@@ -55,7 +55,7 @@ const NewTest = () => {
             })
             .then((res) => {
                 console.log(res);
-                if (res.status === 204) {
+                if (res.status === 200) {
                     navigate(`${location.pathname}s`);
                     return res;
                 }

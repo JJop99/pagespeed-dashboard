@@ -50149,7 +50149,7 @@ const MyTable = ({
         "Content-Type": "application/json"
       }
     }).then(res => {
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         console.log(res);
         if (res.data[type].length !== 0) {
           setData(res.data[type]); //combiare urls con tests nell api
@@ -50593,7 +50593,7 @@ const DeleteDialog = props => {
         "Content-Type": "application/json"
       }
     }).then(res => {
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         location.reload();
         return res;
       }
@@ -50709,7 +50709,7 @@ const EditDialog = props => {
         "Content-Type": "application/json"
       }
     }).then(res => {
-      if (res.statusText === "OK") {
+      if (res.status === 204) {
         location.reload();
         return res;
       }
@@ -51052,7 +51052,7 @@ const Audit = () => {
       }
     }).then(res => {
       console.log(res);
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         setProject(res.data.project[0]);
         return res;
       }
@@ -51072,7 +51072,7 @@ const Audit = () => {
         "Content-Type": "application/json"
       }
     }).then(res => {
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         console.log(res);
         setAudits(res.data[0]);
         setInfo(res.data[1]);
@@ -51332,7 +51332,7 @@ const Audits = () => {
       }
     }).then(res => {
       console.log(res);
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         setProject(res.data.project[0]);
         if (res.data.project.length === 0) {
           navigate("/not-exist");
@@ -51627,7 +51627,7 @@ const ChangePassword = () => {
       }
     }).then(res => {
       console.log(res);
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         logoutHandler();
         return res;
       }
@@ -51774,7 +51774,7 @@ const ForgotPassword = () => {
       }
     }).then(res => {
       console.log(res);
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         navigate("/");
         return res;
       }
@@ -51931,7 +51931,7 @@ const PerformanceHistory = () => {
       }
     }).then(res => {
       console.log(res);
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         setProject(res.data.project[0]);
         if (res.data.project.length === 0) {
           navigate("/not-exist");
@@ -51957,7 +51957,7 @@ const PerformanceHistory = () => {
         "Content-Type": "application/json"
       }
     }).then(res => {
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         console.log(res);
         setPerformance(res.data.urls.map(({
           performance
@@ -52179,7 +52179,7 @@ const NewProject = () => {
       }
     }).then(res => {
       console.log(res);
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         navigate("/home");
         return res;
       }
@@ -52443,7 +52443,7 @@ const NewTest = () => {
       }
     }).then(res => {
       console.log(res);
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         navigate(`${location.pathname}s`);
         return res;
       }
@@ -52597,7 +52597,7 @@ const SignIn = () => {
         }
       }).then(res => {
         setIsLoading(false);
-        if (res.statusText === "OK") {
+        if (res.status === 200) {
           // ...
           console.log("ciao");
           authCtx.onLogin(user.email);
@@ -52765,7 +52765,7 @@ const SignUp = () => {
       }
     }).then(res => {
       console.log(res);
-      if (res.statusText === "OK") {
+      if (res.status === 200) {
         navigate("/sign-in");
         return res;
       }
