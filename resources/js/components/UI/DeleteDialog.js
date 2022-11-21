@@ -8,7 +8,7 @@ import {
     DialogTitle,
     useMediaQuery,
 } from "@mui/material";
-import {  createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 // react
@@ -17,15 +17,8 @@ import { useNavigate } from "react-router-dom";
 
 // axios
 import axios from "axios";
+import theme from "../../theme/theme";
 
-const { palette } = createTheme();
-const { augmentColor } = palette;
-const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
-const theme = createTheme({
-  palette: {
-    close: createColor('#111827'),
-  },
-});
 const DeleteDialog = (props) => {
     const [open, setOpen] = useState(false);
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));

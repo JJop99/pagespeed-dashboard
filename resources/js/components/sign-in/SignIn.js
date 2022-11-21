@@ -11,7 +11,7 @@ import {
     Container,
     Grid,
 } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 
 // axios
 import axios from "axios";
@@ -20,8 +20,8 @@ import axios from "axios";
 import { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
+import theme from "../../theme/theme";
 
-const theme = createTheme();
 
 const SignIn = () => {
     const emailInputRef = useRef();
@@ -136,6 +136,7 @@ const SignIn = () => {
                             type="submit"
                             fullWidth
                             variant="contained"
+                            color="close"
                             sx={{ mt: 3, mb: 2 }}
                         >
                             Sign In

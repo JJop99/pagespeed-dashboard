@@ -10,22 +10,22 @@ import {
     Typography,
     Container,
 } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 
 // axios
 import axios from "axios";
 
 // react
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/auth-context";
-
-const theme = createTheme();
+import theme from "../../theme/theme";
 
 const ChangePassword = () => {
     const authCtx = useContext(AuthContext);
     const oldInputRef = useRef();
     const passwordInputRef = useRef();
+    const confirmInputRef = useRef();
 
     const navigate = useNavigate();
 
@@ -39,9 +39,9 @@ const ChangePassword = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         let user = {
-            
             old_password: oldInputRef.current.value,
             new_password: passwordInputRef.current.value,
+            confirm_password: confirmInputRef.current.value,
         };
 
         axios.defaults.withCredentials = true;
@@ -63,7 +63,7 @@ const ChangePassword = () => {
                 if (res.statusText === "OK") {
                     logoutHandler();
                     return res;
-                } 
+                }
             })
             .catch((err) => {
                 console.log(err.response);
@@ -105,7 +105,7 @@ const ChangePassword = () => {
                             autoFocus
                             inputRef={oldInputRef}
                         />
-                        
+
                         <TextField
                             margin="normal"
                             required
@@ -114,15 +114,27 @@ const ChangePassword = () => {
                             label="New Password"
                             type="password"
                             id="password"
-                            autoComplete="current-password"
+                            autoComplete="new-password"
                             inputRef={passwordInputRef}
                         />
-                        
+
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="confirm"
+                            label="Confirm Password"
+                            type="password"
+                            id="confirm"
+                            autoComplete="confirm-password"
+                            inputRef={confirmInputRef}
+                        />
 
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
+                            color="close"
                             sx={{ mt: 3, mb: 2 }}
                         >
                             Apply

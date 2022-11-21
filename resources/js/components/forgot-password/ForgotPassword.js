@@ -16,25 +16,29 @@ import { ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 
 // react
-import { useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 import theme from "../../theme/theme";
 
 
-const SignUp = () => {
-    const emailInputRef = useRef();
-    const passwordInputRef = useRef();
-    const userInputRef = useRef();
+const ForgotPassword = () => {
+    const authCtx = useContext(AuthContext);
+    const email = useRef();
 
     const navigate = useNavigate();
 
+    const logoutHandler = () => {
+        authCtx.onLogout();
+        axios.defaults.withCredentials = true;
+        axios.get("/api/logout");
+        navigate("/");
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(emailInputRef.current.value);
         let user = {
-            username: userInputRef.current.value,
-            email: emailInputRef.current.value,
-            password: passwordInputRef.current.value,
+            email: email.current.value,
         };
 
         axios.defaults.withCredentials = true;
@@ -42,7 +46,7 @@ const SignUp = () => {
         // REGISTER
         axios
             .post(
-                `/api/signUp`,
+                `/api/forgot`,
                 { ...user },
                 {
                     headers: {
@@ -54,9 +58,9 @@ const SignUp = () => {
             .then((res) => {
                 console.log(res);
                 if (res.statusText === "OK") {
-                    navigate("/sign-in");
+                    logoutHandler();
                     return res;
-                } 
+                }
             })
             .catch((err) => {
                 console.log(err.response);
@@ -78,7 +82,7 @@ const SignUp = () => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Sign Up
+                        Forgot Password
                     </Typography>
 
                     <Box
@@ -91,34 +95,12 @@ const SignUp = () => {
                             margin="normal"
                             required
                             fullWidth
-                            id="user"
-                            label="User Name"
-                            name="user"
-                            autoComplete="user"
-                            autoFocus
-                            inputRef={userInputRef}
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
                             id="email"
-                            label="Email Address"
+                            label="Email"
                             name="email"
                             autoComplete="email"
                             autoFocus
-                            inputRef={emailInputRef}
-                        />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            inputRef={passwordInputRef}
+                            inputRef={email}
                         />
 
                         <Button
@@ -128,7 +110,7 @@ const SignUp = () => {
                             color="close"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign Up
+                            Apply
                         </Button>
                     </Box>
                 </Box>
@@ -136,4 +118,4 @@ const SignUp = () => {
         </ThemeProvider>
     );
 };
-export default SignUp;
+export default ForgotPassword;

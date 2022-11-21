@@ -19,7 +19,7 @@ class PasswordController extends Controller
             'confirm_password' => 'required|same:new_password',
         ]);
         if (!Hash::check($request->old_password, auth()->user()->password)) {
-            return response()->json(["error" => 'Old password does not match'], 400);
+            return response()->json(["message" => 'Old password does not match'], 422);
         }
         User::whereId(auth()->user()->id)->update([
             'password' => Hash::make($request->new_password)
@@ -52,7 +52,7 @@ class PasswordController extends Controller
                 $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
             }
         }
-        return response()->json(["msg" => 'Reset password link sent on your email id.']);
+        return response()->json(["message" => 'Reset password link sent on your email id.']);
     }
 
     public function resetPassword(Request $request)
@@ -69,9 +69,9 @@ class PasswordController extends Controller
         });
 
         if ($reset_password_status == Password::INVALID_TOKEN) {
-            return response()->json(["msg" => "Invalid token provided"], 400);
+            return response()->json(["message" => "Invalid token provided"], 400);
         }
 
-        return response()->json(["msg" => "Password has been successfully changed"]);
+        return response()->json(["message" => "Password has been successfully changed"]);
     }
 }

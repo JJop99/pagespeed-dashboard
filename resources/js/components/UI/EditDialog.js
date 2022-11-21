@@ -18,16 +18,9 @@ import { useNavigate } from "react-router-dom";
 
 // axios
 import axios from "axios";
+import theme from "../../theme/theme";
 
-const { palette } = createTheme();
-const { augmentColor } = palette;
-const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
-const theme = createTheme({
-    palette: {
-        close: createColor("#111827"),
-        edit: createColor("#2e7d32"),
-    },
-});
+
 
 const EditDialog = (props) => {
     const [open, setOpen] = useState(false);

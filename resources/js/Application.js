@@ -18,6 +18,7 @@ import NotExist from "./components/NotExist";
 // context
 import AuthContext from "./store/auth-context";
 import ChangePassword from "./components/change-password/ChangePassword";
+import ForgotPassword from "./components/forgot-password/ForgotPassword";
 
 const Application = () => {
     const authCtx = useContext(AuthContext);
@@ -33,7 +34,7 @@ const Application = () => {
                 <Route path="/new-project" element={<NewProject />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/change-password" element={<ChangePassword />} />
-                {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 {!isLoggedIn && <Route path="/sign-up" element={<SignUp />} />}
                 {isLoggedIn && <Route path="/sign-up" element={<Navigate to="/home" replace />} />}
 
