@@ -39,33 +39,13 @@ variable "public_subnets" {
   type        = list(any)
   default     = ["123.0.21.0/24", "123.0.22.0/24"]
 }
-//
-//variable "keypair" {
-//  description = "SSH Key"
-//  type        = map(any)
-//  default = {
-//    key_name   = "jacopo.jop"
-//    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUmRq8rFPZDwBXphwCNOGthFNBDK6KqbiyDDRjVryw4q4paSjkIlmgB61/WIZd4TxJfylqcL6Rn95QMte0wTr9aHi+49TBVGANYOwJbrF3tzfT3CaEFBWFIm8ycqe5F7+CPs496YYGcjClqajBH1SDo82sxFd9W5mvTFpKt4OuDf0To1OnJSFgKYvBAX5YBvuoxhMPdPCMNhU+0fX7QADpuQvtWVEduqTRPA7Kgl3AbCx8OWAxAtEFwLBpeTJYkrsn9XTtksstUoowpz1QU1bkmYo+VPEXQ7VuF0guJ/Uwt4P5qLtPAmfTiQWKiLKVRuQr7xMQWDvWdsITGkkAowGn jacopo@MBP-di-Jacopo"
-//  }
-//}
-//
-//variable "docker_registry" {
-//  description = "Docker Registry data"
-//  type        = map(any)
-//  default = {
-//    registry = "registry.gitlab.com"
-//    username = "jacopo.jop"
-//    password = "glpat-GHdxzPKfyV_DeSs5fxA3"
-//    image    = "registry.gitlab.com/mumble1/experiments/pagespeed-dashboard/pagespeed-dashboard:latest"
-//  }
-//}
 
 variable "keypair" {
   description = "SSH Key"
   type        = map(any)
   default = {
-    key_name   = "matteo.saetti"
-    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCv7U1aWG+9iFony6SDMRXm3bDdvpL1vXJCfi39Uuu9uyxe9NpG9WRSParcpNSvqcZRYnP6RSc8rjyXP2/eRAvNhrEE17Zbgcp9zvjcpk5ZT6gFTQMlfeJ590bTV7ycPvSI0WD0bJDZV2SVUJuONjglsLnxfYdetNjz9ixWjooFTRyLedloKi/E0dMOnpmVkvY8+qdFgR4/y5/KRUTMYuCutOTeBSaNGZRU4rV14RynJwXf2b5k+ZuHkEx/aM3eoWe0KBCsd0ZCGtVep8wQSddBeGqfgjqzio2wZXWF8njlXnjVtg1DK+gWiNss7P44e6+sbZf8+230BtFtbmwNP0xN matteo@DESKTOP-Q7EQ8R1"
+    key_name   = "jacopo.jop"
+    public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUmRq8rFPZDwBXphwCNOGthFNBDK6KqbiyDDRjVryw4q4paSjkIlmgB61/WIZd4TxJfylqcL6Rn95QMte0wTr9aHi+49TBVGANYOwJbrF3tzfT3CaEFBWFIm8ycqe5F7+CPs496YYGcjClqajBH1SDo82sxFd9W5mvTFpKt4OuDf0To1OnJSFgKYvBAX5YBvuoxhMPdPCMNhU+0fX7QADpuQvtWVEduqTRPA7Kgl3AbCx8OWAxAtEFwLBpeTJYkrsn9XTtksstUoowpz1QU1bkmYo+VPEXQ7VuF0guJ/Uwt4P5qLtPAmfTiQWKiLKVRuQr7xMQWDvWdsITGkkAowGn jacopo@MBP-di-Jacopo"
   }
 }
 
@@ -74,11 +54,31 @@ variable "docker_registry" {
   type        = map(any)
   default = {
     registry = "registry.gitlab.com"
-    username = "matteo.saetti"
+    username = "jacopo.jop"
     password = "glpat-GHdxzPKfyV_DeSs5fxA3"
     image    = "registry.gitlab.com/mumble1/experiments/pagespeed-dashboard/pagespeed-dashboard:latest"
   }
 }
+
+# variable "keypair" {
+#   description = "SSH Key"
+#   type        = map(any)
+#   default = {
+#     key_name   = "matteo.saetti"
+#     public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCv7U1aWG+9iFony6SDMRXm3bDdvpL1vXJCfi39Uuu9uyxe9NpG9WRSParcpNSvqcZRYnP6RSc8rjyXP2/eRAvNhrEE17Zbgcp9zvjcpk5ZT6gFTQMlfeJ590bTV7ycPvSI0WD0bJDZV2SVUJuONjglsLnxfYdetNjz9ixWjooFTRyLedloKi/E0dMOnpmVkvY8+qdFgR4/y5/KRUTMYuCutOTeBSaNGZRU4rV14RynJwXf2b5k+ZuHkEx/aM3eoWe0KBCsd0ZCGtVep8wQSddBeGqfgjqzio2wZXWF8njlXnjVtg1DK+gWiNss7P44e6+sbZf8+230BtFtbmwNP0xN matteo@DESKTOP-Q7EQ8R1"
+#   }
+# }
+
+# variable "docker_registry" {
+#   description = "Docker Registry data"
+#   type        = map(any)
+#   default = {
+#     registry = "registry.gitlab.com"
+#     username = "matteo.saetti"
+#     password = "glpat-GHdxzPKfyV_DeSs5fxA3"
+#     image    = "registry.gitlab.com/mumble1/experiments/pagespeed-dashboard/pagespeed-dashboard:latest"
+#   }
+# }
 
 # Domain www.terraform-mumble-test.com
 # AWS Account 152006163228
