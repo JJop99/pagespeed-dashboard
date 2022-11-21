@@ -78,7 +78,7 @@ const Audit = () => {
                 }
             )
             .then((res) => {
-                if (res.statusText === "OK") {
+                if (res.status === 204) {
                     console.log(res);
                     setAudits(res.data[0]);
                     setInfo(res.data[1]);

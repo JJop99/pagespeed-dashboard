@@ -102,7 +102,7 @@ const PerformanceHistory = () => {
                 }
             )
             .then((res) => {
-                if (res.statusText === "OK") {
+                if (res.status === 204) {
                     console.log(res);
                     setPerformance(
                         res.data.urls.map(

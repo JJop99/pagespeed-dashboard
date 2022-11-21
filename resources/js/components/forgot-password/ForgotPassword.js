@@ -48,7 +48,7 @@ const ForgotPassword = () => {
             )
             .then((res) => {
                 console.log(res);
-                if (res.statusText === "OK") {
+                if (res.status === 204) {
                     navigate("/");
                     return res;
                 }

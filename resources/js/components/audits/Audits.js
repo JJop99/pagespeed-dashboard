@@ -36,7 +36,7 @@ const Audits = () => {
             )
             .then((res) => {
                 console.log(res);
-                if (res.statusText === "OK") {
+                if (res.status === 204) {
                     setProject(res.data.project[0]);
                     if (res.data.project.length === 0) {
                         navigate("/not-exist");

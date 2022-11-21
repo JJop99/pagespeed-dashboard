@@ -53,7 +53,7 @@ const SignUp = () => {
             )
             .then((res) => {
                 console.log(res);
-                if (res.statusText === "OK") {
+                if (res.status === 204) {
                     navigate("/sign-in");
                     return res;
                 } 
