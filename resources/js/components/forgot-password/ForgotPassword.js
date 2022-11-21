@@ -16,24 +16,15 @@ import { ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 
 // react
-import { useContext, useRef, useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../store/auth-context";
 import theme from "../../theme/theme";
 
 
 const ForgotPassword = () => {
-    const authCtx = useContext(AuthContext);
     const email = useRef();
 
     const navigate = useNavigate();
-
-    const logoutHandler = () => {
-        authCtx.onLogout();
-        axios.defaults.withCredentials = true;
-        axios.get("/api/logout");
-        navigate("/");
-    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -58,7 +49,7 @@ const ForgotPassword = () => {
             .then((res) => {
                 console.log(res);
                 if (res.statusText === "OK") {
-                    logoutHandler();
+                    navigate("/");
                     return res;
                 }
             })
