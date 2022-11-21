@@ -6,6 +6,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
@@ -17,7 +18,7 @@ class PasswordController extends Controller
         $request->validate([
             'old_password' => 'required',
             'new_password' => 'required',
-            //'confirm_password' => 'required|same:new_password',
+            'confirm_password' => 'required|same:new_password',
         ]);
         if (!Hash::check($request->old_password, auth()->user()->password)) {
             return response()->json("Old Password Doesn't match!");
@@ -40,9 +41,7 @@ class PasswordController extends Controller
             $arr = array("status" => 400, "message" => $validator->errors()->first(), "data" => array());
         } else {
             try {
-                $response = Password::sendResetLink($request->only('email'), function (Message $message) {
-                    $message->subject($this->getEmailSubject());
-                });
+                $response = Password::sendResetLink($request->only('email'));
                 switch ($response) {
                     case Password::RESET_LINK_SENT:
                         return response()->json(array("status" => 200, "message" => trans($response), "data" => array()));
@@ -55,6 +54,6 @@ class PasswordController extends Controller
                 $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
             }
         }
-        return response()->json($arr);
+        return response()->json('ok');
     }
 }
