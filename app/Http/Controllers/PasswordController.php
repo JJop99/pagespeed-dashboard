@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class PasswordController extends Controller
 {
@@ -19,7 +20,9 @@ class PasswordController extends Controller
             'confirm_password' => 'required|same:new_password',
         ]);
         if (!Hash::check($request->old_password, auth()->user()->password)) {
-            return response()->json(["message" => 'Old password does not match'], 422);
+            throw ValidationException::withMessages([
+                'error' => 'Your old password could not be right.'
+            ]);
         }
         User::whereId(auth()->user()->id)->update([
             'password' => Hash::make($request->new_password)
