@@ -21,13 +21,13 @@ class PasswordController extends Controller
             'confirm_password' => 'required|same:new_password',
         ]);
         if (!Hash::check($request->old_password, auth()->user()->password)) {
-            return response()->json("Old Password Doesn't match!");
+            return response()->json(["error" => 'Old password does not match']);
         }
         User::whereId(auth()->user()->id)->update([
             'password' => Hash::make($request->new_password)
         ]);
 
-        return response()->json("Password changed successfully!");
+        return response()->json('Password changed successfully!');
     }
 
     public function forgotPassword(Request $request)
@@ -54,6 +54,25 @@ class PasswordController extends Controller
                 $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
             }
         }
-        return response()->json('ok');
+        return response()->json(["msg" => 'Reset password link sent on your email id.']);
+    }
+
+    public function reset() {
+        $credentials = request()->validate([
+            'email' => 'required',
+            'token' => 'required',
+            'password' => 'required'
+        ]);
+
+        $reset_password_status = Password::reset($credentials, function ($user, $password) {
+            $user->password = $password;
+            $user->save();
+        });
+
+        if ($reset_password_status == Password::INVALID_TOKEN) {
+            return response()->json(["msg" => "Invalid token provided"], 400);
+        }
+
+        return response()->json(["msg" => "Password has been successfully changed"]);
     }
 }
