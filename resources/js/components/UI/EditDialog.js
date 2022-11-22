@@ -55,7 +55,7 @@ const EditDialog = (props) => {
                 }
             )
             .then((res) => {
-                if (res.status === 204) {
+                if (res.status === 200) {
                     location.reload();
                     return res;
                 }

@@ -50709,7 +50709,7 @@ const EditDialog = props => {
         "Content-Type": "application/json"
       }
     }).then(res => {
-      if (res.status === 204) {
+      if (res.status === 200) {
         location.reload();
         return res;
       }
