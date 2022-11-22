@@ -39,7 +39,7 @@ variable "public_subnets" {
   type        = list(any)
   default     = ["123.0.21.0/24", "123.0.22.0/24"]
 }
-//
+
 //variable "keypair" {
 //  description = "SSH Key"
 //  type        = map(any)
