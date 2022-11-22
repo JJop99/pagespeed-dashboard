@@ -10,21 +10,19 @@ class EmailController extends Controller
 {
     public function sendEmail()
     {
-        /** 
-         * Store a receiver email address to a variable.
-         */
-        $reveiverEmailAddress = "jacopo.jop@gmail.com";
+        $data = [
+            'subject' => 'Test subject',
+            'title' => 'Test mail send from codingdriver.com',
+            'body' => 'This is for testing email using mailgun'
+        ];
 
-        /**
-         * Import the Mail class at the top of this page,
-         * and call the to() method for passing the 
-         * receiver email address.
-         * 
-         * Also, call the send() method to incloude the
-         * HelloEmail class that contains the email template.
-         */
-        Mail::to($reveiverEmailAddress)->send(new HelloEmail);
-
+        Mail::send('email-template', $data, function($message) use ($data) {
+          $message->to('matteos.aetti@mumbleideas.it')
+          ->subject($data['subject']);
+        });
+       
+        dd("Email is Sent.");
+    
         /**
          * Check if the email has been sent successfully, or not.
          * Return the appropriate message.
