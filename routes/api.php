@@ -33,8 +33,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('forgot', [PasswordController::class, 'forgotPassword']);
+Route::get('forgot', [PasswordController::class, 'forgotPassword']);
 Route::post('reset', [PasswordController::class, 'resetPassword']);
+
+Route::get('/forgot', function () {
+    return view('auth.forgot');
+})->middleware('guest')->name('password.request');
+
+Route::get('/reset/{token}', function ($token) {
+    return view('auth.reset', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('change', [PasswordController::class, 'changePassword']);

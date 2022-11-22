@@ -33,32 +33,17 @@ class PasswordController extends Controller
 
     public function forgotPassword(Request $request)
     {
-        $input = $request->all();
-        $rules = array(
-            'email' => "required|email",
+        $request->validate(['email' => 'required|email']);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
         );
-        $validator = Validator::make($input, $rules);
-        if ($validator->fails()) {
-            $arr = array("status" => 400, "message" => $validator->errors()->first(), "data" => array());
-        } else {
-            try {
-                $response = Password::sendResetLink($request->only('email'));
-                switch ($response) {
-                    case Password::RESET_LINK_SENT:
-                        return response()->json(array("status" => 200, "message" => trans($response), "data" => array()));
-                    case Password::INVALID_USER:
-                        return response()->json(array("status" => 400, "message" => trans($response), "data" => array()));
-                }
-            } 
-            catch (\Swift_TransportException $ex) {
-                report($ex);
-                $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
-            } catch (Exception $ex) {
-                report($ex);
-                $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
-            }
-        }
-        return response()->json(["message" => 'Reset password link sent on your email id.']);
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
+
+        //return response()->json(["message" => 'Reset password link sent on your email id.']);
     }
 
     public function resetPassword(Request $request)
