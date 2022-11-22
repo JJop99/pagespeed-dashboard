@@ -50,7 +50,7 @@ const DeleteDialog = (props) => {
                 }
             )
             .then((res) => {
-                if (res.statusText === "OK") {
+                if (res.status === 200) {
                     location.reload();
                     return res;
                 }

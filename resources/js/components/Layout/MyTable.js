@@ -171,7 +171,7 @@ const MyTable = ({ cols, api, type, total, to, filter }) => {
                 }
             )
             .then((res) => {
-                if (res.statusText === "OK") {
+                if (res.status === 200) {
                     console.log(res);
                     if (res.data[type].length !== 0) {
                         setData(res.data[type]); //combiare urls con tests nell api

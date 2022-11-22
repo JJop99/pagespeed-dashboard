@@ -65,7 +65,7 @@ const SignIn = () => {
                         )
                         .then((res) => {
                             setIsLoading(false);
-                            if (res.statusText === "OK") {
+                            if (res.status === 200) {
                                 // ...
                                 console.log("ciao");
                                 authCtx.onLogin(user.email);

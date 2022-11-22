@@ -60,7 +60,7 @@ const ChangePassword = () => {
             )
             .then((res) => {
                 console.log(res);
-                if (res.statusText === "OK") {
+                if (res.status === 200) {
                     logoutHandler();
                     return res;
                 }
