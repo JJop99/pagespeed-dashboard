@@ -7,6 +7,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PasswordController;
+use Illuminate\Support\Facades\Password;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,16 +34,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('forgot', [PasswordController::class, 'forgotPassword']);
+Route::post('forgot', [PasswordController::class, 'forgotPassword']);
 Route::post('reset', [PasswordController::class, 'resetPassword']);
 
-Route::get('/forgot', function () {
-    return view('auth.forgot');
-})->middleware('guest')->name('password.request');
-
-Route::get('/reset/{token}', function ($token) {
-    return view('auth.reset', ['token' => $token]);
-})->middleware('guest')->name('password.reset');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('change', [PasswordController::class, 'changePassword']);

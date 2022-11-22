@@ -36,9 +36,9 @@ const ForgotPassword = () => {
 
         // REGISTER
         axios
-            .get(
+            .post(
                 `/api/forgot`,
-                { params: { email: email.current.value } },
+                { email: email.current.value },
                 {
                     headers: {
                         // Overwrite Axios's automatically set Content-Type
