@@ -9,6 +9,7 @@ import {
     Box,
     Typography,
     Container,
+    Grid,
 } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
@@ -17,7 +18,7 @@ import axios from "axios";
 
 // react
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import theme from "../../theme/theme";
 
 
@@ -130,6 +131,18 @@ const SignUp = () => {
                         >
                             Sign Up
                         </Button>
+                        <Grid container>
+                            <Grid item xs>
+                                <Link to="/forgot-password" >
+                                    Forgot password?
+                                </Link>
+                            </Grid>
+                            <Grid item>
+                                <Link to="/sign-in" >
+                                   Already registered? Sign In
+                                </Link>
+                            </Grid>
+                        </Grid>
                     </Box>
                 </Box>
             </Container>

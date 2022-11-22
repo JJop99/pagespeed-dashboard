@@ -16,8 +16,6 @@ const MainNavigation = () => {
 
     const isLoggedIn = authCtx.isLoggedIn;
 
-   
-
     return (
         <header className="mainNav__header">
             <div className="mainNav__logo">
@@ -36,26 +34,9 @@ const MainNavigation = () => {
 
                 <nav>
                     <ul>
-                        {!isLoggedIn && path === "/sign-up" && (
-                            <li>
-                                <button>
-                                    <Link to="/sign-in">Sign In</Link>
-                                </button>
-                            </li>
-                        )}
-                        {!isLoggedIn && path !== "/sign-up" && (
-                            <li>
-                                <button>
-                                    {" "}
-                                    <Link to="/sign-up">Sign Up</Link>
-                                </button>
-                            </li>
-                        )}
-
                         {isLoggedIn && (
                             <li>
-                                <AccountMenu/>
-                                {/* <button onClick={logoutHandler}>Logout</button> */}
+                                <AccountMenu />
                             </li>
                         )}
                     </ul>

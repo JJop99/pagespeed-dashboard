@@ -49,9 +49,12 @@ class PasswordController extends Controller
                     case Password::INVALID_USER:
                         return response()->json(array("status" => 400, "message" => trans($response), "data" => array()));
                 }
-            } catch (\Swift_TransportException $ex) {
+            } 
+            catch (\Swift_TransportException $ex) {
+                report($ex);
                 $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
             } catch (Exception $ex) {
+                report($ex);
                 $arr = array("status" => 400, "message" => $ex->getMessage(), "data" => []);
             }
         }
