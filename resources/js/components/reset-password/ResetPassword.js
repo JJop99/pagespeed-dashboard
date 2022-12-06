@@ -1,7 +1,7 @@
 // mui
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {
-    Alert,
+   
     Avatar,
     Button,
     CssBaseline,
@@ -16,20 +16,35 @@ import { ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 
 // react
-import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 import theme from "../../theme/theme";
 
-
-const ForgotPassword = () => {
-    const email = useRef();
+const ResetPassword = () => {
+    const location = useLocation();
+    const authCtx = useContext(AuthContext);
+    
+    const passwordInputRef = useRef();
+    const confirmInputRef = useRef();
 
     const navigate = useNavigate();
+
+    // const token = location.pathname.split("/")[2];
+    // console.log(token);
+
+    const logoutHandler = () => {
+        authCtx.onLogout();
+        axios.defaults.withCredentials = true;
+        axios.get("/api/logout");
+        navigate("/");
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         let user = {
-            email: email.current.value,
+            new_password: passwordInputRef.current.value,
+            confirm_password: confirmInputRef.current.value,
         };
 
         axios.defaults.withCredentials = true;
@@ -37,7 +52,7 @@ const ForgotPassword = () => {
         // REGISTER
         axios
             .post(
-                `/api/forgot`,
+                `/api/reset`,
                 { ...user },
                 {
                     headers: {
@@ -49,7 +64,7 @@ const ForgotPassword = () => {
             .then((res) => {
                 console.log(res);
                 if (res.status === 200) {
-                    navigate("/");
+                    logoutHandler();
                     return res;
                 }
             })
@@ -73,7 +88,7 @@ const ForgotPassword = () => {
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Forgot Password
+                        Reset Password
                     </Typography>
 
                     <Box
@@ -82,16 +97,30 @@ const ForgotPassword = () => {
                         noValidate
                         sx={{ mt: 1 }}
                     >
+                       
+
                         <TextField
                             margin="normal"
                             required
                             fullWidth
-                            id="email"
-                            label="Email"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                            inputRef={email}
+                            name="password"
+                            label="New Password"
+                            type="password"
+                            id="password"
+                            autoComplete="new-password"
+                            inputRef={passwordInputRef}
+                        />
+
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="confirm"
+                            label="Confirm Password"
+                            type="password"
+                            id="confirm"
+                            autoComplete="confirm-password"
+                            inputRef={confirmInputRef}
                         />
 
                         <Button
@@ -109,4 +138,4 @@ const ForgotPassword = () => {
         </ThemeProvider>
     );
 };
-export default ForgotPassword;
+export default ResetPassword;

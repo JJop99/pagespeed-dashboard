@@ -19,6 +19,7 @@ import NotExist from "./components/NotExist";
 import AuthContext from "./store/auth-context";
 import ChangePassword from "./components/change-password/ChangePassword";
 import ForgotPassword from "./components/forgot-password/ForgotPassword";
+import ResetPassword from "./components/reset-password/ResetPassword";
 
 const Application = () => {
     const authCtx = useContext(AuthContext);
@@ -35,6 +36,7 @@ const Application = () => {
                 <Route path="/home" element={<Home />} />
                 <Route path="/change-password" element={<ChangePassword />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
                 {!isLoggedIn && <Route path="/sign-up" element={<SignUp />} />}
                 {isLoggedIn && <Route path="/sign-up" element={<Navigate to="/home" replace />} />}
 

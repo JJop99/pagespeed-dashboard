@@ -23,6 +23,7 @@
         <div id="app"></div>
 
         <!-- React JS -->
+        
         <script src="{{ 'js/app.js' }}" defer></script>
     </body>
 </html>

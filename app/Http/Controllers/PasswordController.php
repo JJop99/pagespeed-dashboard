@@ -31,31 +31,35 @@ class PasswordController extends Controller
         return response()->json('Password changed successfully!');
     }
 
-    //public function forgotPassword(Request $request)
-    //{
-    //    $request->validate(['email' => 'required|email']);
-//
-    //    $status = Password::sendResetLink(
-    //        $request->only('email')
-    //    );
-//
+    public function forgotPassword(Request $request)
+    {
+       $request->validate(['email' => 'required|email']);
+
+       $status = Password::sendResetLink(
+           $request->only('email')
+       );
+       return response()->json();
+
+       //working
+       
     //    return $status === Password::RESET_LINK_SENT
     //        ? back()->with(['status' => __($status)])
     //        : back()->withErrors(['email' => __($status)]);
-//
-    //    //return response()->json(["message" => 'Reset password link sent on your email id.']);
-    //}
+
+       //return response()->json(["message" => 'Reset password link sent on your email id.']);
+    }
 
     public function resetPassword(Request $request)
     {
         $credentials = request()->validate([
-            'email' => 'required',
+            
             'token' => 'required',
-            'password' => 'required'
+            'new_password' => 'required|min:7',
+            'confirm_password' => 'required|same:new_password',
         ]);
 
-        $reset_password_status = Password::reset($credentials, function ($user, $password) {
-            $user->password = $password;
+        $reset_password_status = Password::reset($credentials, function ($user, $new_password) {
+            $user->password = $new_password;
             $user->save();
         });
 
