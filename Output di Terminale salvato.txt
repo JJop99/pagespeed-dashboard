@@ -1,0 +1,55 @@
+Last login: Wed Nov 16 11:21:06 on ttys003
+You have mail.
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+MacBook-Pro-di-Jacopo:~ jacopo$ nano
+MacBook-Pro-di-Jacopo:~ jacopo$ nano /etc/hosts
+MacBook-Pro-di-Jacopo:~ jacopo$ sudo !!
+sudo nano /etc/hosts
+Password:
+MacBook-Pro-di-Jacopo:~ jacopo$ sudo nano /etc/hosts
+Password:
+MacBook-Pro-di-Jacopo:~ jacopo$ sudo nano /etc/hosts
+Password:
+MacBook-Pro-di-Jacopo:~ jacopo$ sudo nano /etc/hosts
+Password:
+MacBook-Pro-di-Jacopo:~ jacopo$ 
+  [Ripristinato: 17 nov 2022, 16:42:37]
+Last login: Thu Nov 17 16:42:37 on ttys000
+You have mail.
+Restored session: Gio 17 Nov 2022 16:41:29 CET
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+MacBook-Pro-di-Jacopo:~ jacopo$ sudo nano /etc/hosts
+Password:
+MacBook-Pro-di-Jacopo:~ jacopo$ sudo nano /etc/hosts
+MacBook-Pro-di-Jacopo:~ jacopo$ sudo nano /etc/hosts
+MacBook-Pro-di-Jacopo:~ jacopo$ sudo nano /etc/hosts
+MacBook-Pro-di-Jacopo:~ jacopo$ sudo nano /etc/hosts
+Password:
+MacBook-Pro-di-Jacopo:~ jacopo$ sudo nano /etc/hosts
+Password:
+MacBook-Pro-di-Jacopo:~ jacopo$ curl -s --user 'api:YOUR_API_KEY' \
+>     https://api.mailgun.net/v3/YOUR_DOMAIN_NAME/messages \
+>     -F from='Excited User <mailgun@YOUR_DOMAIN_NAME>' \
+>     -F to=YOU@YOUR_DOMAIN_NAME \
+>     -F to=bar@example.com \
+>     -F subject='Hello' \
+>     -F text='Testing some Mailgun awesomeness!'
+MacBook-Pro-di-Jacopo:~ jacopo$ curl -s --user 'api:1361e9f6d873a53ab4da1799900b1670-2de3d545-12933acd' \
+>     https://api.mailgun.net/v3/mailgun.terraform-mumble-test.com/messages \
+>     -F from='Excited User <mailgun@mailgun.terraform-mumble-test.com>' \
+>     -F to=YOU@mailgun.terraform-mumble-test.com \
+>     -F to=jacopo.jop@gmail.com \
+>     -F subject='Hello' \
+>     -F text='Testing some Mailgun awesomeness!'
+{"id":"<20221122135816.e12c04fecb71c746@mailgun.terraform-mumble-test.com>","message":"Queued. Thank you."}
+MacBook-Pro-di-Jacopo:~ jacopo$ nano /etc/hosts
+
+
+
+

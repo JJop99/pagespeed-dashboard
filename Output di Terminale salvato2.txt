@@ -1,0 +1,241 @@
+Last login: Thu Nov 17 16:42:37 on ttys001
+You have mail.
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+MBP-di-Jacopo:~ jacopo$ cd Documents/Mumble_tirocinio/
+MBP-di-Jacopo:Mumble_tirocinio jacopo$ git clone https://github.com/JJop99/pagespeed-dashboard.git
+fatal: il percorso di destinazione 'pagespeed-dashboard' esiste già e non è una directory vuota.
+MBP-di-Jacopo:Mumble_tirocinio jacopo$ cd pagespeed_finito/
+MBP-di-Jacopo:pagespeed_finito jacopo$ git clone https://github.com/JJop99/pagespeed-dashboard.git
+Clone in 'pagespeed-dashboard' in corso...
+remote: Enumerating objects: 9577, done.
+remote: Total 9577 (delta 0), reused 0 (delta 0), pack-reused 9577
+Ricezione degli oggetti: 100% (9577/9577), 88.02 MiB | 4.26 MiB/s, fatto.
+Risoluzione dei delta: 100% (3765/3765), fatto.
+Aggiornamento dei file in corso: 100% (6258/6258), fatto.
+MBP-di-Jacopo:pagespeed_finito jacopo$ git status
+Sul branch main
+Il tuo branch è aggiornato rispetto a 'origin/main'.
+
+File non tracciati:
+  (usa "git add <file>..." per includere l'elemento fra quelli di cui verrà eseguito il commit)
+	../../../.CFUserTextEncoding
+	../../../.DS_Store
+	../../../.IdentityService/
+	../../../.PointCabShare/
+	../../../.ServiceHub/
+	../../../.Trash/
+	../../../.Xauthority
+	../../../.android/
+	../../../.atom/
+	../../../.aws/
+	../../../.bash_history
+	../../../.bash_profile
+	../../../.bash_profile.pysave
+	../../../.bash_sessions/
+	../../../.bashrc
+	../../../.chia/
+	../../../.cocoapods/
+	../../../.composer/
+	../../../.config/
+	../../../.cups/
+	../../../.dart/
+	../../../.dartServer/
+	../../../.digital.cfg
+	../../../.docker/
+	../../../.dropbox/
+	../../../.eclipse/
+	../../../.electrum/
+	../../../.emulator_console_auth_token
+	../../../.flutter
+	../../../.fontconfig/
+	../../../.gem/
+	../../../.git-credentials
+	../../../.gitconfig
+	../../../.gradle/
+	../../../.idlerc/
+	../../../.jssc/
+	../../../.lemminx/
+	../../../.lesshst
+	../../../.local/
+	../../../.mailcap
+	../../../.mime.types
+	../../../.mono/
+	../../../.ms_openjdk_config
+	../../../.node-gyp/
+	../../../.npm/
+	../../../.oracle_jre_usage/
+	../../../.p2/
+	../../../.ssh/
+	../../../.subversion/
+	../../../.swiftpm/
+	../../../.templateengine/
+	../../../.terraform.d/
+	../../../.tnas/
+	../../../.tooling/
+	../../../.vagrant.d/
+	../../../.vagrant/
+	../../../.valet/
+	../../../.viminfo
+	../../../.vnc/
+	../../../.vscode/
+	../../../.wdc/
+	../../../.zprofile
+	../../../.zprofile.pysave
+	../../../.zsh_history
+	../../../.zsh_sessions/
+	../../../25ottobre.tar.gz
+	../../../:watch
+	../../../AWSCLIV2.pkg
+	../../../AndroidStudioProjects/
+	../../../Applications (Parallels)/
+	../../../Applications/
+	../../../BarMana_site/
+	../../../Client.ovpn
+	../../../Creative Cloud Files (archived) (1)/
+	../../../Creative Cloud Files/
+	../../../Desktop/
+	../../
+	../../../Download
+	../../../Downloads/
+	../../../Dropbox (Precedente)/
+	../../../Dropbox/
+	../../../Google Drive/
+	../../../Il mio Drive/
+	../../../Library/
+	../../../Movies/
+	../../../Music/
+	../../../Parallels/
+	../../../Pictures/
+	../../../Progetti_Ing._Inf._2018/
+	../../../Public/
+	../../../STAR_WARS_Dark_Forces/
+	../../../Sites/
+	../../../System/
+	../../../UUPs/
+	../../../Vagrantfile
+	../../../Virtual Machines.localized/
+	../../../VirtualBox VMs/
+	../../../VirtualBox/
+	../../../WebHome/
+	../../../WebHome_site/
+	../../../aria2_download.log
+	../../../aria2_script.10741.txt
+	../../../development/
+	../../../eclipse-workspace/
+	../../../esame/
+	../../../esamelas 2/
+	../../../esamelas 3/
+	../../../esamelas/
+	../../../git/
+	../../../go/
+	../../../hpool/
+	../../../hsqlprefs.dat
+	../../../log/
+	../../../my_app/
+	../../../node_modules/
+	../../../package-lock.json
+	../../../package.json
+	../../../passwd.test
+	../../../pip
+	../../../prova
+	../../../prova.tex
+	../../../router1_etc_dnsmaq.conf
+	../../../ssh.conf
+	../../../terraform.tfstate
+	../../../terraform/
+
+non è stato aggiunto nulla al commit ma sono presenti file non tracciati (usa "git add" per tracciarli)
+MBP-di-Jacopo:pagespeed_finito jacopo$ git add -A
+warning: impossibile aprire la directory 'Library/Saved Application State/com.stellar.StellarDataRecovery.savedState/': Permission denied
+warning: impossibile aprire la directory 'Library/Saved Application State/com.stellar.StellarDriveMonitor.savedState/': Permission denied
+warning: impossibile aprire la directory 'Library/Saved Application State/com.easeus.datarecoverywizard.savedState/': Permission denied
+warning: impossibile aprire la directory 'Library/CloudStorage/GoogleDrive-jacopo.jop@gmail.com/.tmp/': Permission denied
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/cli.d.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/cli.js', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/index.d.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/index.js', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/lib/ini.d.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/lib/ini.js', CRLF will be replaced by LF the next time Git touches it
+warning: aggiunta repository Git incorporato in corso: .cocoapods/repos/master
+suggerimento: You've added another git repository inside your current repository.
+suggerimento: Clones of the outer repository will not contain the contents of
+suggerimento: the embedded repository and will not know how to obtain it.
+suggerimento: If you meant to add a submodule, use:
+suggerimento: 
+suggerimento: 	git submodule add <url> .cocoapods/repos/master
+suggerimento: 
+suggerimento: If you added this path by mistake, you can remove it from the
+suggerimento: index with:
+suggerimento: 
+suggerimento: 	git rm --cached .cocoapods/repos/master
+suggerimento: 
+suggerimento: See "git help submodule" for more information.
+^C
+MBP-di-Jacopo:pagespeed_finito jacopo$ git config user.name
+Jacopo Jop
+MBP-di-Jacopo:pagespeed_finito jacopo$ git config user.password
+Inesj0p03
+MBP-di-Jacopo:pagespeed_finito jacopo$ git config user.email
+jacopo.jop@mumbleideas.it
+MBP-di-Jacopo:pagespeed_finito jacopo$ git config user.name JJop99
+MBP-di-Jacopo:pagespeed_finito jacopo$ git config user.name
+JJop99
+MBP-di-Jacopo:pagespeed_finito jacopo$ git config user.email jacopo.jop@gmail.com
+MBP-di-Jacopo:pagespeed_finito jacopo$ git add -A
+warning: impossibile aprire la directory 'Library/Saved Application State/com.stellar.StellarDataRecovery.savedState/': Permission denied
+warning: impossibile aprire la directory 'Library/Saved Application State/com.stellar.StellarDriveMonitor.savedState/': Permission denied
+warning: impossibile aprire la directory 'Library/Saved Application State/com.easeus.datarecoverywizard.savedState/': Permission denied
+warning: impossibile aprire la directory 'Library/CloudStorage/GoogleDrive-jacopo.jop@gmail.com/.tmp/': Permission denied
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/cli.d.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/cli.js', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/index.d.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/index.js', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/lib/ini.d.ts', CRLF will be replaced by LF the next time Git touches it
+warning: in the working copy of '.atom/packages/editorconfig/node_modules/editorconfig/src/lib/ini.js', CRLF will be replaced by LF the next time Git touches it
+^C
+MBP-di-Jacopo:pagespeed_finito jacopo$ cd pagespeed-dashboard/
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ git add -A
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ git commit -am "first commit"
+[main 46a5ddd] first commit
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ git push
+remote: Invalid username or password.
+fatal: Autenticazione non riuscita per 'https://github.com/JJop99/pagespeed-dashboard.git/'
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ git status
+Sul branch main
+Il tuo branch è avanti rispetto a 'origin/main' di 1 commit.
+  (usa "git push" per pubblicare i tuoi commit locali)
+
+non c'è nulla di cui eseguire il commit, l'albero di lavoro è pulito
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ git config user.name
+Jacopo Jop
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ git config user.name JJop99
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ git config user.email jacopo.jop@gmail.com
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ git push
+Username for 'https://github.com': JJop99
+Password for 'https://JJop99@github.com': 
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Autenticazione non riuscita per 'https://github.com/JJop99/pagespeed-dashboard.git/'
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ git push
+Username for 'https://github.com': JJop99
+Password for 'https://JJop99@github.com': 
+remote: Support for password authentication was removed on August 13, 2021.
+remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+fatal: Autenticazione non riuscita per 'https://github.com/JJop99/pagespeed-dashboard.git/'
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ git push
+Username for 'https://github.com': JJop99
+Password for 'https://JJop99@github.com': 
+Enumerazione degli oggetti in corso: 5, fatto.
+Conteggio degli oggetti in corso: 100% (5/5), fatto.
+Compressione delta in corso, uso fino a 8 thread
+Compressione oggetti in corso: 100% (3/3), fatto.
+Scrittura degli oggetti in corso: 100% (3/3), 501 byte | 501.00 KiB/s, fatto.
+3 oggetti totali (2 delta), 0 riutilizzati (0 delta), 0 riutilizzati nel file pack
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/JJop99/pagespeed-dashboard.git
+   6cfb5d7..46a5ddd  main -> main
+MBP-di-Jacopo:pagespeed-dashboard jacopo$ 
